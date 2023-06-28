@@ -5,7 +5,7 @@ export const meta: V2_MetaFunction = () => {
     { title: "Bearmentor" },
     {
       name: "description",
-      content: "Blazing fast mentoring platform for people and organization.",
+      content: "Brilliant mentoring platform for people and organization.",
     },
   ];
 };
@@ -14,7 +14,7 @@ export default function Index() {
   return (
     <main>
       <h1>Bearmentor</h1>
-      <p>Blazing fast mentoring platform for people and organization.</p>
+      <p>Brilliant mentoring platform for people and organization.</p>
     </main>
   );
 }
