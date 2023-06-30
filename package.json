@@ -1,4 +1,6 @@
 {
+  "name": "bearmentor",
+  "version": "0.0.0",
   "private": true,
   "sideEffects": false,
   "scripts": {
@@ -6,22 +8,33 @@
     "dev": "remix dev",
     "typecheck": "tsc",
     "lint": "eslint \"app/**/*.+(ts|tsx)\"",
-    "lint:fix": "npm run lint -- --fix",
-    "prettier": "prettier app --check",
-    "prettier:fix": "prettier app --write",
-    "format-code": "npm run prettier:fix & npm run lint:fix"
+    "lint:fix": "pnpm lint -- --fix",
+    "format": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache"
   },
   "dependencies": {
+    "@fontsource/anybody": "5.0.3",
+    "@fontsource/pt-mono": "5.0.3",
+    "@fontsource/pt-sans": "5.0.3",
+    "@radix-ui/react-icons": "1.3.0",
+    "@radix-ui/react-slot": "1.0.2",
     "@remix-run/css-bundle": "^1.18.0",
     "@remix-run/node": "^1.18.0",
     "@remix-run/react": "^1.18.0",
     "@remix-run/vercel": "^1.18.0",
     "@vercel/node": "^2.10.3",
+    "class-variance-authority": "0.6.1",
+    "clsx": "1.2.1",
     "isbot": "^3.6.8",
+    "lucide-react": "0.256.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "1.13.2",
+    "tailwindcss": "3.3.2",
+    "tailwindcss-animate": "1.0.6"
   },
   "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "4.0.2",
     "@remix-run/dev": "^1.18.0",
     "@remix-run/eslint-config": "^1.18.0",
     "@remix-run/serve": "^1.18.0",
@@ -31,6 +44,7 @@
     "eslint-config-prettier": "8.8.0",
     "eslint-plugin-prettier": "4.2.1",
     "prettier": "2.8.8",
+    "prettier-plugin-tailwindcss": "0.3.0",
     "typescript": "^5.0.4"
   },
   "engines": {

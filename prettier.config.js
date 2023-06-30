@@ -1,2 +1,31 @@
-/** @type {import('prettier').Options} */
-module.exports = {};
+/** @type {import('prettier').Config} */
+module.exports = {
+  endOfLine: "lf",
+  semi: false,
+  singleQuote: false,
+  tabWidth: 2,
+  trailingComma: "es5",
+  importOrder: [
+    "^(react/(.*)$)|^(react$)",
+    "^(@remix-run/(.*)$)|^(@remix-run$)",
+    "<THIRD_PARTY_MODULES>",
+    "",
+    "^types$",
+    "^~/types/(.*)$",
+    "^~/config/(.*)$",
+    "^~/lib/(.*)$",
+    "^~/hooks/(.*)$",
+    "^~/components/ui/(.*)$",
+    "^~/components/(.*)$",
+    "^~/registry/(.*)$",
+    "^~/styles/(.*)$",
+    "^~/app/(.*)$",
+    "",
+    "^[./]",
+  ],
+  importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
+  plugins: [
+    require("prettier-plugin-tailwindcss"),
+    require("@ianvs/prettier-plugin-sort-imports"),
+  ],
+}

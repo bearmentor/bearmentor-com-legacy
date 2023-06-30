@@ -1,6 +1,8 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
+  serverModuleFormat: "cjs",
   ignoredRouteFiles: ["**/.*"],
+
   // When running locally in development mode, we use the built-in remix
   // server. This does not understand the vercel lambda module format,
   // so we default back to the standard build output.
@@ -9,7 +11,9 @@ module.exports = {
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
-  serverModuleFormat: "cjs",
+
+  tailwind: true,
+
   future: {
     v2_dev: true,
     v2_errorBoundary: true,
@@ -18,4 +22,4 @@ module.exports = {
     v2_normalizeFormMethod: true,
     v2_routeConvention: true,
   },
-};
+}
