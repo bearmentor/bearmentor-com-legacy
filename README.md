@@ -1,21 +1,34 @@
-> **Warning**  
+# 🐻 Bearmentor
+
+> Brilliant mentoring
+
+The mentoring platform for people and organization. Free to use and open source. Still in early and active development.
+
+Check out:
+
+- Web: <https://bearmentor.com>
+- Repo: <https://github.com/bearmentor>
+
+![Bearmentor](public/images/bearmentor.png)
+
+## Development
+
+Read the [Remix Docs](https://remix.run/docs).
+
+## Deployment
+
+> **Notice**  
 > The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of
 > the box Vercel functionality and will be removed in Remix v2.  
 > This means you don't have to use the Vercel template & can just use the Remix
 > template instead.
-
-# Welcome to Remix!
-
-- [Remix Docs](https://remix.run/docs)
-
-## Deployment
 
 After having run the `create-remix` command and selected "Vercel" as a deployment target, you only need to [import your Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
 
 If you'd like to avoid using a Git repository, you can also deploy the directory by running [Vercel CLI](https://vercel.com/cli):
 
 ```sh
-npm i -g vercel
+pnpm i -g vercel
 vercel
 ```
 
@@ -26,13 +39,19 @@ It is generally recommended to use a Git repository, because future commits will
 To run your Remix app locally, make sure your project's local dependencies are installed:
 
 ```sh
-npm install
+pnpm install
 ```
 
-Afterwards, start the Remix development server like so:
+Check the build:
 
 ```sh
-npm run dev
+pnpm build
+```
+
+If everything works fine, start the Remix development server like so:
+
+```sh
+pnpm run dev
 ```
 
 Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!
