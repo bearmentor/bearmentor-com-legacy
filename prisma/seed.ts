@@ -20,8 +20,14 @@ async function seedUsers() {
   console.info("Seed users...")
   await prisma.user.deleteMany()
 
+  const roleAdmin = await prisma.userRole.findFirst({
+    where: { symbol: "ADMIN" },
+  })
+  if (!roleAdmin) return null
+
   await prisma.user.create({
     data: {
+      roleId: roleAdmin.id,
       name: "Administrator",
       username: "admin",
       email: "admin@admin.com",
