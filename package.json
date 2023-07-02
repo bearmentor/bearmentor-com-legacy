@@ -4,7 +4,7 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "prisma generate && remix build",
     "dev": "remix dev",
     "typecheck": "tsc",
     "lint": "eslint \"app/**/*.+(ts|tsx)\"",
