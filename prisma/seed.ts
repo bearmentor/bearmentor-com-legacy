@@ -25,6 +25,15 @@ async function seedUsers() {
       name: "Administrator",
       username: "admin",
       email: "admin@admin.com",
+      profiles: {
+        create: {
+          headline: "The Ruler",
+          bio: "I'm just doing my job.",
+          primary: true,
+          sequence: 1,
+          mode: "Default",
+        },
+      },
     },
   })
 }

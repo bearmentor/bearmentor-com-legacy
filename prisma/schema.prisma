@@ -47,7 +47,7 @@ model User {
   role   UserRole? @relation(fields: [roleId], references: [id], onUpdate: Cascade)
   roleId String?
 
-  profile   UserProfile[]
+  profiles  UserProfile[]
   locations UserLocation[]
   avatars   UserAvatarImage[]
   covers    UserCoverImage[]
