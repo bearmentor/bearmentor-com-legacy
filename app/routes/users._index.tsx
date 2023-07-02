@@ -15,15 +15,10 @@ export const loader = async ({ request }: LoaderArgs) => {
   const users = await prisma.user.findMany({
     select: {
       id: true,
-      role: true,
       name: true,
       username: true,
-      profiles: {
-        select: {
-          headline: true,
-          links: true,
-        },
-      },
+      role: { select: { symbol: true, name: true } },
+      profiles: { select: { headline: true, links: true } },
     },
   })
 
