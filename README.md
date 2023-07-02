@@ -11,32 +11,26 @@ Check out:
 
 ![Bearmentor](public/images/bearmentor.png)
 
-## Development
+## Getting Started
 
-Read the [Remix Docs](https://remix.run/docs).
+Read the [Remix Docs](https://remix.run/docs) to understand about Remix.
 
-## Deployment
+## Setup
 
-> **Notice**  
-> The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of
-> the box Vercel functionality and will be removed in Remix v2.  
-> This means you don't have to use the Vercel template & can just use the Remix
-> template instead.
+Create a [PlanetScale](https://planetscale.com) account to have a production-ready MySQL instance. After the database has been created, copy the full `DATABASE_URL`.
 
-After having run the `create-remix` command and selected "Vercel" as a deployment target, you only need to [import your Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
+Generate a random string for the `SESSION_SECRET` using `openssl rand -base64 32`.
 
-If you'd like to avoid using a Git repository, you can also deploy the directory by running [Vercel CLI](https://vercel.com/cli):
+Configure the environment variables in the `.env` file if local, otherwise in the project settings.
 
 ```sh
-pnpm i -g vercel
-vercel
+DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"
+SESSION_SECRET="random_secret_text"
 ```
-
-It is generally recommended to use a Git repository, because future commits will then automatically be deployed by Vercel, through its [Git Integration](https://vercel.com/docs/concepts/git).
 
 ## Development
 
-To run your Remix app locally, make sure your project's local dependencies are installed:
+To run the app locally, make sure the project's local dependencies are installed:
 
 ```sh
 pnpm install
@@ -54,6 +48,25 @@ If everything works fine, start the Remix development server like so:
 pnpm run dev
 ```
 
-Open up [http://localhost:3000](http://localhost:3000) and you should be ready to go!
+Open up [http://localhost:3000](http://localhost:3000) and it should be ready to go!
 
-If you're used to using the `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) instead, you can also use that, but it's not needed.
+The `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) can also be used.
+
+## Deployment
+
+> **Notice**  
+> The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of
+> the box Vercel functionality and will be removed in Remix v2.  
+> This means no more using the Vercel template & can just use the Remix
+> template instead.
+
+After having run the `create-remix` command and selected "Vercel" as a deployment target, [import the Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
+
+If want to avoid using a Git repository, deploy the directory by running [Vercel CLI](https://vercel.com/cli):
+
+```sh
+pnpm i -g vercel
+vercel
+```
+
+It is generally recommended to use a Git repository, because future commits will then automatically be deployed by Vercel, through its [Git Integration](https://vercel.com/docs/concepts/git).
