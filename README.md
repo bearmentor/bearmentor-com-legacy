@@ -8,12 +8,29 @@ Check out:
 
 - Web: <https://bearmentor.com>
 - Repo: <https://github.com/bearmentor>
+- Progress: <https://github.com/orgs/bearmentor/projects/2>
 
 ![Bearmentor](public/images/bearmentor.png)
 
 ## Getting Started
 
 Read the [Remix Docs](https://remix.run/docs) to understand about Remix.
+
+Tips:
+
+- If you're new, focus on Remix basics, don't use the Stacks yet.
+- If you're experienced, can already use various integration such as Prisma ORM and database.
+
+## Tech Stack
+
+1. [TypeScript](https://typescriptlang.org): Typed language
+2. [React](https://react.dev): UI library
+3. [Remix](https://remix.run): Web framework
+4. [Tailwind CSS](https://tailwindcss.com): Styling
+5. [Radix UI](https://radix-ui.com): Interactive components
+6. [Prisma](https://prisma.io): Database ORM
+7. [PlanetScale](https://planetscale.com): Database management system and deployment, with MySQL
+8. [Vercel](https://vercel.com): App deployment
 
 ## Setup
 
