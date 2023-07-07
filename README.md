@@ -22,13 +22,16 @@ A true mentorship should enable to teach, guide, and share in long term growth.
 
 🐻 Bearmentor allow you to:
 
-- Connect to prospective mentors and mentees
-- Explore various learning programs
-- Filter out for serious commitment
+- Connect to people, rospective mentors and mentees
+- Explore various learning programs- Filter out for serious commitment
 - Design custom mentorship experience
 - Set achievable goals
 - Get paid to mentor people
-- Adjust your own rate
+- Adjust your compensation rate, public or private
+- Prefer between live/sync or recorded/async communication
+- Link your social profiles, portfolios, projects, products, and more
+
+[Read more about the features]()
 
 ## Getting Started
 
@@ -115,6 +118,7 @@ It is generally recommended to use a Git repository, because future commits will
 ### Related
 
 - [🐱 Catamyst](https://catamyst.com) ⭐
+- [🦌 Antelapp](https://github.com/mhaidarhanif/antelapp) ⭐
 
 ### Mentoring Platform
 
