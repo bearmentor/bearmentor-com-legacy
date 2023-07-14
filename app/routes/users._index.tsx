@@ -4,7 +4,8 @@ import type {
   V2_MetaFunction,
 } from "@remix-run/react"
 import { useLoaderData } from "@remix-run/react"
-import { prisma } from "~/db.server"
+
+import { prisma } from "~/libs"
 
 export const meta: V2_MetaFunction = () => [
   { title: "All Users | Bearmentor" },

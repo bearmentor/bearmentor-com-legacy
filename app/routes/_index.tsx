@@ -1,6 +1,16 @@
-import type { V2_MetaFunction } from "@remix-run/node"
+import { json, type V2_MetaFunction } from "@remix-run/node"
+import { useLoaderData } from "@remix-run/react"
+import { CircleIcon, StarIcon } from "@radix-ui/react-icons"
 
-import { Button } from "~/components"
+import { prisma } from "~/libs"
+import {
+  Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "~/components"
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -12,17 +22,33 @@ export const meta: V2_MetaFunction = () => {
   ]
 }
 
+export async function loader() {
+  const mentors = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      role: { select: { symbol: true, name: true } },
+      profiles: { select: { headline: true, links: true } },
+    },
+  })
+
+  return json({ mentors })
+}
+
 export default function Index() {
   return (
-    <main className="container px-2 flex justify-center">
+    <main className="container px-2 sm:px-4 space-y-20">
       <LandingHero />
+      <LandingMentors />
+      <LandingDevelopment />
     </main>
   )
 }
 
 export function LandingHero() {
   return (
-    <article className="space-y-8 my-8 max-w-3xl">
+    <article className="container space-y-8 my-8 max-w-3xl">
       <header className="space-y-4">
         <h1 className="flex flex-wrap gap-2 items-center">
           <img src="/favicon.png" alt="Bear" className="h-16" />
@@ -40,7 +66,62 @@ export function LandingHero() {
           </Button>
         </div>
       </section>
+    </article>
+  )
+}
 
+export function LandingMentors() {
+  const { mentors } = useLoaderData<typeof loader>()
+
+  return (
+    <article className="w-full">
+      {mentors.map((mentor) => {
+        const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentor.username}`
+
+        return (
+          <Card key={mentor.id} className="max-w-md flex gap-2 p-2">
+            <div>
+              <img
+                src={avatarImageURL}
+                alt={mentor.name}
+                className="w-24 rounded object-cover"
+              />
+            </div>
+            <div>
+              <CardHeader className="space-y-2">
+                <div className="space-y-1">
+                  <CardTitle>{mentor.name}</CardTitle>
+                  <CardDescription>
+                    {mentor.profiles[0].headline}
+                  </CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex space-x-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-1">
+                    <CircleIcon className="h-3 w-3 fill-green-400 text-green-400" />
+                    <span>Frontend</span>
+                  </div>
+                  <div>
+                    <span>10 years exp.</span>
+                  </div>
+                  <div className="flex items-center">
+                    <StarIcon className="mr-1 h-3 w-3" />
+                    <span>42 Favorited</span>
+                  </div>
+                </div>
+              </CardContent>
+            </div>
+          </Card>
+        )
+      })}
+    </article>
+  )
+}
+
+export function LandingDevelopment() {
+  return (
+    <article className="container space-y-8 my-8 max-w-3xl">
       <section className="space-y-4">
         <img
           src="/images/bearmentor.png"
