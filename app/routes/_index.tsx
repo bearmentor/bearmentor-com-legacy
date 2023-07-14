@@ -1,5 +1,5 @@
 import { json, type V2_MetaFunction } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { Link, useLoaderData } from "@remix-run/react"
 import { CircleIcon, StarIcon } from "@radix-ui/react-icons"
 
 import { prisma } from "~/libs"
@@ -38,7 +38,7 @@ export async function loader() {
 
 export default function Index() {
   return (
-    <main className="container px-2 sm:px-4 space-y-20">
+    <main className="container space-y-20 px-4 sm:px-8">
       <LandingHero />
       <LandingMentors />
       <LandingDevelopment />
@@ -48,9 +48,9 @@ export default function Index() {
 
 export function LandingHero() {
   return (
-    <article className="container space-y-8 my-8 max-w-3xl">
+    <article className="container my-8 max-w-3xl space-y-8">
       <header className="space-y-4">
-        <h1 className="flex flex-wrap gap-2 items-center">
+        <h1 className="flex flex-wrap items-center gap-2">
           <img src="/favicon.png" alt="Bear" className="h-16" />
           <span className="text-emerald-500">Bearmentor</span>
         </h1>
@@ -74,59 +74,66 @@ export function LandingMentors() {
   const { mentors } = useLoaderData<typeof loader>()
 
   return (
-    <article className="w-full">
-      {mentors.map((mentor) => {
-        const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentor.username}`
+    <article className="space-y-4">
+      <h2>Available Mentors</h2>
+      <ul>
+        {mentors.map((mentor) => {
+          const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentor.username}`
 
-        return (
-          <Card key={mentor.id} className="max-w-md flex gap-2 p-2">
-            <div>
-              <img
-                src={avatarImageURL}
-                alt={mentor.name}
-                className="w-24 rounded object-cover"
-              />
-            </div>
-            <div>
-              <CardHeader className="space-y-2">
-                <div className="space-y-1">
-                  <CardTitle>{mentor.name}</CardTitle>
-                  <CardDescription>
-                    {mentor.profiles[0].headline}
-                  </CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex space-x-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-1">
-                    <CircleIcon className="h-3 w-3 fill-green-400 text-green-400" />
-                    <span>Frontend</span>
+          return (
+            <li key={mentor.id}>
+              <Link to={`/mentors/${mentor.username}`} className="inline-block">
+                <Card className="flex max-w-md gap-2 p-2 transition hover:opacity-80">
+                  <div>
+                    <img
+                      src={avatarImageURL}
+                      alt={mentor.name}
+                      className="w-24 rounded object-cover"
+                    />
                   </div>
                   <div>
-                    <span>10 years exp.</span>
+                    <CardHeader className="space-y-2">
+                      <div className="space-y-1">
+                        <CardTitle>{mentor.name}</CardTitle>
+                        <CardDescription>
+                          {mentor.profiles[0].headline}
+                        </CardDescription>
+                      </div>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex space-x-4 text-sm text-muted-foreground">
+                        <div className="flex items-center gap-1">
+                          <CircleIcon className="h-3 w-3 fill-green-400 text-green-400" />
+                          <span>Frontend</span>
+                        </div>
+                        <div>
+                          <span>10 years exp.</span>
+                        </div>
+                        <div className="flex items-center">
+                          <StarIcon className="mr-1 h-3 w-3" />
+                          <span>42 Favorited</span>
+                        </div>
+                      </div>
+                    </CardContent>
                   </div>
-                  <div className="flex items-center">
-                    <StarIcon className="mr-1 h-3 w-3" />
-                    <span>42 Favorited</span>
-                  </div>
-                </div>
-              </CardContent>
-            </div>
-          </Card>
-        )
-      })}
+                </Card>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
     </article>
   )
 }
 
 export function LandingDevelopment() {
   return (
-    <article className="container space-y-8 my-8 max-w-3xl">
+    <article className="container my-8 max-w-3xl space-y-8">
       <section className="space-y-4">
         <img
           src="/images/bearmentor.png"
           alt="Bearmentor: Brilliant mentoring"
-          className="bg-slate-900 rounded"
+          className="rounded bg-slate-900"
         />
 
         <ul className="space-y-2">
@@ -140,14 +147,14 @@ export function LandingDevelopment() {
               href="https://github.com/bearmentor"
               target="_blank"
               rel="noreferrer"
-              className="text-emerald-700 dark:text-emerald-300 font-bold hover:opacity-80 transition-all"
+              className="font-bold text-emerald-700 transition-all hover:opacity-80 dark:text-emerald-300"
             >
               github.com/bearmentor
             </a>
           </li>
         </ul>
 
-        <pre className="p-2 rounded bg-stone-200 dark:bg-stone-900">
+        <pre className="rounded bg-stone-200 p-2 dark:bg-stone-900">
           <code>console.log("Hello, Bear")</code>
         </pre>
       </section>
