@@ -5,6 +5,7 @@
     "prisma.prisma",
     "yzhang.markdown-all-in-one",
     "bradlc.vscode-tailwindcss",
-    "moalamri.inline-fold"
+    "moalamri.inline-fold",
+    "codeforge.remix-forge"
   ]
 }

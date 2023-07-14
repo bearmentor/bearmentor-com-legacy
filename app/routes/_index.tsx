@@ -32,6 +32,7 @@ export async function loader() {
       role: { select: { symbol: true, name: true } },
       profiles: { select: { headline: true, links: true } },
     },
+    where: { tags: { some: { symbol: "MENTOR" } } },
   })
 
   return json({ mentors })

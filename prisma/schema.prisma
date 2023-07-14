@@ -50,6 +50,7 @@ model User {
   role   UserRole? @relation(fields: [roleId], references: [id], onUpdate: Cascade)
   roleId String?
 
+  tags      UserTag[]
   profiles  UserProfile[]
   locations UserLocation[]
   avatars   UserAvatarImage[]
@@ -80,6 +81,20 @@ model UserPassword {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+model UserTag {
+  id String @id @default(cuid())
+
+  sequence    Int    @unique // 1 | 2 | 3 | ...
+  symbol      String @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
+  name        String @unique // "Mentor" | "Mentee" | "Developer"
+  description String @db.Text // "Do something"
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UserProfile {

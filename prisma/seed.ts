@@ -1,9 +1,10 @@
-import { dataUserRoles, dataUsers } from "~/data"
+import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
 
 import { prisma } from "~/libs"
 
 async function main() {
   await seedUserRoles()
+  await seedUserTags()
   await seedUsers()
   await seedUserContents()
 }
@@ -14,6 +15,15 @@ async function seedUserRoles() {
 
   await prisma.userRole.createMany({
     data: dataUserRoles,
+  })
+}
+
+async function seedUserTags() {
+  console.info("🟢 Seed user tags...")
+  await prisma.userTag.deleteMany()
+
+  await prisma.userTag.createMany({
+    data: dataUserTags,
   })
 }
 
@@ -45,9 +55,23 @@ async function seedUsers() {
   if (!userAdmin) return null
   console.info(`✅ User "admin" created`)
 
+  const roleNormal = await prisma.userRole.findFirst({
+    where: { symbol: "NORMAL" },
+  })
+  if (!roleNormal) return null
+
+  const userTagMentor = await prisma.userTag.findFirst({
+    where: { symbol: "MENTOR" },
+  })
+  if (!userTagMentor) return null
+
   dataUsers.forEach(async (dataUser) => {
     await prisma.user.create({
-      data: dataUser,
+      data: {
+        ...dataUser,
+        roleId: roleNormal.id,
+        tags: { connect: { id: userTagMentor.id } },
+      },
     })
     console.info(`✅ User "${dataUser.username}" created`)
   })
