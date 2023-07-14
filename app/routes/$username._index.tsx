@@ -51,7 +51,7 @@ export default function Route() {
       <section className="flex justify-center">
         <div className="contain-full">
           <img
-            className="h-48 rounded-b-lg object-cover sm:h-60 md:h-72"
+            className="h-32 rounded-b-lg object-cover sm:h-48 md:h-60"
             alt="User Cover"
             src={coverImageURL}
             height={240}

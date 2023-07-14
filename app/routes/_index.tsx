@@ -28,6 +28,7 @@ export async function loader() {
       id: true,
       name: true,
       username: true,
+      nick: true,
       role: { select: { symbol: true, name: true } },
       profiles: { select: { headline: true, links: true } },
     },

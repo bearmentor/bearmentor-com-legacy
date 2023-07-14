@@ -78,6 +78,18 @@ To run the app locally, make sure the project's local dependencies are installed
 pnpm install
 ```
 
+Make sure database schema is in sync:
+
+```sh
+pnpm db:push
+```
+
+Then seed the initial data when needed:
+
+```sh
+pnpm db:seed
+```
+
 Check the build:
 
 ```sh

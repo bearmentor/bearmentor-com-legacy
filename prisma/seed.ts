@@ -31,7 +31,6 @@ async function seedUsers() {
       roleId: roleAdmin.id,
       name: "Administrator",
       username: "admin",
-      email: "admin@admin.com",
       profiles: {
         create: {
           headline: "The Ruler",

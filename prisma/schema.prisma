@@ -12,7 +12,7 @@ datasource db {
 // https://www.prisma.io/docs/concepts/components/preview-features/client-preview-features
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["fullTextSearch", "fullTextIndex", "metrics", "fieldReference", "extendedWhereUnique", "views", "jsonProtocol"]
+  previewFeatures = ["fullTextSearch", "fullTextIndex", "metrics", "views"]
 }
 
 // -----------------------------------------------------------------------------
@@ -37,9 +37,12 @@ model User {
   id String @id @default(cuid())
 
   name     String
-  username String  @unique(map: "User.username_unique")
-  email    String? @unique(map: "User.email_unique")
-  phone    String? @unique(map: "User.phone_unique")
+  username String @unique(map: "User.username_unique")
+
+  nick String?
+
+  email String? @unique(map: "User.email_unique")
+  phone String? @unique(map: "User.phone_unique")
 
   password      UserPassword?
   notifications UserNotification[]

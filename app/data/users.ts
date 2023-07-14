@@ -1,6 +1,6 @@
 import type { User, UserProfile } from "@prisma/client"
 
-export type DataUser = Pick<User, "name" | "username"> & {
+export type DataUser = Pick<User, "name" | "username" | "nick"> & {
   profiles: {
     create: Pick<
       UserProfile,
@@ -13,6 +13,7 @@ export const dataUsers: DataUser[] = [
   {
     name: "M Haidar Hanif",
     username: "haidar",
+    nick: "Haidar",
     profiles: {
       create: {
         headline: "Full Stack Web Developer",
@@ -26,6 +27,7 @@ export const dataUsers: DataUser[] = [
   {
     name: "Zain Fathoni",
     username: "zain",
+    nick: "Zain",
     profiles: {
       create: {
         headline: "Software Engineer",
@@ -39,6 +41,7 @@ export const dataUsers: DataUser[] = [
   {
     name: "Naufaldi Rafif",
     username: "faldi",
+    nick: "Faldi",
     profiles: {
       create: {
         headline: "Frontend Web Developer",
@@ -52,6 +55,7 @@ export const dataUsers: DataUser[] = [
   {
     name: "Kenneth Mahakim",
     username: "kenneth",
+    nick: "Kenneth",
     profiles: {
       create: {
         headline: "UI and UX Designer",
@@ -65,6 +69,7 @@ export const dataUsers: DataUser[] = [
   {
     name: "Ahmad Marzuki",
     username: "amadzuki",
+    nick: "Marzuki",
     profiles: {
       create: {
         headline: "Frontend Engineer",
