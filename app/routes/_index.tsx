@@ -74,25 +74,23 @@ export function LandingMentors() {
   const { mentors } = useLoaderData<typeof loader>()
 
   return (
-    <article className="space-y-4">
+    <article className="max-w-7xl space-y-4">
       <h2>Available Mentors</h2>
-      <ul>
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {mentors.map((mentor) => {
           const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentor.username}`
 
           return (
-            <li key={mentor.id}>
-              <Link to={`/mentors/${mentor.username}`} className="inline-block">
-                <Card className="flex max-w-md gap-2 p-2 transition hover:opacity-80">
+            <li key={mentor.id} className="w-full">
+              <Link to={`/mentors/${mentor.username}`}>
+                <Card className="p-1 transition hover:opacity-90">
                   <div>
-                    <img
-                      src={avatarImageURL}
-                      alt={mentor.name}
-                      className="w-24 rounded object-cover"
-                    />
-                  </div>
-                  <div>
-                    <CardHeader className="space-y-2">
+                    <CardHeader className="flex gap-2">
+                      <img
+                        src={avatarImageURL}
+                        alt={mentor.name}
+                        className="h-20 w-20 rounded object-cover"
+                      />
                       <div className="space-y-1">
                         <CardTitle>{mentor.name}</CardTitle>
                         <CardDescription>
@@ -101,7 +99,7 @@ export function LandingMentors() {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      <div className="flex space-x-4 text-sm text-muted-foreground">
+                      <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
                         <div className="flex items-center gap-1">
                           <CircleIcon className="h-3 w-3 fill-green-400 text-green-400" />
                           <span>Frontend</span>

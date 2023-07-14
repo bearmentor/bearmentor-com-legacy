@@ -38,7 +38,7 @@ model User {
 
   name     String
   username String  @unique(map: "User.username_unique")
-  email    String  @unique(map: "User.email_unique")
+  email    String? @unique(map: "User.email_unique")
   phone    String? @unique(map: "User.phone_unique")
 
   password      UserPassword?
@@ -88,9 +88,9 @@ model UserProfile {
   bio      String?
   links    Json?
 
-  primary  Boolean? @default(false)
-  sequence Int?
-  mode     String?
+  modeName  String?
+  sequence  Int?
+  isPrimary Boolean? @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -1,6 +1,6 @@
-import { dataUserRoles } from "~/data"
+import { dataUserRoles, dataUsers } from "~/data"
 
-import { prisma } from "~/libs/db.server"
+import { prisma } from "~/libs"
 
 async function main() {
   await seedUserRoles()
@@ -9,7 +9,7 @@ async function main() {
 }
 
 async function seedUserRoles() {
-  console.info("Seed user roles...")
+  console.info("🟢 Seed user roles...")
   await prisma.userRole.deleteMany()
 
   await prisma.userRole.createMany({
@@ -18,7 +18,7 @@ async function seedUserRoles() {
 }
 
 async function seedUsers() {
-  console.info("Seed users...")
+  console.info("🟢 Seed users...")
   await prisma.user.deleteMany()
 
   const roleAdmin = await prisma.userRole.findFirst({
@@ -26,7 +26,7 @@ async function seedUsers() {
   })
   if (!roleAdmin) return null
 
-  await prisma.user.create({
+  const userAdmin = await prisma.user.create({
     data: {
       roleId: roleAdmin.id,
       name: "Administrator",
@@ -36,17 +36,26 @@ async function seedUsers() {
         create: {
           headline: "The Ruler",
           bio: "I'm just doing my job.",
-          primary: true,
+          modeName: "Admin",
           sequence: 1,
-          mode: "Default",
+          isPrimary: true,
         },
       },
     },
   })
+  if (!userAdmin) return null
+  console.info(`✅ User "admin" created`)
+
+  dataUsers.forEach(async (dataUser) => {
+    await prisma.user.create({
+      data: dataUser,
+    })
+    console.info(`✅ User "${dataUser.username}" created`)
+  })
 }
 
 async function seedUserContents() {
-  console.info("Seed user contents...")
+  console.info("🟢 Seed user contents...")
   await prisma.content.deleteMany()
 
   const userAdmin = await prisma.user.findFirst({
@@ -54,7 +63,7 @@ async function seedUserContents() {
   })
   if (!userAdmin) return null
 
-  await prisma.content.create({
+  const contentAdmin = await prisma.content.create({
     data: {
       userId: userAdmin.id,
       slug: "content-by-admin",
@@ -63,16 +72,18 @@ async function seedUserContents() {
       body: "The body content by admin...",
     },
   })
+  if (!contentAdmin) return null
+  console.info(`✅ Content by "admin" created`)
 }
 
 main()
   .then(async () => {
-    console.log("Seeding complete")
+    console.log("🔵 Seeding complete")
     await prisma.$disconnect()
   })
   .catch((e) => {
     console.error(e)
-    console.log("Seeding failed")
+    console.log("🔴 Seeding failed")
     prisma.$disconnect()
     process.exit(1)
   })
