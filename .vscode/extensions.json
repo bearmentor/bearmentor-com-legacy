@@ -3,6 +3,8 @@
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode",
     "prisma.prisma",
-    "yzhang.markdown-all-in-one"
+    "yzhang.markdown-all-in-one",
+    "bradlc.vscode-tailwindcss",
+    "moalamri.inline-fold"
   ]
 }

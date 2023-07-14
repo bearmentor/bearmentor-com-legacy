@@ -119,7 +119,8 @@
   button {
     @apply select-none;
   }
-  p {
+  p,
+  li {
     @apply text-lg;
   }
 }
