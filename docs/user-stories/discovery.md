@@ -1,4 +1,6 @@
-# People Discovery: Connecting Mentors and Mentees
+# People Discovery
+
+Connecting Mentors and Mentees
 
 ## View or List All Mentors
 
