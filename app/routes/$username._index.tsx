@@ -5,6 +5,7 @@ import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
+import { Avatar, AvatarFallback, AvatarImage } from "~/components"
 
 export const meta: V2_MetaFunction = ({ data }) => {
   return [
@@ -43,9 +44,11 @@ export default function Route() {
 
   const coverImageURL = `https://images.unsplash.com/photo-1571745544682-143ea663cf2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80`
 
+  const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${user.username}`
+
   return (
     <main>
-      <section>
+      <section className="flex justify-center">
         <div className="contain-full">
           <img
             className="h-48 rounded-b-lg object-cover sm:h-60 md:h-72"
@@ -58,9 +61,15 @@ export default function Route() {
       </section>
 
       <section className="container max-w-3xl space-y-8">
-        <header>
+        <header className="-mt-16">
+          <Avatar className="mb-4 h-32 w-32 outline outline-4 outline-background">
+            <AvatarImage src={avatarImageURL} alt={user.username} />
+            <AvatarFallback className="text-5xl">
+              {user.username[0].toUpperCase()}
+            </AvatarFallback>
+          </Avatar>
           <h1>{user.name}</h1>
-          <h2 className="font-sans">@{user.username}</h2>
+          <h2 className="text-muted-foreground">@{user.username}</h2>
         </header>
 
         <div className="space-y-2">
