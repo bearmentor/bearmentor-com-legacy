@@ -82,7 +82,7 @@ export function LandingMentors() {
 
           return (
             <li key={mentor.id} className="w-full">
-              <Link to={`/mentors/${mentor.username}`}>
+              <Link to={mentor.username}>
                 <Card className="p-1 transition hover:opacity-90">
                   <div>
                     <CardHeader className="flex gap-2">

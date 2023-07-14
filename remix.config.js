@@ -1,3 +1,5 @@
+console.info("🐻 Bearmentor is running")
+
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   serverModuleFormat: "cjs",
