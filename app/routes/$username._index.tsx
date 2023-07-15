@@ -1,16 +1,31 @@
 import { json } from "@remix-run/node"
 import type { LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { Link, useLoaderData, useParams } from "@remix-run/react"
+import { formatTitle } from "~/utils"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { Avatar, AvatarFallback, AvatarImage } from "~/components"
+import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components"
 
-export const meta: V2_MetaFunction = ({ data }) => {
+export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
+  if (!data?.user) {
+    return [
+      {
+        title: formatTitle(
+          `Sorry, this page isn't available or "${params.username}" is not found`
+        ),
+      },
+      {
+        name: "description",
+        content: `The link you followed may be broken, or the page may have been removed.`,
+      },
+    ]
+  }
+
   return [
-    { title: "Mentor Name" },
-    { name: "description", content: "Mentor Headline" },
+    { title: formatTitle(`${data.user?.name} (@${data.user?.username})`) },
+    { name: "description", content: data.user?.profiles[0]?.headline },
   ]
 }
 
@@ -19,10 +34,7 @@ export async function loader({ request, params }: LoaderArgs) {
 
   const user = await prisma.user.findUnique({
     where: { username: params.username },
-    include: {
-      role: true,
-      profiles: true,
-    },
+    include: { role: true, profiles: true },
   })
   if (!user) return notFound({ user: null })
 
@@ -35,10 +47,18 @@ export default function Route() {
 
   if (!user) {
     return (
-      <div>
-        <h1>Sorry, user with username "{params.username}" is not found</h1>
-        <Link to="/">Go back to the landing page</Link>
-      </div>
+      <main>
+        <h2>
+          Sorry, this page isn't available or "{params.username}" is not found
+        </h2>
+        <p className="text-muted-foreground">
+          The link you followed may be broken, or the page may have been
+          removed.
+        </p>
+        <Button variant="link" asChild>
+          <Link to="/">Go back to the landing page</Link>
+        </Button>
+      </main>
     )
   }
 

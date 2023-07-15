@@ -1,4 +1,4 @@
-import type { LinksFunction } from "@remix-run/node"
+import type { LinksFunction, V2_MetaFunction } from "@remix-run/node"
 import {
   Links,
   LiveReload,
@@ -45,6 +45,16 @@ export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
 ]
 
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: "Bearmentor" },
+    {
+      name: "description",
+      content: "Brilliant mentoring platform for people and organization.",
+    },
+  ]
+}
+
 export default function App() {
   return (
     <html lang="en" className="dark">
@@ -54,7 +64,7 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body className="text-stone-950 bg-stone-50 dark:text-stone-50 dark:bg-stone-950">
+      <body className="bg-stone-50 text-stone-950 dark:bg-stone-950 dark:text-stone-50">
         <Outlet />
         <ScrollRestoration />
         <Scripts />

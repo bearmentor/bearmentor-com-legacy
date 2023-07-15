@@ -11,16 +11,6 @@ import {
   CardTitle,
 } from "~/components"
 
-export const meta: V2_MetaFunction = () => {
-  return [
-    { title: "Bearmentor" },
-    {
-      name: "description",
-      content: "Brilliant mentoring platform for people and organization.",
-    },
-  ]
-}
-
 export async function loader() {
   const mentors = await prisma.user.findMany({
     select: {
