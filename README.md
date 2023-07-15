@@ -59,11 +59,17 @@ Tips:
 
 ## Setup
 
-Create a [PlanetScale](https://planetscale.com) account to have a production-ready MySQL instance. After the database has been created, copy the full `DATABASE_URL`.
+Create the `.env` file from the example `.env` file.
 
-Generate a random string for the `SESSION_SECRET` using `openssl rand -base64 32`.
+```sh
+cp -i .env.example .env
+```
 
-Configure the environment variables in the `.env` file if local, otherwise in the project settings.
+Let's configure the environment variables in the `.env` file if local, otherwise in the project settings.
+
+Create a [PlanetScale](https://planetscale.com) account to have a production-ready MySQL instance. After the database has been created, "Get the connection string" and select "Prisma", then copy the full `DATABASE_URL`.
+
+Generate a random string for the `SESSION_SECRET` using `openssl rand -base64 32` on the terminal or you can put any random text.
 
 ```sh
 DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"
@@ -78,7 +84,7 @@ To run the app locally, make sure the project's local dependencies are installed
 pnpm install
 ```
 
-Make sure database schema is in sync:
+Sync between the schema of Prisma and the database, which we can do regularly while updating the Prisma schema:
 
 ```sh
 pnpm db:push
@@ -90,7 +96,7 @@ Then seed the initial data when needed:
 pnpm db:seed
 ```
 
-Check the build:
+Check if the build is fine:
 
 ```sh
 pnpm build
@@ -99,7 +105,7 @@ pnpm build
 If everything works fine, start the Remix development server like so:
 
 ```sh
-pnpm run dev
+pnpm dev
 ```
 
 Open up [http://localhost:3000](http://localhost:3000) and it should be ready to go!
