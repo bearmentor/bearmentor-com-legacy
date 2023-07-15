@@ -1,6 +1,8 @@
 # Landing Page
 
-Displaying the Values and Problems to Solve
+Displaying the values and problems to solve.
+
+---
 
 ## Display Introduction
 

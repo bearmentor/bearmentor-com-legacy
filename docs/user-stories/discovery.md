@@ -1,6 +1,8 @@
 # People Discovery
 
-Connecting Mentors and Mentees
+Discovering and connecting mentors and mentees.
+
+---
 
 ## View or List All Mentors
 
@@ -17,13 +19,20 @@ Connecting Mentors and Mentees
 5. The list of mentors may include filters or search functionality, enabling me to narrow down the options based on specific criteria such as skills, locations, or languages.
 6. Clicking on a mentor's profile in the list redirects me to the details page of that mentor, where I can find more in-depth information.
 
+---
+
 ## View One Mentor Info
 
 - As a user interested in a specific mentor,
 - I want to be able to view their detailed profile,
 - So that I can learn more about their background, mentorship style, availability, and contact information.
 
-## Acceptance Criteria
+Notes:
+
+- Still limited to direct contact like Telegram, WhatsApp, or any social media. Temporarily, later on can be filtered so not everyone can contact directly.
+- Rules to follow, how to introduce yourself and set the expectation.
+
+### Acceptance Criteria
 
 By fulfilling these user stories and acceptance criteria, the platform provides users with a list of mentors and detailed profiles, enabling them to make informed decisions and connect with mentors who align with their goals and needs.
 
