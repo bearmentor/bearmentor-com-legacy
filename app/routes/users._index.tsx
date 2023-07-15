@@ -6,6 +6,7 @@ import type {
 import { useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
+import { Layout } from "~/components"
 
 export const meta: V2_MetaFunction = () => [
   { title: "All Users | Bearmentor" },
@@ -30,9 +31,9 @@ export default function RouteComponent() {
   const { users } = useLoaderData<typeof loader>()
 
   return (
-    <main>
+    <Layout>
       <pre>{JSON.stringify(users, null, 2)}</pre>
-    </main>
+    </Layout>
   )
 }
 

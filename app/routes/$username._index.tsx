@@ -6,7 +6,13 @@ import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { Avatar, AvatarFallback, AvatarImage, Button } from "~/components"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  Button,
+  Layout,
+} from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
@@ -47,18 +53,20 @@ export default function Route() {
 
   if (!user) {
     return (
-      <main>
-        <h2>
-          Sorry, this page isn't available or "{params.username}" is not found
-        </h2>
-        <p className="text-muted-foreground">
-          The link you followed may be broken, or the page may have been
-          removed.
-        </p>
+      <Layout>
+        <header>
+          <h2>
+            Sorry, this page isn't available or "{params.username}" is not found
+          </h2>
+          <p className="text-muted-foreground">
+            The link you followed may be broken, or the page may have been
+            removed.
+          </p>
+        </header>
         <Button variant="link" asChild>
           <Link to="/">Go back to the landing page</Link>
         </Button>
-      </main>
+      </Layout>
     )
   }
 
@@ -67,7 +75,7 @@ export default function Route() {
   const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${user.username}`
 
   return (
-    <main>
+    <Layout>
       <section className="flex justify-center">
         <div className="contain-full">
           <img
@@ -97,6 +105,6 @@ export default function Route() {
           <p>{user.profiles[0].bio}</p>
         </div>
       </section>
-    </main>
+    </Layout>
   )
 }

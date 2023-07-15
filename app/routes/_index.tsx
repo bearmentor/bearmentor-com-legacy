@@ -10,6 +10,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
+  Layout,
 } from "~/components"
 
 export async function loader() {
@@ -38,12 +39,14 @@ export async function loader() {
 
 export default function Index() {
   return (
-    <main className="container space-y-20 px-4 sm:px-8">
-      <LandingHero />
-      <LandingMentors />
-      <LandingMentees />
-      <LandingDevelopment />
-    </main>
+    <Layout>
+      <div className="container space-y-20 px-4 sm:px-8">
+        <LandingHero />
+        <LandingMentors />
+        <LandingMentees />
+        <LandingDevelopment />
+      </div>
+    </Layout>
   )
 }
 

@@ -40,8 +40,8 @@
     --background: 24 10% 10%;
     --foreground: 20 6% 90%;
 
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
+    --muted: 24 10% 10%;
+    --muted-foreground: 30 6% 25%;
 
     --accent: 216 34% 17%;
     --accent-foreground: 210 40% 98%;
@@ -52,7 +52,7 @@
     --border: 216 34% 17%;
     --input: 216 34% 17%;
 
-    --card: 24 10% 10%;
+    --card: 24 10% 8%;
     --card-foreground: 20 6% 90%;
 
     --primary: 210 40% 98%;
