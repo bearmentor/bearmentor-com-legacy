@@ -47,7 +47,7 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "Bearmentor" },
+    { title: "🐻 Bearmentor" },
     {
       name: "description",
       content: "Brilliant mentoring platform for people and organization.",

@@ -1,8 +1,9 @@
-import { json, type V2_MetaFunction } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import {
+  Badge,
   Button,
   Card,
   CardContent,
@@ -17,14 +18,22 @@ export async function loader() {
       id: true,
       name: true,
       username: true,
-      nick: true,
-      role: { select: { symbol: true, name: true } },
+      tags: { select: { id: true, name: true } },
       profiles: { select: { headline: true, links: true } },
     },
     where: { tags: { some: { symbol: "MENTOR" } } },
   })
 
-  return json({ mentors })
+  const mentees = await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      username: true,
+    },
+    where: { tags: { some: { symbol: "MENTEE" } } },
+  })
+
+  return json({ mentors, mentees })
 }
 
 export default function Index() {
@@ -32,6 +41,7 @@ export default function Index() {
     <main className="container space-y-20 px-4 sm:px-8">
       <LandingHero />
       <LandingMentors />
+      <LandingMentees />
       <LandingDevelopment />
     </main>
   )
@@ -64,6 +74,10 @@ export function LandingHero() {
 export function LandingMentors() {
   const { mentors } = useLoaderData<typeof loader>()
 
+  if (mentors.length <= 0) {
+    return null
+  }
+
   return (
     <article className="max-w-7xl space-y-4">
       <h2>Available Mentors</h2>
@@ -74,23 +88,69 @@ export function LandingMentors() {
           return (
             <li key={mentor.id} className="w-full">
               <Link to={mentor.username}>
-                <Card className="p-1 transition hover:opacity-90">
-                  <div>
-                    <CardHeader className="flex gap-2">
-                      <img
-                        src={avatarImageURL}
-                        alt={mentor.name}
-                        className="h-20 w-20 rounded object-cover"
-                      />
-                      <div className="space-y-1">
-                        <CardTitle>{mentor.name}</CardTitle>
-                        <CardDescription>
-                          {mentor.profiles[0].headline}
-                        </CardDescription>
-                      </div>
-                    </CardHeader>
-                    <CardContent>{/* Content */}</CardContent>
-                  </div>
+                <Card className="transition hover:opacity-90">
+                  <CardHeader className="flex gap-4">
+                    <img
+                      src={avatarImageURL}
+                      alt={mentor.name}
+                      className="h-20 w-20 rounded object-cover"
+                    />
+                    <div className="space-y-1">
+                      <CardTitle className="text-xl">{mentor.name}</CardTitle>
+                      <CardDescription>
+                        {mentor.profiles[0].headline}
+                      </CardDescription>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <ul className="flex gap-2">
+                      {mentor.tags.map((tag) => {
+                        return (
+                          <li key={tag.id}>
+                            <Badge size="sm">{tag.name}</Badge>
+                          </li>
+                        )
+                      })}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </article>
+  )
+}
+
+export function LandingMentees() {
+  const { mentees } = useLoaderData<typeof loader>()
+
+  if (mentees.length <= 0) {
+    return null
+  }
+
+  return (
+    <article className="max-w-7xl space-y-4">
+      <h2>Featured Mentees</h2>
+      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {mentees.map((mentee) => {
+          const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentee.username}`
+
+          return (
+            <li key={mentee.id} className="w-full">
+              <Link to={mentee.username}>
+                <Card className="transition hover:opacity-90">
+                  <CardHeader className="flex gap-4">
+                    <img
+                      src={avatarImageURL}
+                      alt={mentee.name}
+                      className="h-20 w-20 rounded object-cover"
+                    />
+                    <div className="space-y-1">
+                      <CardTitle className="text-xl">{mentee.name}</CardTitle>
+                    </div>
+                  </CardHeader>
                 </Card>
               </Link>
             </li>
