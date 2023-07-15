@@ -1,6 +1,5 @@
 import { json, type V2_MetaFunction } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
-import { CircleIcon, StarIcon } from "@radix-ui/react-icons"
 
 import { prisma } from "~/libs"
 import {
@@ -100,21 +99,7 @@ export function LandingMentors() {
                         </CardDescription>
                       </div>
                     </CardHeader>
-                    <CardContent>
-                      <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <CircleIcon className="h-3 w-3 fill-green-400 text-green-400" />
-                          <span>Frontend</span>
-                        </div>
-                        <div>
-                          <span>10 years exp.</span>
-                        </div>
-                        <div className="flex items-center">
-                          <StarIcon className="mr-1 h-3 w-3" />
-                          <span>42 Favorited</span>
-                        </div>
-                      </div>
-                    </CardContent>
+                    <CardContent>{/* Content */}</CardContent>
                   </div>
                 </Card>
               </Link>

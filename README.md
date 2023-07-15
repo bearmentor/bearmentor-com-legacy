@@ -65,9 +65,14 @@ Create the `.env` file from the example `.env` file.
 cp -i .env.example .env
 ```
 
-Let's configure the environment variables in the `.env` file if local, otherwise in the project settings.
+Let's configure the required environment variables in the `.env` file if local, otherwise in the project settings, for:
 
-Create a [PlanetScale](https://planetscale.com) account to have a production-ready MySQL instance. After the database has been created, "Get the connection string" and select "Prisma", then copy the full `DATABASE_URL`.
+- `DATABASE_URL`
+- `SESSION_SECRET`
+
+Create a [PlanetScale](https://planetscale.com) account to have a production-ready MySQL instance for development. After the database has been created, "Get the connection string" and select "Prisma", then copy the full `DATABASE_URL`.
+
+> Keep in mind the free plan only allow for 1 database. So either you keep it, delete it when unused, or upgrade your plan.
 
 Generate a random string for the `SESSION_SECRET` using `openssl rand -base64 32` on the terminal or you can put any random text.
 

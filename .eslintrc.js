@@ -8,5 +8,6 @@ module.exports = {
   plugins: ["prettier"],
   rules: {
     "react/self-closing-comp": ["warn", { component: true, html: true }],
+    "@typescript-eslint/no-unused-vars": "warn",
   },
-};
+}

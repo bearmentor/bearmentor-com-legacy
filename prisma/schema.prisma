@@ -106,9 +106,9 @@ model UserProfile {
   bio      String?
   links    Json?
 
-  modeName  String?
-  sequence  Int?
+  modeName  String?  @default("Default")
   isPrimary Boolean? @default(false)
+  sequence  Int?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

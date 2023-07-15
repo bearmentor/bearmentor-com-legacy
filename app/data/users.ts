@@ -1,12 +1,14 @@
 import type { User, UserProfile } from "@prisma/client"
 
 export type DataUser = Pick<User, "name" | "username" | "nick"> & {
-  profiles: {
-    create: Pick<
-      UserProfile,
-      "headline" | "bio" | "modeName" | "sequence" | "isPrimary"
-    >
-  }
+  profiles: { create: DataUserProfile | DataUserProfile[] }
+}
+
+export type DataUserProfile = Pick<
+  UserProfile,
+  "headline" | "bio" | "modeName" | "sequence"
+> & {
+  isPrimary?: UserProfile["isPrimary"]
 }
 
 export const dataUsers: DataUser[] = [
@@ -15,13 +17,21 @@ export const dataUsers: DataUser[] = [
     username: "haidar",
     nick: "Haidar",
     profiles: {
-      create: {
-        headline: "Full Stack Web Developer",
-        bio: "Helping you to learn and build something for good on the web.",
-        modeName: "Educator",
-        sequence: 1,
-        isPrimary: true,
-      },
+      create: [
+        {
+          headline: "Software Engineering Mentor",
+          bio: "Helping you to learn and build something for good on the web.",
+          modeName: "Mentor",
+          isPrimary: true,
+          sequence: 1,
+        },
+        {
+          headline: "Full Stack Web Developer",
+          bio: "Building web applications to solve your problems.",
+          modeName: "Developer",
+          sequence: 2,
+        },
+      ],
     },
   },
   {
@@ -33,8 +43,8 @@ export const dataUsers: DataUser[] = [
         headline: "Software Engineer",
         bio: "Frontend at Ninja Van",
         modeName: "Engineer",
-        sequence: 1,
         isPrimary: true,
+        sequence: 1,
       },
     },
   },
@@ -47,8 +57,8 @@ export const dataUsers: DataUser[] = [
         headline: "Frontend Web Developer",
         bio: "Ningen (人間) in Tech",
         modeName: "Developer",
-        sequence: 1,
         isPrimary: true,
+        sequence: 1,
       },
     },
   },
@@ -61,8 +71,8 @@ export const dataUsers: DataUser[] = [
         headline: "UI and UX Designer",
         bio: "Bridging interface and experience",
         modeName: "Designer",
-        sequence: 1,
         isPrimary: true,
+        sequence: 1,
       },
     },
   },
@@ -75,8 +85,50 @@ export const dataUsers: DataUser[] = [
         headline: "Frontend Engineer",
         bio: "Implementing UI",
         modeName: "Engineer",
-        sequence: 1,
         isPrimary: true,
+        sequence: 1,
+      },
+    },
+  },
+  {
+    name: "Krishna Rowter",
+    username: "krowter",
+    nick: "Krishna",
+    profiles: {
+      create: {
+        headline: "Frontend Engineer at Vidio.com",
+        bio: "Building Websites",
+        modeName: "Engineer",
+        isPrimary: true,
+        sequence: 1,
+      },
+    },
+  },
+  {
+    name: "Rizky Zhang",
+    username: "rizkyzhang",
+    nick: "Rizky",
+    profiles: {
+      create: {
+        headline: "Sofware Engineer at Ubersnap",
+        bio: "I have worked in complex applications such as e-commerce and event management service",
+        modeName: "Engineer",
+        isPrimary: true,
+        sequence: 1,
+      },
+    },
+  },
+  {
+    name: "Ali Reza Yahya",
+    username: "alileza",
+    nick: "Ali",
+    profiles: {
+      create: {
+        headline: "Sofware Engineer at SadaPay",
+        bio: "Working as a Senior Software Engineer (Infrastructure)",
+        modeName: "Engineer",
+        isPrimary: true,
+        sequence: 1,
       },
     },
   },
