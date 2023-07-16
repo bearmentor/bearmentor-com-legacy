@@ -1,5 +1,5 @@
 /** @type {import('prettier').Config} */
-export default {
+module.exports = {
   endOfLine: "lf",
   semi: false,
   singleQuote: false,
@@ -18,7 +18,7 @@ export default {
     "^~/components",
     "^~/registry",
     "^~/styles",
-    "^~/app",
+    "^~/data",
     "",
     "^[./]",
   ],
@@ -27,4 +27,4 @@ export default {
     require("@ianvs/prettier-plugin-sort-imports"),
     require("prettier-plugin-tailwindcss"),
   ],
-};
+}

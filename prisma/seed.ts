@@ -1,6 +1,5 @@
-import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
-
 import { prisma } from "~/libs"
+import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
 
 async function main() {
   await seedUserRoles()
