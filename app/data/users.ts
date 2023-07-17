@@ -86,6 +86,28 @@ export const dataUsers: DataUser[] = [
     },
   },
   {
+    name: "Thoriq Nur Faizal",
+    username: "thoriq",
+    nick: "Thoriq",
+    tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
+    profiles: {
+      create: [
+        {
+          headline: "Software Engineering Mentor",
+          bio: "Mentoring future engineers.",
+          modeName: "Mentor",
+        },
+        {
+          headline: "Full Stack Web Developer",
+          bio: "Developing web applications.",
+          modeName: "Developer",
+          sequence: 2,
+          isPrimary: false,
+        },
+      ],
+    },
+  },
+  {
     name: "Zain Fathoni",
     username: "zain",
     nick: "Zain",
@@ -125,9 +147,48 @@ export const dataUsers: DataUser[] = [
     },
   },
   {
+    name: "Bagus Juang Wiantoro",
+    username: "bagusjuang",
+    nick: "Bagus/Juang",
+    tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
+    profiles: {
+      create: [
+        {
+          headline: "Software Engineering Teacher",
+          bio: "Teaching future engineers.",
+          modeName: "Mentor",
+        },
+        {
+          headline: "Software Engineer",
+          bio: "Engineering applications.",
+          modeName: "Engineer",
+          sequence: 2,
+          isPrimary: false,
+        },
+      ],
+    },
+  },
+  {
     name: "Jonathan Nicolas",
     username: "jo",
-    tags: ["MENTEE", "DEVELOPER"],
+    nick: "jo",
+    tags: ["MENTEE", "DEVELOPER", "ARTIST"],
+    profiles: {
+      create: [
+        {
+          headline: "Web Developer",
+          bio: "Developing web applications.",
+          modeName: "Developer",
+        },
+        {
+          headline: "Contemporary Artist",
+          bio: "Making some artworks.",
+          modeName: "Artist",
+          sequence: 2,
+          isPrimary: false,
+        },
+      ],
+    },
   },
   {
     name: "Ahmad Marzuki",
