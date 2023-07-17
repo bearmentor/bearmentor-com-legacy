@@ -6,7 +6,6 @@ import {
   Badge,
   Button,
   Card,
-  CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
@@ -39,13 +38,11 @@ export async function loader() {
 
 export default function Index() {
   return (
-    <Layout>
-      <div className="space-y-20 px-4 sm:px-8">
-        <LandingHero />
-        <LandingMentors />
-        <LandingMentees />
-        <LandingDevelopment />
-      </div>
+    <Layout className="space-y-20 px-4 sm:px-8">
+      <LandingHero />
+      <LandingMentors />
+      <LandingMentees />
+      <LandingDevelopment />
     </Layout>
   )
 }
@@ -102,7 +99,7 @@ export function LandingMentors() {
           return (
             <li key={mentor.id} className="w-full">
               <Link to={mentor.username}>
-                <Card className="p-2 transition hover:opacity-90">
+                <Card className="p-2 transition hover:opacity-80">
                   <div className="flex gap-4">
                     <img
                       src={avatarImageURL}
@@ -156,7 +153,7 @@ export function LandingMentees() {
           return (
             <li key={mentee.id} className="w-full">
               <Link to={mentee.username}>
-                <Card className="transition hover:opacity-90">
+                <Card className="transition hover:opacity-80">
                   <CardHeader className="flex gap-4">
                     <img
                       src={avatarImageURL}
