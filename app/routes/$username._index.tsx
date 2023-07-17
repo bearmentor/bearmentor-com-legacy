@@ -76,16 +76,14 @@ export default function Route() {
 
   return (
     <Layout>
-      <section className="flex justify-center">
-        <div className="contain-full">
-          <img
-            className="h-32 rounded-b-lg object-cover sm:h-48 md:h-60"
-            alt="User Cover"
-            src={coverImageURL}
-            height={240}
-            width={1440}
-          />
-        </div>
+      <section className="flex justify-center px-2">
+        <img
+          className="h-32 rounded-b-lg object-cover sm:h-48 md:h-60"
+          alt="User Cover"
+          src={coverImageURL}
+          height={240}
+          width={1440}
+        />
       </section>
 
       <section className="container max-w-3xl space-y-8">
@@ -96,13 +94,13 @@ export default function Route() {
               {user.username[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
-          <h1>{user.name}</h1>
-          <h2 className="text-muted-foreground">@{user.username}</h2>
+          <h1 className="text-4xl">{user.name}</h1>
+          <h2 className="text-3xl text-muted-foreground">@{user.username}</h2>
         </header>
 
         <div className="space-y-2">
-          <h3>{user.profiles[0].headline}</h3>
-          <p>{user.profiles[0].bio}</p>
+          <h3>{user.profiles[0]?.headline}</h3>
+          <p>{user.profiles[0]?.bio}</p>
         </div>
       </section>
     </Layout>
