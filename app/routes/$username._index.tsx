@@ -56,7 +56,12 @@ export default function Route() {
           <Link to="/" className="transition hover:opacity-80">
             <img src="/favicon.png" alt="Bear" className="h-12" />
           </Link>
-          <div className="max-w-md space-y-4 pt-24 text-center">
+          <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">
+            <img
+              src="/images/bear-fox.png"
+              alt="Not Found Illustration"
+              className="h-40 object-contain"
+            />
             <h2>
               Sorry, this page isn't available or "{params.username}" is not
               found

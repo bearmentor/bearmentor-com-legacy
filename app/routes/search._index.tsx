@@ -67,7 +67,10 @@ export default function Route() {
   return (
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header className="space-y-4">
-        <h1 className="text-4xl text-emerald-500">Search</h1>
+        <h1 className="flex items-center gap-2 text-4xl text-emerald-500">
+          <img src="/images/bear-monocle.png" alt="Bear" className="h-10" />
+          <span>Search</span>
+        </h1>
         <SearchForm />
       </header>
 
@@ -108,8 +111,6 @@ export default function Route() {
           </ul>
         </section>
       )}
-
-      {/* <pre className="text-xs">{stringify({ query, count, users })}</pre> */}
     </Layout>
   )
 }

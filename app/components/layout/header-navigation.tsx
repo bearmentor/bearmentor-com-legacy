@@ -1,4 +1,4 @@
-import { Link, NavLink } from "@remix-run/react"
+import { NavLink } from "@remix-run/react"
 import {
   HomeIcon,
   SearchIcon,
@@ -28,7 +28,7 @@ export function HeaderNavigation() {
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >
-      <nav className="w-full max-w-3xl">
+      <nav className="w-full max-w-3xl px-4 lg:px-0">
         <TooltipProvider delayDuration={300}>
           <ul className="flex justify-between gap-10 p-2 sm:gap-4 lg:flex-col">
             {navItems.map((navItem) => {

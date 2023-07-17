@@ -59,7 +59,7 @@ export function LandingHero() {
       <section className="flex gap-8">
         <div className="flex w-full flex-col items-center justify-center space-y-4 lg:items-start">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
-            <img src="/favicon.png" alt="Bear" className="h-16" />
+            <img src="/images/bear-rounded.png" alt="Bear" className="h-16" />
             <span className="text-emerald-500">Bearmentor</span>
           </h1>
           <h2>Brilliant mentoring</h2>
@@ -77,10 +77,9 @@ export function LandingHero() {
         </div>
         <div className="hidden lg:flex">
           <img
-            src="/images/cats-learning.png"
+            src="/images/bear-wolf.png"
             alt="Hero Illustration"
-            className="object-fit"
-            width={300}
+            className="w-80 object-contain"
           />
         </div>
       </section>
