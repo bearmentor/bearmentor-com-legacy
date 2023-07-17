@@ -1,10 +1,10 @@
+import { Link } from "@remix-run/react"
+
 import { cn } from "~/libs"
 
-const footerLinks = [
+const footerNavItems = [
   { to: "search", text: "Search" },
-  // { to: "privacy", text: "Privacy" },
-  // { to: "terms", text: "Terms" },
-  // { to: "cookies", text: "Cookies policy" },
+  { to: "login", text: "Login" },
 ]
 
 interface Props {
@@ -18,12 +18,25 @@ export function Footer({ className }: Props) {
     <footer
       className={cn("flex justify-center pb-20 pt-20 lg:pb-10", className)}
     >
-      <ul className="flex gap-4 text-muted-foreground">
-        <li>&copy; {today.getFullYear()} Bearmentor</li>
-        {footerLinks.map((link) => {
-          return <li key={link.to}>{link.text}</li>
-        })}
-      </ul>
+      <div className="flex flex-wrap gap-8 text-muted-foreground">
+        <p>&copy; {today.getFullYear()} Bearmentor</p>
+        <nav>
+          <ul className="flex flex-wrap gap-4">
+            {footerNavItems.map((navItem) => {
+              return (
+                <li key={navItem.to}>
+                  <Link
+                    to={navItem.to}
+                    className="font-bold transition hover:opacity-80"
+                  >
+                    {navItem.text}
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </nav>
+      </div>
     </footer>
   )
 }

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { createAvatarImageURL, prisma } from "~/libs"
 import { log } from "~/utils"
-
-import { prisma } from "~/libs"
 import { dataAdminUsers, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 
 async function main() {
@@ -39,6 +38,10 @@ async function seedUsers() {
   console.info("🟢 Seed users...")
   await prisma.user.deleteMany()
   console.info("🟡 Deleted existing users...")
+  await prisma.userAvatarImage.deleteMany()
+  console.info("🟡 Deleted existing user avatar images...")
+  await prisma.userCoverImage.deleteMany()
+  console.info("🟡 Deleted existing user cover images...")
 
   // Get existing roles
   const roles = await prisma.userRole.findMany()
@@ -76,6 +79,7 @@ async function seedUsers() {
         ...user,
         roleId: ADMIN.id,
         tags: { connect: { id: COLLABORATOR.id } },
+        avatars: { create: { url: createAvatarImageURL(user.username) } },
       },
     })
     console.info(`✅ User "${user.username}" created`)
@@ -83,8 +87,8 @@ async function seedUsers() {
   console.info(`✅ Admin users created`)
 
   // Setup data users to connect to the tag ids
-  const dataUsersWithTags = dataUsers.map((dataUser) => {
-    const selectedTags = dataUser.tags?.map((tag) => {
+  const dataUsersWithTags = dataUsers.map((user) => {
+    const tags = user.tags?.map((tag) => {
       if (tag === "COLLABORATOR") return { id: COLLABORATOR.id }
       if (tag === "MENTOR") return { id: MENTOR.id }
       if (tag === "MENTEE") return { id: MENTEE.id }
@@ -95,7 +99,11 @@ async function seedUsers() {
       if (tag === "ARTIST") return { id: ARTIST.id }
       return { id: UNKNOWN.id }
     })
-    return { ...dataUser, tags: { connect: selectedTags } }
+    return {
+      ...user,
+      tags: { connect: tags },
+      avatars: { create: { url: createAvatarImageURL(user.username) } },
+    }
   })
 
   // Finally create the users with the tags

@@ -61,6 +61,7 @@ export const loader = async ({ request }: LoaderArgs) => {
         id: true,
         name: true,
         username: true,
+        avatars: { select: { url: true } },
         tags: { select: { symbol: true, name: true } },
         profiles: { select: { headline: true, links: true } },
       },
@@ -102,7 +103,10 @@ export default function Route() {
                     className="flex gap-2 py-1 transition hover:opacity-80"
                   >
                     <Avatar className="h-14 w-14">
-                      <AvatarImage src={""} alt={user.username} />
+                      <AvatarImage
+                        src={user.avatars[0]?.url}
+                        alt={user.username}
+                      />
                       <AvatarFallback>
                         {user.username[0].toUpperCase()}
                       </AvatarFallback>

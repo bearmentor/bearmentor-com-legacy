@@ -3,11 +3,13 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
   Badge,
   Button,
   Card,
   CardDescription,
-  CardHeader,
   CardTitle,
   Layout,
 } from "~/components"
@@ -18,6 +20,7 @@ export async function loader() {
       id: true,
       name: true,
       username: true,
+      avatars: { select: { url: true } },
       tags: { select: { id: true, name: true } },
       profiles: { select: { headline: true, links: true } },
     },
@@ -27,7 +30,12 @@ export async function loader() {
   })
 
   const mentees = await prisma.user.findMany({
-    select: { id: true, name: true, username: true },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      avatars: { select: { url: true } },
+    },
     where: { tags: { some: { symbol: "MENTEE" } } },
     orderBy: { createdAt: "asc" },
     take: 24,
@@ -49,7 +57,7 @@ export default function Index() {
 
 export function LandingHero() {
   return (
-    <article className="max-w-3xl space-y-8 py-20 sm:container">
+    <article className="max-w-3xl space-y-8 pb-10 pt-20 sm:container">
       <section className="flex gap-8">
         <div className="flex w-full flex-col items-center justify-center space-y-4 lg:items-start">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
@@ -94,15 +102,13 @@ export function LandingMentors() {
       <h2 className="text-emerald-500">Available Mentors</h2>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {mentors.map((mentor) => {
-          const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentor.username}`
-
           return (
             <li key={mentor.id} className="w-full">
               <Link to={mentor.username}>
                 <Card className="p-2 transition hover:opacity-80">
                   <div className="flex gap-4">
                     <img
-                      src={avatarImageURL}
+                      src={mentor.avatars[0]?.url}
                       alt={mentor.name}
                       className="h-24 w-24 rounded object-cover"
                     />
@@ -146,25 +152,23 @@ export function LandingMentees() {
   return (
     <article className="max-w-7xl space-y-4">
       <h2 className="text-emerald-500">Featured Mentees</h2>
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {mentees.map((mentee) => {
-          const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentee.username}`
-
+      <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {mentees.map((user) => {
           return (
-            <li key={mentee.id} className="w-full">
-              <Link to={mentee.username}>
-                <Card className="transition hover:opacity-80">
-                  <CardHeader className="flex gap-4">
-                    <img
-                      src={avatarImageURL}
-                      alt={mentee.name}
-                      className="h-14 w-14 rounded object-cover"
-                    />
-                    <CardTitle className="flex items-center text-base leading-normal">
-                      <span>{mentee.name}</span>
-                    </CardTitle>
-                  </CardHeader>
-                </Card>
+            <li key={user.id}>
+              <Link
+                to={user.username}
+                className="flex gap-2 py-1 transition hover:opacity-80"
+              >
+                <Avatar className="h-14 w-14">
+                  <AvatarImage src={user.avatars[0]?.url} alt={user.username} />
+                  <AvatarFallback>
+                    {user.username[0].toUpperCase()}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex items-center">
+                  <h3 className="text-base">{user.name}</h3>
+                </div>
               </Link>
             </li>
           )
