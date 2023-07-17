@@ -28,9 +28,9 @@ export function HeaderNavigation() {
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >
-      <nav className="w-full max-w-3xl px-4 lg:px-0">
+      <nav className="w-full max-w-3xl">
         <TooltipProvider delayDuration={300}>
-          <ul className="flex justify-between gap-10 p-2 sm:gap-4 lg:flex-col">
+          <ul className="flex justify-between gap-4 p-2 sm:gap-10 lg:flex-col">
             {navItems.map((navItem) => {
               return (
                 <li key={navItem.to}>

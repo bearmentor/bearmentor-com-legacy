@@ -18,7 +18,7 @@ export function Footer({ className }: Props) {
     <footer
       className={cn("flex justify-center pb-20 pt-40 lg:pb-10", className)}
     >
-      <div className="flex flex-wrap gap-8 text-muted-foreground">
+      <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-muted-foreground sm:flex-row sm:gap-8">
         <p>&copy; {today.getFullYear()} Bearmentor</p>
         <nav>
           <ul className="flex flex-wrap gap-4">
