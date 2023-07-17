@@ -19,16 +19,16 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
 
   if (!query) {
     return [
-      { title: formatTitle(`All mentors`) },
-      { name: "description", content: `All mentors in Bearmentor.` },
+      { title: formatTitle(`All mentees`) },
+      { name: "description", content: `All mentees in Bearmentee.` },
     ]
   }
 
   return [
-    { title: formatTitle(`Keyword "${query}" found ${count} mentors`) },
+    { title: formatTitle(`Keyword "${query}" found ${count} mentees`) },
     {
       name: "description",
-      content: `Searching for "${query}" found ${count} mentors.`,
+      content: `Searching for "${query}" found ${count} mentees.`,
     },
   ]
 }
@@ -38,8 +38,8 @@ export const loader = async ({ request }: LoaderArgs) => {
   const query = url.searchParams.get("q")
 
   if (!query) {
-    const mentors = await prisma.user.findMany({
-      where: { tags: { some: { symbol: "MENTOR" } } },
+    const mentees = await prisma.user.findMany({
+      where: { tags: { some: { symbol: "MENTEE" } } },
       orderBy: { updatedAt: "asc" },
       include: {
         avatars: { select: { url: true } },
@@ -48,12 +48,12 @@ export const loader = async ({ request }: LoaderArgs) => {
       },
     })
 
-    return json({ query, count: mentors.length, mentors })
+    return json({ query, count: mentees.length, mentees })
   }
 
-  const mentors = await prisma.user.findMany({
+  const mentees = await prisma.user.findMany({
     where: {
-      tags: { some: { symbol: "MENTOR" } },
+      tags: { some: { symbol: "MENTEE" } },
       OR: [
         { name: { contains: query } },
         { username: { contains: query } },
@@ -68,33 +68,33 @@ export const loader = async ({ request }: LoaderArgs) => {
     },
   })
 
-  return json({ query, count: mentors.length, mentors })
+  return json({ query, count: mentees.length, mentees })
 }
 
 export default function Route() {
-  const { query, count, mentors } = useLoaderData<typeof loader>()
+  const { query, count, mentees } = useLoaderData<typeof loader>()
 
   return (
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header className="space-y-4">
         <h1 className="flex items-center gap-2 text-4xl text-emerald-500">
-          <img src="/images/bear-sunglasses.png" alt="Bear" className="h-10" />
-          <span>Mentors</span>
+          <img src="/images/bear-smile.png" alt="Bear" className="h-10" />
+          <span>Mentees</span>
         </h1>
-        <SearchForm action="/mentors" placeholder="Search for mentors" />
+        <SearchForm action="/mentees" placeholder="Search for mentees" />
       </header>
 
-      {mentors.length > 0 && (
+      {mentees.length > 0 && (
         <section className="space-y-2">
-          {count && !query && <p>All {count} mentors</p>}
+          {count && !query && <p>All {count} mentees</p>}
           {count && query && (
             <p>
-              Found {mentors.length} mentors with keyword "{query}"
+              Found {mentees.length} mentees with keyword "{query}"
             </p>
           )}
 
           <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {mentors.map((user) => {
+            {mentees.map((user) => {
               return (
                 <li key={user.id} className="w-full">
                   <Link to={`/${user.username}`}>
@@ -117,7 +117,7 @@ export default function Route() {
                           </div>
                           <ul className="flex gap-2">
                             {user.tags
-                              .filter((tag) => tag.symbol !== "MENTOR")
+                              .filter((tag) => tag.symbol !== "MENTEE")
                               .map((tag) => {
                                 return (
                                   <li key={tag.id}>

@@ -22,7 +22,7 @@ export async function loader() {
       name: true,
       username: true,
       avatars: { select: { url: true } },
-      tags: { select: { id: true, name: true } },
+      tags: { select: { id: true, symbol: true, name: true } },
       profiles: { select: { headline: true, links: true } },
     },
   })
@@ -118,13 +118,15 @@ export function LandingMentors() {
                         </CardDescription>
                       </div>
                       <ul className="flex gap-2">
-                        {user.tags.map((tag) => {
-                          return (
-                            <li key={tag.id}>
-                              <Badge size="sm">{tag.name}</Badge>
-                            </li>
-                          )
-                        })}
+                        {user.tags
+                          .filter((tag) => tag.symbol !== "MENTOR")
+                          .map((tag) => {
+                            return (
+                              <li key={tag.id}>
+                                <Badge size="sm">{tag.name}</Badge>
+                              </li>
+                            )
+                          })}
                       </ul>
                     </div>
                   </div>

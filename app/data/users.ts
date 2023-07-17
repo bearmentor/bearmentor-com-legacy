@@ -41,7 +41,7 @@ export const dataUsers: DataUser[] = [
     name: "M Haidar Hanif",
     username: "haidar",
     nick: "Haidar",
-    tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
+    tags: ["COLLABORATOR", "FOUNDER", "MENTOR", "DEVELOPER", "DESIGNER"],
     profiles: {
       create: [
         {
