@@ -2,7 +2,7 @@
 import { log } from "~/utils"
 
 import { prisma } from "~/libs"
-import { dataAdminUser, dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import { dataAdminUsers, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 
 async function main() {
   // await seedUserRoles()
@@ -10,7 +10,7 @@ async function main() {
   await seedUsers()
   await seedUserContents()
 
-  await getUsers()
+  // await getUsers()
 }
 
 async function seedUserRoles() {
@@ -56,15 +56,17 @@ async function seedUsers() {
   if (!COLLABORATOR || !MENTOR || !MENTEE || !DEVELOPER || !DESIGNER)
     return null
 
-  const userAdmin = await prisma.user.create({
-    data: {
-      ...dataAdminUser,
-      roleId: ADMIN.id,
-      tags: { connect: { id: COLLABORATOR.id } },
-    },
+  dataAdminUsers.forEach(async (user) => {
+    await prisma.user.create({
+      data: {
+        ...user,
+        roleId: ADMIN.id,
+        tags: { connect: { id: COLLABORATOR.id } },
+      },
+    })
+    console.info(`✅ User "${user.username}" created`)
   })
-  if (!userAdmin) return null
-  console.info(`✅ User ${userAdmin.username} created`)
+  console.info(`✅ Admin users created`)
 
   // Setup data users to connect to the tag ids
   const dataUsersWithTags = dataUsers.map((dataUser) => {
@@ -80,9 +82,9 @@ async function seedUsers() {
   })
 
   // Finally create the users with the tags
-  dataUsersWithTags.forEach(async (dataUser) => {
-    await prisma.user.create({ data: { ...dataUser, roleId: NORMAL.id } })
-    console.info(`✅ User "${dataUser.username}" created`)
+  dataUsersWithTags.forEach(async (user) => {
+    await prisma.user.create({ data: { ...user, roleId: NORMAL.id } })
+    console.info(`✅ User "${user.username}" created`)
   })
 }
 
@@ -110,11 +112,10 @@ async function seedUserContents() {
 
 async function getUsers() {
   console.info("🟣 Get users...")
-
   const users = await prisma.user.findMany({
     select: { username: true, tags: { select: { symbol: true } } },
   })
-  // log(users)
+  log(users)
 }
 
 main()
