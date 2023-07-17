@@ -4,9 +4,7 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 import { prisma } from "~/libs"
 import { formatTitle } from "~/utils"
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
+  AvatarAuto,
   Badge,
   Card,
   CardDescription,
@@ -99,15 +97,12 @@ export default function Route() {
                   <Link to={user.username}>
                     <Card className="p-2 transition hover:opacity-80">
                       <div className="flex gap-4">
-                        <Avatar className="h-24 w-24">
-                          <AvatarImage
-                            src={user.avatars[0]?.url}
-                            alt={user.username}
-                          />
-                          <AvatarFallback>
-                            {user.username[0].toUpperCase()}
-                          </AvatarFallback>
-                        </Avatar>
+                        <AvatarAuto
+                          className="h-24 w-24"
+                          src={user.avatars[0]?.url}
+                          alt={user.username}
+                          fallback={user.username[0].toUpperCase()}
+                        />
                         <div className="flex flex-col justify-between space-y-1">
                           <div>
                             <CardTitle className="text-2xl">

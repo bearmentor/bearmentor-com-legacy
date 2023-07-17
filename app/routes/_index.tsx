@@ -3,9 +3,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
+  AvatarAuto,
   Badge,
   Button,
   Card,
@@ -107,15 +105,12 @@ export function LandingMentors() {
               <Link to={user.username}>
                 <Card className="p-2 transition hover:opacity-80">
                   <div className="flex gap-4">
-                    <Avatar className="h-24 w-24">
-                      <AvatarImage
-                        src={user.avatars[0]?.url}
-                        alt={user.username}
-                      />
-                      <AvatarFallback>
-                        {user.username[0].toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                    <AvatarAuto
+                      className="h-24 w-24"
+                      src={user.avatars[0]?.url}
+                      alt={user.username}
+                      fallback={user.username[0].toUpperCase()}
+                    />
                     <div className="flex flex-col justify-between space-y-1">
                       <div>
                         <CardTitle className="text-2xl">{user.name}</CardTitle>
@@ -162,12 +157,12 @@ export function LandingMentees() {
                 to={user.username}
                 className="flex gap-2 py-1 transition hover:opacity-80"
               >
-                <Avatar className="h-14 w-14">
-                  <AvatarImage src={user.avatars[0]?.url} alt={user.username} />
-                  <AvatarFallback>
-                    {user.username[0].toUpperCase()}
-                  </AvatarFallback>
-                </Avatar>
+                <AvatarAuto
+                  className="h-14 w-14"
+                  src={user.avatars[0]?.url}
+                  alt={user.username}
+                  fallback={user.username[0].toUpperCase()}
+                />
                 <div className="flex items-center">
                   <h3 className="text-base">{user.name}</h3>
                 </div>

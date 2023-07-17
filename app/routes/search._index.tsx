@@ -3,13 +3,7 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatTitle } from "~/utils"
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { AvatarAuto, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query || ""
@@ -97,15 +91,12 @@ export default function Route() {
                     to={`/${user.username}`}
                     className="flex gap-2 py-1 transition hover:opacity-80"
                   >
-                    <Avatar className="h-14 w-14">
-                      <AvatarImage
-                        src={user.avatars[0]?.url}
-                        alt={user.username}
-                      />
-                      <AvatarFallback>
-                        {user.username[0].toUpperCase()}
-                      </AvatarFallback>
-                    </Avatar>
+                    <AvatarAuto
+                      className="h-14 w-14"
+                      src={user.avatars[0]?.url}
+                      alt={user.username}
+                      fallback={user.username[0].toUpperCase()}
+                    />
                     <div>
                       <h3 className="text-lg">{user.name}</h3>
                       <p className="text-muted-foreground">@{user.username}</p>
