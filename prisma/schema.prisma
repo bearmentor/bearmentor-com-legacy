@@ -22,10 +22,10 @@ generator client {
 model UserRole {
   id String @id @default(cuid())
 
-  sequence    Int    @unique // 1 | 2 | 3 | ...
-  symbol      String @unique // "ADMIN" | "MANAGER" | "EDITOR"
-  name        String @unique // "Administrator" | "Manager" | "Editor"
-  description String @db.Text // "Manage everything"
+  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
+  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "Do something"
 
   users User[]
 
@@ -86,10 +86,10 @@ model UserPassword {
 model UserTag {
   id String @id @default(cuid())
 
-  sequence    Int    @unique // 1 | 2 | 3 | ...
-  symbol      String @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
-  name        String @unique // "Mentor" | "Mentee" | "Developer"
-  description String @db.Text // "Do something"
+  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
+  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "Do something"
 
   users User[]
 
