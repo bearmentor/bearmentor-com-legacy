@@ -66,7 +66,7 @@ export function LandingHero() {
           <p className="text-center lg:text-left">
             The mentoring platform for people and organization.
           </p>
-          <div className="space-x-4">
+          <div className="flex flex-wrap justify-center gap-4">
             <Button size="lg" asChild>
               <Link to="/mentors">Discover Mentors</Link>
             </Button>
@@ -117,7 +117,7 @@ export function LandingMentors() {
                           {user.profiles[0]?.headline}
                         </CardDescription>
                       </div>
-                      <ul className="flex gap-2">
+                      <ul className="flex flex-wrap gap-2">
                         {user.tags
                           .filter((tag) => tag.symbol !== "MENTOR")
                           .map((tag) => {

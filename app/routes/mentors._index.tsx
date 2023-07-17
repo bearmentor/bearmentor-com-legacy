@@ -115,7 +115,7 @@ export default function Route() {
                               {user.profiles[0]?.headline}
                             </CardDescription>
                           </div>
-                          <ul className="flex gap-2">
+                          <ul className="flex flex-wrap gap-2">
                             {user.tags
                               .filter((tag) => tag.symbol !== "MENTOR")
                               .map((tag) => {
