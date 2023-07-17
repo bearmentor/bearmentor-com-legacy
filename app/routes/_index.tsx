@@ -16,6 +16,9 @@ import {
 
 export async function loader() {
   const mentors = await prisma.user.findMany({
+    where: { tags: { some: { symbol: "MENTOR" } } },
+    orderBy: { createdAt: "asc" },
+    take: 12,
     select: {
       id: true,
       name: true,
@@ -24,21 +27,18 @@ export async function loader() {
       tags: { select: { id: true, name: true } },
       profiles: { select: { headline: true, links: true } },
     },
-    where: { tags: { some: { symbol: "MENTOR" } } },
-    orderBy: { createdAt: "asc" },
-    take: 12,
   })
 
   const mentees = await prisma.user.findMany({
+    where: { tags: { some: { symbol: "MENTEE" } } },
+    orderBy: { createdAt: "asc" },
+    take: 24,
     select: {
       id: true,
       name: true,
       username: true,
       avatars: { select: { url: true } },
     },
-    where: { tags: { some: { symbol: "MENTEE" } } },
-    orderBy: { createdAt: "asc" },
-    take: 24,
   })
 
   return json({ mentors, mentees })
@@ -101,28 +101,30 @@ export function LandingMentors() {
     <article className="max-w-7xl space-y-4">
       <h2 className="text-emerald-500">Available Mentors</h2>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {mentors.map((mentor) => {
+        {mentors.map((user) => {
           return (
-            <li key={mentor.id} className="w-full">
-              <Link to={mentor.username}>
+            <li key={user.id} className="w-full">
+              <Link to={user.username}>
                 <Card className="p-2 transition hover:opacity-80">
                   <div className="flex gap-4">
-                    <img
-                      src={mentor.avatars[0]?.url}
-                      alt={mentor.name}
-                      className="h-24 w-24 rounded object-cover"
-                    />
+                    <Avatar className="h-24 w-24">
+                      <AvatarImage
+                        src={user.avatars[0]?.url}
+                        alt={user.username}
+                      />
+                      <AvatarFallback>
+                        {user.username[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
                     <div className="flex flex-col justify-between space-y-1">
                       <div>
-                        <CardTitle className="text-2xl">
-                          {mentor.name}
-                        </CardTitle>
+                        <CardTitle className="text-2xl">{user.name}</CardTitle>
                         <CardDescription>
-                          {mentor.profiles[0]?.headline}
+                          {user.profiles[0]?.headline}
                         </CardDescription>
                       </div>
                       <ul className="flex gap-2">
-                        {mentor.tags.map((tag) => {
+                        {user.tags.map((tag) => {
                           return (
                             <li key={tag.id}>
                               <Badge size="sm">{tag.name}</Badge>

@@ -1,12 +1,5 @@
 import { json, type LoaderArgs } from "@remix-run/node"
-import {
-  Form,
-  Link,
-  useLoaderData,
-  useSearchParams,
-  type V2_MetaFunction,
-} from "@remix-run/react"
-import { SearchIcon } from "lucide-react"
+import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { formatTitle } from "~/utils"
@@ -14,9 +7,8 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-  Input,
-  Label,
   Layout,
+  SearchForm,
 } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -87,13 +79,16 @@ export default function Route() {
 
       {count <= 0 && query && (
         <section>
-          <p>No result found for "{query}"</p>
+          <p>No result found for keyword "{query}"</p>
         </section>
       )}
 
       {users.length > 0 && (
         <section className="space-y-2">
           <h2 className="text-emerald-700">Users</h2>
+          <p>
+            Found {users.length} users with keyword "{query}"
+          </p>
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {users.map((user) => {
               return (
@@ -125,30 +120,5 @@ export default function Route() {
 
       {/* <pre className="text-xs">{stringify({ query, count, users })}</pre> */}
     </Layout>
-  )
-}
-
-export function SearchForm({ action = "/search" }: { action?: string }) {
-  const [searchParams] = useSearchParams()
-  const query = searchParams.get("q") || ""
-
-  return (
-    <Form method="GET" action={action} className="w-full">
-      <fieldset className="relative flex items-center gap-1">
-        <Label className="sr-only">Search</Label>
-        <Input
-          name="q"
-          type="search"
-          placeholder="Search"
-          autoComplete="off"
-          autoFocus={true}
-          defaultValue={query}
-          className="block h-12 w-full px-3 py-2 ps-12 text-xl"
-        />
-        <span className="pointer-events-none absolute flex ps-3">
-          <SearchIcon className="h-6 w-6 text-muted-foreground" />
-        </span>
-      </fieldset>
-    </Form>
   )
 }
