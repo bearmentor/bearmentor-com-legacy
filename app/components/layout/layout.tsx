@@ -1,4 +1,4 @@
-import { Footer } from "~/components"
+import { Footer, HeaderNavigation } from "~/components"
 
 interface Props {
   children: React.ReactNode
@@ -7,7 +7,8 @@ interface Props {
 export function Layout({ children }: Props) {
   return (
     <div className="flex min-h-screen flex-col">
-      <main className="flex-[1]">{children}</main>
+      <HeaderNavigation />
+      <main className="flex-[1] lg:ml-16">{children}</main>
       <Footer />
     </div>
   )

@@ -53,21 +53,30 @@ export default function Index() {
 export function LandingHero() {
   return (
     <article className="max-w-3xl space-y-8 py-20 sm:container">
-      <header className="space-y-4">
-        <h1 className="flex flex-wrap items-center gap-2">
-          <img src="/favicon.png" alt="Bear" className="h-16" />
-          <span className="text-emerald-500">Bearmentor</span>
-        </h1>
-        <h2>Brilliant mentoring</h2>
-        <p>The mentoring platform for people and organization.</p>
-      </header>
-
-      <section className="space-y-4">
-        <div className="space-x-4">
-          <Button size="lg">Let's go</Button>
-          <Button size="lg" variant="outline">
-            Sign in
-          </Button>
+      <section className="flex gap-8">
+        <div className="flex w-full flex-col items-center justify-center space-y-4 lg:items-start">
+          <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
+            <img src="/favicon.png" alt="Bear" className="h-16" />
+            <span className="text-emerald-500">Bearmentor</span>
+          </h1>
+          <h2>Brilliant mentoring</h2>
+          <p className="text-center lg:text-left">
+            The mentoring platform for people and organization.
+          </p>
+          <div className="space-x-4">
+            <Button size="lg">Let's go</Button>
+            <Button size="lg" variant="outline">
+              Sign in
+            </Button>
+          </div>
+        </div>
+        <div className="hidden lg:flex">
+          <img
+            src="/images/cats-learning.png"
+            alt="Hero Illustration"
+            className="object-fit"
+            width={300}
+          />
         </div>
       </section>
     </article>
@@ -91,31 +100,33 @@ export function LandingMentors() {
           return (
             <li key={mentor.id} className="w-full">
               <Link to={mentor.username}>
-                <Card className="transition hover:opacity-90">
-                  <CardHeader className="flex gap-4">
+                <Card className="p-2 transition hover:opacity-90">
+                  <div className="flex gap-4">
                     <img
                       src={avatarImageURL}
                       alt={mentor.name}
-                      className="h-20 w-20 rounded object-cover"
+                      className="h-24 w-24 rounded object-cover"
                     />
-                    <div className="space-y-1">
-                      <CardTitle className="text-2xl">{mentor.name}</CardTitle>
-                      <CardDescription>
-                        {mentor.profiles[0]?.headline}
-                      </CardDescription>
+                    <div className="flex flex-col justify-between space-y-1">
+                      <div>
+                        <CardTitle className="text-2xl">
+                          {mentor.name}
+                        </CardTitle>
+                        <CardDescription>
+                          {mentor.profiles[0]?.headline}
+                        </CardDescription>
+                      </div>
+                      <ul className="flex gap-2">
+                        {mentor.tags.map((tag) => {
+                          return (
+                            <li key={tag.id}>
+                              <Badge size="sm">{tag.name}</Badge>
+                            </li>
+                          )
+                        })}
+                      </ul>
                     </div>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="flex gap-2">
-                      {mentor.tags.map((tag) => {
-                        return (
-                          <li key={tag.id}>
-                            <Badge size="sm">{tag.name}</Badge>
-                          </li>
-                        )
-                      })}
-                    </ul>
-                  </CardContent>
+                  </div>
                 </Card>
               </Link>
             </li>
