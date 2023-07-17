@@ -1,12 +1,20 @@
 import { Link } from "@remix-run/react"
+import {
+  HomeIcon,
+  SearchIcon,
+  UnlockIcon,
+  User2Icon,
+  Users2Icon,
+} from "lucide-react"
 
 import { cn } from "~/libs"
 
 const navItems = [
-  { to: "/", text: "Home", icon: "home" },
-  { to: "/mentors", text: "Mentors", icon: "mentors" },
-  { to: "/mentee", text: "Mentee", icon: "mentees" },
-  { to: "/login", text: "Login", icon: "login" },
+  { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
+  { to: "/search", text: "Search", icon: <SearchIcon className="icon" /> },
+  { to: "/mentors", text: "Mentors", icon: <User2Icon className="icon" /> },
+  { to: "/mentees", text: "Mentees", icon: <Users2Icon className="icon" /> },
+  { to: "/login", text: "Login", icon: <UnlockIcon className="icon" /> },
 ]
 
 export function HeaderNavigation() {
@@ -14,20 +22,23 @@ export function HeaderNavigation() {
     <header
       className={cn(
         "border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-950",
-        "fixed bottom-0 left-0 z-10 flex h-14 w-full items-center justify-center border-t-2",
+        "fixed bottom-0 left-0 z-10 flex w-full items-center justify-center border-t-2",
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >
-      <nav className="w-full max-w-lg">
-        <ul className="flex justify-between gap-4 lg:flex-col">
+      <nav className="w-full max-w-sm sm:max-w-lg">
+        <ul className="flex justify-between p-2 sm:gap-4 lg:flex-col">
           {navItems.map((navItem) => {
             return (
               <li key={navItem.to}>
                 <Link
                   to={navItem.to}
-                  className="rounded px-3 py-2 font-bold uppercase hover:bg-stone-800"
+                  className="flex items-center justify-center gap-2 rounded p-2 font-bold hover:bg-stone-800 sm:px-2 sm:py-1"
                 >
-                  {navItem.text}
+                  {navItem.icon}
+                  <span className="hidden sm:block lg:hidden">
+                    {navItem.text}
+                  </span>
                 </Link>
               </li>
             )
