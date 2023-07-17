@@ -127,6 +127,6 @@
 
 @layer components {
   .icon {
-    @apply h-5 w-5 lg:h-10 lg:w-10;
+    @apply h-6 w-6 lg:h-8 lg:w-8;
   }
 }

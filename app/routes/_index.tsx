@@ -64,9 +64,11 @@ export function LandingHero() {
             The mentoring platform for people and organization.
           </p>
           <div className="space-x-4">
-            <Button size="lg">Let's go</Button>
-            <Button size="lg" variant="outline">
-              Sign in
+            <Button size="lg" asChild>
+              <Link to="/mentors">Discover Mentors</Link>
+            </Button>
+            <Button size="lg" variant="outline" asChild>
+              <Link to="/login">Continue Journey</Link>
             </Button>
           </div>
         </div>

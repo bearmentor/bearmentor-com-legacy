@@ -8,7 +8,7 @@ import {
 } from "lucide-react"
 
 import { cn } from "~/libs"
-import { TooltipAuto } from "~/components"
+import { TooltipAuto, TooltipProvider } from "~/components"
 
 const navItems = [
   { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
@@ -29,28 +29,31 @@ export function HeaderNavigation() {
       )}
     >
       <nav className="w-full max-w-3xl">
-        <ul className="flex justify-between gap-10 p-2 sm:gap-4 lg:flex-col">
-          {navItems.map((navItem) => {
-            return (
-              <li key={navItem.to}>
-                <TooltipAuto
-                  content={navItem.text}
-                  className="block sm:hidden lg:block"
-                >
-                  <Link
-                    to={navItem.to}
-                    className="flex items-center justify-center gap-2 rounded p-2 font-bold hover:bg-stone-800 sm:px-2 sm:py-1"
+        <TooltipProvider delayDuration={300}>
+          <ul className="flex justify-between gap-10 p-2 sm:gap-4 lg:flex-col">
+            {navItems.map((navItem) => {
+              return (
+                <li key={navItem.to}>
+                  <TooltipAuto
+                    content={navItem.text}
+                    className="hidden lg:block"
+                    side="right"
                   >
-                    {navItem.icon}
-                    <span className="hidden sm:block lg:hidden">
-                      {navItem.text}
-                    </span>
-                  </Link>
-                </TooltipAuto>
-              </li>
-            )
-          })}
-        </ul>
+                    <Link
+                      to={navItem.to}
+                      className="flex items-center justify-center gap-2 rounded p-2 font-bold hover:bg-stone-800"
+                    >
+                      {navItem.icon}
+                      <span className="hidden sm:block lg:hidden">
+                        {navItem.text}
+                      </span>
+                    </Link>
+                  </TooltipAuto>
+                </li>
+              )
+            })}
+          </ul>
+        </TooltipProvider>
       </nav>
     </header>
   )
