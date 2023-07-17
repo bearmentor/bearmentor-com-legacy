@@ -101,7 +101,7 @@ export function LandingMentors() {
                     <div className="space-y-1">
                       <CardTitle className="text-xl">{mentor.name}</CardTitle>
                       <CardDescription>
-                        {mentor.profiles[0].headline}
+                        {mentor.profiles[0]?.headline}
                       </CardDescription>
                     </div>
                   </CardHeader>
