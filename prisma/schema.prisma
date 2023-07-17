@@ -19,20 +19,6 @@ generator client {
 // User
 // -----------------------------------------------------------------------------
 
-model UserRole {
-  id String @id @default(cuid())
-
-  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
-  name        String  @unique // "Mentor" | "Mentee" | "Developer"
-  sequence    Int?    @unique // 1 | 2 | 3 | ...
-  description String? @db.Text // "Do something"
-
-  users User[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model User {
   id String @id @default(cuid())
 
@@ -68,6 +54,20 @@ model User {
   updatedAt DateTime @updatedAt
 
   @@index([roleId])
+}
+
+model UserRole {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "MENTOR" | "MENTEE" | "DEVELOPER"
+  name        String  @unique // "Mentor" | "Mentee" | "Developer"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "Do something"
+
+  users User[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UserPassword {
@@ -107,7 +107,7 @@ model UserProfile {
   links    Json?
 
   modeName  String?  @default("Default")
-  isPrimary Boolean? @default(false)
+  isPrimary Boolean? @default(true)
   sequence  Int?
 
   createdAt DateTime @default(now())
