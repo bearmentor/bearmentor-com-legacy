@@ -76,7 +76,7 @@ export const dataUsers: DataUser[] = [
     name: "Latifah Dhia I",
     username: "ifa",
     nick: "ifa",
-    tags: ["COLLABORATOR", "ARTIST"],
+    tags: ["COLLABORATOR", "ARTIST", "MENTEE"],
     profiles: {
       create: {
         headline: "Graphic Artist",
@@ -295,5 +295,15 @@ export const dataUsers: DataUser[] = [
     name: "Rofiq Ahmad Mubarok",
     username: "rofiq",
     tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Dandi Rizky Eko Saputro",
+    username: "dandi",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Yosua Halim",
+    username: "yosua",
+    tags: ["DEVELOPER"],
   },
 ]

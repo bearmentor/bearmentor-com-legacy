@@ -48,4 +48,5 @@ export const dataUserTags: DataUserTag[] = [
   { symbol: "FOUNDER", name: "Founder" },
   { symbol: "ORGANIZATION", name: "Organization" },
   { symbol: "COMPANY", name: "Company" },
+  { symbol: "UNKNOWN", name: "Unknown" },
 ]

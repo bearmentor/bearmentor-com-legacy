@@ -23,15 +23,15 @@ export async function loader() {
       profiles: { select: { headline: true, links: true } },
     },
     where: { tags: { some: { symbol: "MENTOR" } } },
+    orderBy: { createdAt: "asc" },
+    take: 12,
   })
 
   const mentees = await prisma.user.findMany({
-    select: {
-      id: true,
-      name: true,
-      username: true,
-    },
+    select: { id: true, name: true, username: true },
     where: { tags: { some: { symbol: "MENTEE" } } },
+    orderBy: { createdAt: "asc" },
+    take: 24,
   })
 
   return json({ mentors, mentees })
@@ -40,7 +40,7 @@ export async function loader() {
 export default function Index() {
   return (
     <Layout>
-      <div className="container space-y-20 px-4 sm:px-8">
+      <div className="space-y-20 px-4 sm:px-8">
         <LandingHero />
         <LandingMentors />
         <LandingMentees />
@@ -52,7 +52,7 @@ export default function Index() {
 
 export function LandingHero() {
   return (
-    <article className="container my-8 max-w-3xl space-y-8">
+    <article className="max-w-3xl space-y-8 py-20 sm:container">
       <header className="space-y-4">
         <h1 className="flex flex-wrap items-center gap-2">
           <img src="/favicon.png" alt="Bear" className="h-16" />
@@ -83,8 +83,8 @@ export function LandingMentors() {
 
   return (
     <article className="max-w-7xl space-y-4">
-      <h2>Available Mentors</h2>
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <h2 className="text-emerald-500">Available Mentors</h2>
+      <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {mentors.map((mentor) => {
           const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentor.username}`
 
@@ -99,7 +99,7 @@ export function LandingMentors() {
                       className="h-20 w-20 rounded object-cover"
                     />
                     <div className="space-y-1">
-                      <CardTitle className="text-xl">{mentor.name}</CardTitle>
+                      <CardTitle className="text-2xl">{mentor.name}</CardTitle>
                       <CardDescription>
                         {mentor.profiles[0]?.headline}
                       </CardDescription>
@@ -135,7 +135,7 @@ export function LandingMentees() {
 
   return (
     <article className="max-w-7xl space-y-4">
-      <h2>Featured Mentees</h2>
+      <h2 className="text-emerald-500">Featured Mentees</h2>
       <ul className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {mentees.map((mentee) => {
           const avatarImageURL = `https://api.dicebear.com/6.x/thumbs/svg?seed=${mentee.username}`
@@ -148,11 +148,11 @@ export function LandingMentees() {
                     <img
                       src={avatarImageURL}
                       alt={mentee.name}
-                      className="h-20 w-20 rounded object-cover"
+                      className="h-14 w-14 rounded object-cover"
                     />
-                    <div className="space-y-1">
-                      <CardTitle className="text-xl">{mentee.name}</CardTitle>
-                    </div>
+                    <CardTitle className="flex items-center text-base leading-normal">
+                      <span>{mentee.name}</span>
+                    </CardTitle>
                   </CardHeader>
                 </Card>
               </Link>
@@ -166,7 +166,7 @@ export function LandingMentees() {
 
 export function LandingDevelopment() {
   return (
-    <article className="container my-8 max-w-3xl space-y-8">
+    <article className="max-w-3xl space-y-8 py-20 sm:container">
       <section className="space-y-4">
         <img
           src="/images/bearmentor.png"

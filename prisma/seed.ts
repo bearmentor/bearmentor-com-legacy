@@ -5,8 +5,8 @@ import { prisma } from "~/libs"
 import { dataAdminUsers, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 
 async function main() {
-  // await seedUserRoles()
-  // await seedUserTags()
+  await seedUserRoles()
+  await seedUserTags()
   await seedUsers()
   await seedUserContents()
 
@@ -53,7 +53,21 @@ async function seedUsers() {
   const MENTEE = tags.find((tag) => tag.symbol === "MENTEE")
   const DEVELOPER = tags.find((tag) => tag.symbol === "DEVELOPER")
   const DESIGNER = tags.find((tag) => tag.symbol === "DESIGNER")
-  if (!COLLABORATOR || !MENTOR || !MENTEE || !DEVELOPER || !DESIGNER)
+  const FOUNDER = tags.find((tag) => tag.symbol === "FOUNDER")
+  const WRITER = tags.find((tag) => tag.symbol === "WRITER")
+  const ARTIST = tags.find((tag) => tag.symbol === "ARTIST")
+  const UNKNOWN = tags.find((tag) => tag.symbol === "UNKNOWN")
+  if (
+    !COLLABORATOR ||
+    !MENTOR ||
+    !MENTEE ||
+    !DEVELOPER ||
+    !DESIGNER ||
+    !FOUNDER ||
+    !WRITER ||
+    !ARTIST ||
+    !UNKNOWN
+  )
     return null
 
   dataAdminUsers.forEach(async (user) => {
@@ -76,7 +90,10 @@ async function seedUsers() {
       if (tag === "MENTEE") return { id: MENTEE.id }
       if (tag === "DEVELOPER") return { id: DEVELOPER.id }
       if (tag === "DESIGNER") return { id: DESIGNER.id }
-      return { id: MENTEE.id }
+      if (tag === "FOUNDER") return { id: FOUNDER.id }
+      if (tag === "WRITER") return { id: WRITER.id }
+      if (tag === "ARTIST") return { id: ARTIST.id }
+      return { id: UNKNOWN.id }
     })
     return { ...dataUser, tags: { connect: selectedTags } }
   })
