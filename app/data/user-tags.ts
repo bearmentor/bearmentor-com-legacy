@@ -1,7 +1,7 @@
 import type { UserTag } from "@prisma/client"
 
-export type DataUserTag = Pick<UserTag, "name"> & {
-  symbol: DataUserTagSymbol
+export type DataUserTag = Pick<UserTag, "name" | "symbol"> & {
+  // symbol: DataUserTagSymbol
   sequence?: UserTag["sequence"]
   description?: UserTag["description"]
 }

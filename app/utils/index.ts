@@ -1,1 +1,2 @@
-export * from "./meta"
+export * from "./log";
+export * from "./meta";

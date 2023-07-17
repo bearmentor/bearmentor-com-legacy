@@ -1,77 +1,87 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { log } from "~/utils"
+
 import { prisma } from "~/libs"
-import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import { dataAdminUser, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 
 async function main() {
-  await seedUserRoles()
-  await seedUserTags()
+  // await seedUserRoles()
+  // await seedUserTags()
   await seedUsers()
   await seedUserContents()
+
+  await getUsers()
 }
 
 async function seedUserRoles() {
   console.info("🟢 Seed user roles...")
   await prisma.userRole.deleteMany()
+  console.info("🟡 Deleted existing user roles...")
 
   await prisma.userRole.createMany({
     data: dataUserRoles,
   })
+  console.info(`✅ Created user roles`)
 }
 
 async function seedUserTags() {
   console.info("🟢 Seed user tags...")
   await prisma.userTag.deleteMany()
+  console.info("🟡 Deleted existing user tags...")
 
   await prisma.userTag.createMany({
     data: dataUserTags,
   })
+  console.info(`✅ Created user tags`)
 }
 
 async function seedUsers() {
   console.info("🟢 Seed users...")
   await prisma.user.deleteMany()
+  console.info("🟡 Deleted existing users...")
 
-  const roleAdmin = await prisma.userRole.findFirst({
-    where: { symbol: "ADMIN" },
-  })
-  if (!roleAdmin) return null
+  // Get existing roles
+  const roles = await prisma.userRole.findMany()
+  const ADMIN = roles.find((role) => role.symbol === "ADMIN")
+  const NORMAL = roles.find((role) => role.symbol === "NORMAL")
+  if (!ADMIN || !NORMAL) return null
+
+  // Get existing tags
+  const tags = await prisma.userTag.findMany()
+  const COLLABORATOR = tags.find((tag) => tag.symbol === "COLLABORATOR")
+  const MENTOR = tags.find((tag) => tag.symbol === "MENTOR")
+  const MENTEE = tags.find((tag) => tag.symbol === "MENTEE")
+  const DEVELOPER = tags.find((tag) => tag.symbol === "DEVELOPER")
+  const DESIGNER = tags.find((tag) => tag.symbol === "DESIGNER")
+  if (!COLLABORATOR || !MENTOR || !MENTEE || !DEVELOPER || !DESIGNER)
+    return null
 
   const userAdmin = await prisma.user.create({
     data: {
-      roleId: roleAdmin.id,
-      name: "Administrator",
-      username: "admin",
-      profiles: {
-        create: {
-          headline: "The Ruler",
-          bio: "I'm just doing my job.",
-          modeName: "Admin",
-          sequence: 1,
-          isPrimary: true,
-        },
-      },
+      ...dataAdminUser,
+      roleId: ADMIN.id,
+      tags: { connect: { id: COLLABORATOR.id } },
     },
   })
   if (!userAdmin) return null
-  console.info(`✅ User "admin" created`)
+  console.info(`✅ User ${userAdmin.username} created`)
 
-  const roleNormal = await prisma.userRole.findFirst({
-    where: { symbol: "NORMAL" },
-  })
-  if (!roleNormal) return null
-
-  const userTagMentor = await prisma.userTag.findFirst({
-    where: { symbol: "MENTOR" },
-  })
-  if (!userTagMentor) return null
-
-  dataUsers.forEach(async (dataUser) => {
-    await prisma.user.create({
-      data: {
-        ...dataUser,
-        roleId: roleNormal.id,
-        tags: { connect: { id: userTagMentor.id } },
-      },
+  // Setup data users to connect to the tag ids
+  const dataUsersWithTags = dataUsers.map((dataUser) => {
+    const selectedTags = dataUser.tags?.map((tag) => {
+      if (tag === "COLLABORATOR") return { id: COLLABORATOR.id }
+      if (tag === "MENTOR") return { id: MENTOR.id }
+      if (tag === "MENTEE") return { id: MENTEE.id }
+      if (tag === "DEVELOPER") return { id: DEVELOPER.id }
+      if (tag === "DESIGNER") return { id: DESIGNER.id }
+      return { id: MENTEE.id }
     })
+    return { ...dataUser, tags: { connect: selectedTags } }
+  })
+
+  // Finally create the users with the tags
+  dataUsersWithTags.forEach(async (dataUser) => {
+    await prisma.user.create({ data: { ...dataUser, roleId: NORMAL.id } })
     console.info(`✅ User "${dataUser.username}" created`)
   })
 }
@@ -96,6 +106,15 @@ async function seedUserContents() {
   })
   if (!contentAdmin) return null
   console.info(`✅ Content by "admin" created`)
+}
+
+async function getUsers() {
+  console.info("🟣 Get users...")
+
+  const users = await prisma.user.findMany({
+    select: { username: true, tags: { select: { symbol: true } } },
+  })
+  // log(users)
 }
 
 main()

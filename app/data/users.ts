@@ -16,6 +16,21 @@ export type DataUserProfile = Pick<
   sequence?: UserProfile["sequence"]
 }
 
+export const dataAdminUser: DataUser = {
+  name: "Administrator",
+  username: "admin",
+  nick: "Admin",
+  profiles: {
+    create: {
+      headline: "The Ruler",
+      bio: "I'm just doing my job.",
+      modeName: "Admin",
+      sequence: 1,
+      isPrimary: true,
+    },
+  },
+}
+
 export const dataUsers: DataUser[] = [
   {
     name: "M Haidar Hanif",
