@@ -1,18 +1,27 @@
+import { cn } from "~/libs"
+
 const footerLinks = [
-  { to: "privacy", name: "Privacy" },
-  { to: "terms", name: "Terms" },
-  { to: "cookies", name: "Cookies policy" },
+  { to: "search", text: "Search" },
+  // { to: "privacy", text: "Privacy" },
+  // { to: "terms", text: "Terms" },
+  // { to: "cookies", text: "Cookies policy" },
 ]
 
-export function Footer() {
+interface Props {
+  className?: string
+}
+
+export function Footer({ className }: Props) {
   const today = new Date()
 
   return (
-    <footer className="mb-10 mt-20 flex justify-center">
+    <footer
+      className={cn("flex justify-center pb-20 pt-20 lg:pb-10", className)}
+    >
       <ul className="flex gap-4 text-muted-foreground">
         <li>&copy; {today.getFullYear()} Bearmentor</li>
         {footerLinks.map((link) => {
-          return <li key={link.to}>{link.name}</li>
+          return <li key={link.to}>{link.text}</li>
         })}
       </ul>
     </footer>

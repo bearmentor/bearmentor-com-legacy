@@ -54,18 +54,24 @@ export default function Route() {
   if (!user) {
     return (
       <Layout>
-        <header>
-          <h2>
-            Sorry, this page isn't available or "{params.username}" is not found
-          </h2>
-          <p className="text-muted-foreground">
-            The link you followed may be broken, or the page may have been
-            removed.
-          </p>
-        </header>
-        <Button variant="link" asChild>
-          <Link to="/">Go back to the landing page</Link>
-        </Button>
+        <section className="flex flex-col items-center justify-center pt-4">
+          <Link to="/" className="transition hover:opacity-80">
+            <img src="/favicon.png" alt="Bear" className="h-12" />
+          </Link>
+          <div className="max-w-md space-y-4 pt-24 text-center">
+            <h2>
+              Sorry, this page isn't available or "{params.username}" is not
+              found
+            </h2>
+            <p className="text-muted-foreground">
+              The link you followed may be broken, or the page may have been
+              removed.
+            </p>
+            <Button asChild>
+              <Link to="/">Back to Home</Link>
+            </Button>
+          </div>
+        </section>
       </Layout>
     )
   }

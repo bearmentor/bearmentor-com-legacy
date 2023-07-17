@@ -196,7 +196,7 @@ export function LandingDevelopment() {
               href="https://github.com/bearmentor"
               target="_blank"
               rel="noreferrer"
-              className="font-bold text-emerald-700 transition-all hover:opacity-80 dark:text-emerald-300"
+              className="font-bold text-emerald-700 transition hover:opacity-80 dark:text-emerald-300"
             >
               github.com/bearmentor
             </a>
