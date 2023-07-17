@@ -102,13 +102,13 @@ model UserProfile {
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId String
 
-  headline String?
-  bio      String?
+  headline String? @default("My headline title")
+  bio      String? @default("This is my bio description.")
   links    Json?
 
   modeName  String?  @default("Default")
   isPrimary Boolean? @default(true)
-  sequence  Int?
+  sequence  Int?     @default(1)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

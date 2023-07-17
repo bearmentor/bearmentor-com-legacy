@@ -2,10 +2,11 @@ import type { User, UserProfile } from "@prisma/client"
 
 import type { DataUserTagSymbol } from "~/data"
 
-export type DataUser = Pick<User, "name" | "username" | "nick"> & {
+export type DataUser = Pick<User, "name" | "username"> & {
+  nick?: User["nick"]
   tags?: DataUserTagSymbol[]
 } & {
-  profiles: { create: DataUserProfile | DataUserProfile[] }
+  profiles?: { create: DataUserProfile | DataUserProfile[] }
 }
 
 export type DataUserProfile = Pick<
@@ -25,8 +26,6 @@ export const dataAdminUser: DataUser = {
       headline: "The Ruler",
       bio: "I'm just doing my job.",
       modeName: "Admin",
-      sequence: 1,
-      isPrimary: true,
     },
   },
 }
@@ -43,16 +42,41 @@ export const dataUsers: DataUser[] = [
           headline: "Software Engineering Mentor",
           bio: "Helping you to learn and build something for good on the web.",
           modeName: "Mentor",
-
-          sequence: 1,
         },
         {
           headline: "Full Stack Web Developer",
           bio: "Building web applications to solve your problems.",
           modeName: "Developer",
           sequence: 2,
+          isPrimary: false,
         },
       ],
+    },
+  },
+  {
+    name: "Maya Asmara",
+    username: "maya",
+    nick: "maya",
+    tags: ["COLLABORATOR", "WRITER"],
+    profiles: {
+      create: {
+        headline: "Writer and Speaker",
+        bio: "Writing for public speaking.",
+        modeName: "Writer",
+      },
+    },
+  },
+  {
+    name: "Latifah Dhia I",
+    username: "ifa",
+    nick: "ifa",
+    tags: ["COLLABORATOR", "ARTIST"],
+    profiles: {
+      create: {
+        headline: "Graphic Artist",
+        bio: "Drawing for illustration.",
+        modeName: "Artist",
+      },
     },
   },
   {
@@ -65,8 +89,6 @@ export const dataUsers: DataUser[] = [
         headline: "Software Engineer",
         bio: "Frontend at Ninja Van",
         modeName: "Engineer",
-
-        sequence: 1,
       },
     },
   },
@@ -95,6 +117,11 @@ export const dataUsers: DataUser[] = [
         modeName: "Designer",
       },
     },
+  },
+  {
+    name: "Jonathan Nicolas",
+    username: "jo",
+    tags: ["MENTEE", "DEVELOPER"],
   },
   {
     name: "Ahmad Marzuki",
@@ -147,5 +174,120 @@ export const dataUsers: DataUser[] = [
         modeName: "Engineer",
       },
     },
+  },
+  {
+    name: "Arsyad Ramadhan",
+    username: "arsyad",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Aunuun Jeffry Mahbuubi",
+    username: "jeffry",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Bernhard Hustomo",
+    username: "berry.sg",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Calvin Wong",
+    username: "calvinwong",
+    tags: ["FOUNDER"],
+  },
+  {
+    name: "Dzaki Fadhlurrohman",
+    username: "dzaki",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Ega Radiegtya",
+    username: "radiegtya",
+    tags: ["FOUNDER"],
+  },
+  {
+    name: "Ego Maragustaf",
+    username: "ego",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Eric Pradana",
+    username: "eric",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Ersan Karimi",
+    username: "ersan",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Fikri Alwan Ramadhan",
+    username: "fikri",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Guntur Kurniawan Heryanto",
+    username: "guntur",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Kresna Galuh",
+    username: "kresnagaluh",
+    tags: ["FOUNDER", "DEVELOPER"],
+  },
+  {
+    name: "Ahmad Oriza",
+    username: "ahmadoriza",
+    tags: ["FOUNDER", "DEVELOPER", "MENTOR"],
+  },
+  {
+    name: "Hadyan Palupi",
+    username: "hadyanpalupi",
+    tags: ["MARKETER"],
+  },
+  {
+    name: "Irsan Sebastian",
+    username: "sanoncode",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Ismal Zikri Damani",
+    username: "ismalzikri",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "M Faris Gibran",
+    username: "mfarisgibran",
+    tags: ["MENTEE", "MARKETER"],
+  },
+  {
+    name: "M Suryadi Triputra",
+    username: "suryadi",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Maruf Hasan",
+    username: "maruf",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Muhammad Farkhan Syafii",
+    username: "farkhan",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Reymond Julio",
+    username: "reymond",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Reza Radityo",
+    username: "radityo",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Rofiq Ahmad Mubarok",
+    username: "rofiq",
+    tags: ["MENTEE", "DEVELOPER"],
   },
 ]

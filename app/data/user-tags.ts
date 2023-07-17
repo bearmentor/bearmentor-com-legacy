@@ -18,6 +18,7 @@ export type DataUserTagSymbol =
   | "MENTOR"
   | "ORGANIZATION"
   | "RECRUITER"
+  | "WRITER"
 
 export const dataUserTags: DataUserTag[] = [
   {
@@ -40,6 +41,7 @@ export const dataUserTags: DataUserTag[] = [
   },
   { symbol: "DEVELOPER", name: "Developer" },
   { symbol: "DESIGNER", name: "Designer" },
+  { symbol: "WRITER", name: "Writer" },
   { symbol: "MARKETER", name: "Marketer" },
   { symbol: "RECRUITER", name: "Recruiter" },
   { symbol: "ARTIST", name: "Artist" },
