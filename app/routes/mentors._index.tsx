@@ -94,7 +94,7 @@ export default function Route() {
             {mentors.map((user) => {
               return (
                 <li key={user.id} className="w-full">
-                  <Link to={user.username}>
+                  <Link to={`/${user.username}`}>
                     <Card className="p-2 transition hover:opacity-80">
                       <div className="flex gap-4">
                         <AvatarAuto
