@@ -8,6 +8,7 @@ import {
 } from "lucide-react"
 
 import { cn } from "~/libs"
+import { TooltipAuto } from "~/components"
 
 const navItems = [
   { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
@@ -26,20 +27,25 @@ export function HeaderNavigation() {
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >
-      <nav className="w-full max-w-sm sm:max-w-lg">
-        <ul className="flex justify-between p-2 sm:gap-4 lg:flex-col">
+      <nav className="w-full max-w-3xl">
+        <ul className="flex justify-between gap-10 p-2 sm:gap-4 lg:flex-col">
           {navItems.map((navItem) => {
             return (
               <li key={navItem.to}>
-                <Link
-                  to={navItem.to}
-                  className="flex items-center justify-center gap-2 rounded p-2 font-bold hover:bg-stone-800 sm:px-2 sm:py-1"
+                <TooltipAuto
+                  content={navItem.text}
+                  className="block sm:hidden lg:block"
                 >
-                  {navItem.icon}
-                  <span className="hidden sm:block lg:hidden">
-                    {navItem.text}
-                  </span>
-                </Link>
+                  <Link
+                    to={navItem.to}
+                    className="flex items-center justify-center gap-2 rounded p-2 font-bold hover:bg-stone-800 sm:px-2 sm:py-1"
+                  >
+                    {navItem.icon}
+                    <span className="hidden sm:block lg:hidden">
+                      {navItem.text}
+                    </span>
+                  </Link>
+                </TooltipAuto>
               </li>
             )
           })}

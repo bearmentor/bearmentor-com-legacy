@@ -4,3 +4,4 @@ export * from "./button";
 export * from "./card";
 export * from "./hover-card";
 export * from "./icon";
+export * from "./tooltip";

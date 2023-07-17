@@ -18,6 +18,7 @@
     "db:studio": "prisma studio --browser none"
   },
   "dependencies": {
+    "@ariakit/react": "0.2.12",
     "@fontsource/anybody": "5.0.5",
     "@fontsource/pt-mono": "5.0.5",
     "@fontsource/pt-sans": "5.0.5",
