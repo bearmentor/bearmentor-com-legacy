@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import type { LinksFunction, V2_MetaFunction } from "@remix-run/node"
 import {
   Links,
@@ -6,10 +7,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useNavigation,
 } from "@remix-run/react"
 import brandFontStyles from "@fontsource/anybody/600.css"
 import monoFontStyles from "@fontsource/pt-mono/index.css"
 import sansFontStyles from "@fontsource/pt-sans/index.css"
+import NProgress from "nprogress"
 
 import styles from "./globals.css"
 
@@ -56,6 +59,13 @@ export const meta: V2_MetaFunction = () => {
 }
 
 export default function App() {
+  const navigation = useNavigation()
+
+  useEffect(() => {
+    if (navigation.state === "idle") NProgress.done()
+    else NProgress.start()
+  }, [navigation.state])
+
   return (
     <html lang="en" className="dark">
       <head>

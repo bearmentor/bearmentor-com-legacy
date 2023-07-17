@@ -24,7 +24,7 @@ export function HeaderNavigation() {
       className={cn(
         "select-none",
         "border-stone-200 bg-stone-50 dark:border-stone-800 dark:bg-stone-950",
-        "fixed bottom-0 left-0 z-10 flex w-full items-center justify-center border-t-2",
+        "fixed bottom-0 left-0 flex w-full items-center justify-center border-t-2",
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >

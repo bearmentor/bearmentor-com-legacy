@@ -99,7 +99,7 @@ export default function Route() {
               return (
                 <li key={user.id}>
                   <Link
-                    to={user.username}
+                    to={`/${user.username}`}
                     className="flex gap-2 py-1 transition hover:opacity-80"
                   >
                     <Avatar className="h-14 w-14">

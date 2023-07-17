@@ -16,7 +16,7 @@ export function Footer({ className }: Props) {
 
   return (
     <footer
-      className={cn("flex justify-center pb-20 pt-20 lg:pb-10", className)}
+      className={cn("flex justify-center pb-20 pt-40 lg:pb-10", className)}
     >
       <div className="flex flex-wrap gap-8 text-muted-foreground">
         <p>&copy; {today.getFullYear()} Bearmentor</p>
