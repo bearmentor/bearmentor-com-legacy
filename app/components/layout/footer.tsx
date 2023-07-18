@@ -30,7 +30,7 @@ export function FooterNavigation() {
   return (
     <nav>
       <ul className="flex flex-wrap gap-4">
-        {footerNavItems.map((navItem) => {
+        {footerNavItems.map(navItem => {
           return (
             <li key={navItem.to}>
               <Link

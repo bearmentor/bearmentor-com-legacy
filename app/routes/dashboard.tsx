@@ -55,7 +55,7 @@ export default function DashboardRoute() {
                 <CardDescription>{user.profiles[0]?.headline}</CardDescription>
               </div>
               <ul className="flex flex-wrap gap-2">
-                {user.tags.map((tag) => {
+                {user.tags.map(tag => {
                   return (
                     <li key={tag.id}>
                       <Badge size="sm">{tag.name}</Badge>

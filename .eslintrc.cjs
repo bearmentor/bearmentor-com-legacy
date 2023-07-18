@@ -5,7 +5,6 @@ module.exports = {
     "@remix-run/eslint-config/node",
     "prettier",
   ],
-  plugins: ["prettier"],
   rules: {
     "react/self-closing-comp": ["warn", { component: true, html: true }],
   },

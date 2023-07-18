@@ -59,21 +59,21 @@ async function seedUsers() {
 
   // Get existing roles
   const roles = await prisma.userRole.findMany()
-  const ADMIN = roles.find((role) => role.symbol === "ADMIN")
-  const NORMAL = roles.find((role) => role.symbol === "NORMAL")
+  const ADMIN = roles.find(role => role.symbol === "ADMIN")
+  const NORMAL = roles.find(role => role.symbol === "NORMAL")
   if (!ADMIN || !NORMAL) return null
 
   // Get existing tags
   const tags = await prisma.userTag.findMany()
-  const COLLABORATOR = tags.find((tag) => tag.symbol === "COLLABORATOR")
-  const MENTOR = tags.find((tag) => tag.symbol === "MENTOR")
-  const MENTEE = tags.find((tag) => tag.symbol === "MENTEE")
-  const DEVELOPER = tags.find((tag) => tag.symbol === "DEVELOPER")
-  const DESIGNER = tags.find((tag) => tag.symbol === "DESIGNER")
-  const FOUNDER = tags.find((tag) => tag.symbol === "FOUNDER")
-  const WRITER = tags.find((tag) => tag.symbol === "WRITER")
-  const ARTIST = tags.find((tag) => tag.symbol === "ARTIST")
-  const UNKNOWN = tags.find((tag) => tag.symbol === "UNKNOWN")
+  const COLLABORATOR = tags.find(tag => tag.symbol === "COLLABORATOR")
+  const MENTOR = tags.find(tag => tag.symbol === "MENTOR")
+  const MENTEE = tags.find(tag => tag.symbol === "MENTEE")
+  const DEVELOPER = tags.find(tag => tag.symbol === "DEVELOPER")
+  const DESIGNER = tags.find(tag => tag.symbol === "DESIGNER")
+  const FOUNDER = tags.find(tag => tag.symbol === "FOUNDER")
+  const WRITER = tags.find(tag => tag.symbol === "WRITER")
+  const ARTIST = tags.find(tag => tag.symbol === "ARTIST")
+  const UNKNOWN = tags.find(tag => tag.symbol === "UNKNOWN")
   if (
     !COLLABORATOR ||
     !MENTOR ||
@@ -88,8 +88,8 @@ async function seedUsers() {
     return null
 
   // Setup data users to connect to the tag ids
-  const dataUsersWithTags = dataUsers.map((user) => {
-    const tags = user.tags?.map((tag) => {
+  const dataUsersWithTags = dataUsers.map(user => {
+    const tags = user.tags?.map(tag => {
       if (tag === "COLLABORATOR") return { id: COLLABORATOR.id }
       if (tag === "MENTOR") return { id: MENTOR.id }
       if (tag === "MENTEE") return { id: MENTEE.id }
@@ -101,7 +101,7 @@ async function seedUsers() {
       return { id: UNKNOWN.id }
     })
 
-    const isCollaborator = user.tags?.find((tag) => tag === "COLLABORATOR")
+    const isCollaborator = user.tags?.find(tag => tag === "COLLABORATOR")
 
     return {
       ...user,
@@ -112,9 +112,9 @@ async function seedUsers() {
   })
 
   // Setup data users to have email and passwords
-  const dataUsersWithCredentials = dataUsersWithTags.map((user) => {
+  const dataUsersWithCredentials = dataUsersWithTags.map(user => {
     const newCred = dataUsersCredentials.find(
-      (cred) => cred.username === user.username,
+      cred => cred.username === user.username,
     )
 
     const hash = bcrypt.hashSync(newCred?.password || "", 10)
@@ -129,7 +129,7 @@ async function seedUsers() {
   })
 
   // Finally create the users with complete fields
-  dataUsersWithCredentials.forEach(async (user) => {
+  dataUsersWithCredentials.forEach(async user => {
     await prisma.user.create({ data: user })
     console.info(`✅ User "${user.username}" created`)
   })
@@ -168,7 +168,7 @@ main()
     console.info("🔵 Seeding complete")
     await prisma.$disconnect()
   })
-  .catch((e) => {
+  .catch(e => {
     console.error(e)
     console.error("🔴 Seeding failed")
     prisma.$disconnect()

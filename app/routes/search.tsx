@@ -94,7 +94,7 @@ export default function Route() {
             Found {users.length} users with keyword "{query}"
           </p>
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
-            {users.map((user) => {
+            {users.map(user => {
               return (
                 <li key={user.id}>
                   <Link

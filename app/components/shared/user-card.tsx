@@ -28,10 +28,10 @@ export function UserCard({ user, filterSymbol }: Props) {
           </div>
           <ul className="flex flex-wrap gap-1 sm:gap-2">
             {user.tags
-              .filter((tag) => {
+              .filter(tag => {
                 return !filterSymbol || !filterSymbol.includes(tag.symbol)
               })
-              .map((tag) => {
+              .map(tag => {
                 return (
                   <li key={tag.id}>
                     <Badge size="sm">{tag.name}</Badge>

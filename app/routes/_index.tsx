@@ -93,7 +93,7 @@ export function LandingMentors() {
     <article className="w-full max-w-7xl space-y-4">
       <h2 className="text-emerald-500">Available Mentors</h2>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        {mentors.map((user) => {
+        {mentors.map(user => {
           return (
             <li key={user.id} className="w-full">
               <Link to={user.username}>
@@ -118,7 +118,7 @@ export function LandingMentees() {
     <article className="w-full max-w-7xl space-y-4">
       <h2 className="text-emerald-500">Featured Mentees</h2>
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {mentees.map((user) => {
+        {mentees.map(user => {
           return (
             <li key={user.id}>
               <Link

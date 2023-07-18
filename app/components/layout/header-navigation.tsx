@@ -35,7 +35,7 @@ export function HeaderNavigation() {
       <nav className="w-full max-w-md sm:max-w-3xl">
         <TooltipProvider delayDuration={300}>
           <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
-            {navItems.map((navItem) => {
+            {navItems.map(navItem => {
               return (
                 <li key={navItem.to}>
                   <TooltipAuto

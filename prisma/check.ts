@@ -24,7 +24,7 @@ main()
     console.info("🔵 Checking complete")
     await prisma.$disconnect()
   })
-  .catch((e) => {
+  .catch(e => {
     console.error(e)
     console.error("🔴 Checking failed")
     prisma.$disconnect()
