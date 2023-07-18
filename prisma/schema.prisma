@@ -23,15 +23,11 @@ model User {
   id String @id @default(cuid())
 
   name     String
-  username String @unique(map: "User.username_unique")
+  username String  @unique(map: "User.username_unique")
+  nick     String?
 
-  nick String?
-
-  email String? @unique(map: "User.email_unique")
-  phone String? @unique(map: "User.phone_unique")
-
-  password      UserPassword?
-  notifications UserNotification[]
+  email String? @unique(map: "User.email_unique") // TODO: Multiple emails
+  phone String? @unique(map: "User.phone_unique") // TODO: Multiple phones
 
   role   UserRole? @relation(fields: [roleId], references: [id], onUpdate: Cascade)
   roleId String?
@@ -49,6 +45,9 @@ model User {
   emailVerifiedAt DateTime?
   phoneIsVerified Boolean?  @default(false)
   phoneVerifiedAt DateTime?
+
+  password      UserPassword?
+  notifications UserNotification[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

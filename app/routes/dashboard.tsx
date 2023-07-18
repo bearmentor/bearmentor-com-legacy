@@ -11,9 +11,9 @@ export const loader = async ({ request }: LoaderArgs) => {
 }
 
 export default function DashboardRoute() {
-  const { userData: user } = useRootLoaderData()
+  const { userData } = useRootLoaderData()
 
-  if (!user) {
+  if (!userData) {
     return <p>Sorry something went wrong</p>
   }
 
@@ -21,20 +21,23 @@ export default function DashboardRoute() {
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header>
         <span>Welcome,</span>
-        <h2>{user?.name}</h2>
+        <h2>{userData?.name}</h2>
         <p className="text-muted-foreground">This is your dashboard.</p>
       </header>
 
       <section className="space-y-2">
         <h4>Your profile card:</h4>
-        <Link to={`/${user.username}`} className="block">
-          <UserCard user={user as any} />
+        <Link to={`/${userData.username}`} className="block">
+          <UserCard user={userData as any} />
         </Link>
       </section>
 
       <section className="flex gap-2">
+        <Button asChild>
+          <Link to="/settings">Settings</Link>
+        </Button>
         <Button asChild variant="secondary">
-          <Link to="/profile">Edit Profile</Link>
+          <Link to="/settings/profile">Edit Profile</Link>
         </Button>
         <Form method="POST" action="/logout">
           <Button type="submit" variant="destructive">

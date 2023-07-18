@@ -83,7 +83,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   return json(
     { nodeEnv, userSession, userData },
-    { headers: createCacheHeaders(request, 3600) },
+    { headers: createCacheHeaders(request, 60) },
   )
 }
 
