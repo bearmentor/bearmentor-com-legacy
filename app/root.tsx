@@ -71,16 +71,18 @@ export const meta: V2_MetaFunction = () => {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const nodeEnv = process.env.NODE_ENV
-  const user = await authenticator.isAuthenticated(request)
-  const userData = await modelUser.getForSession({ id: String(user?.id) })
+  const userSession = await authenticator.isAuthenticated(request)
+  const userData = await modelUser.getForSession({
+    id: String(userSession?.id),
+  })
 
   // If there is an authenticated user, but the user doesn't exist anymore
-  if (user && !userData) {
+  if (userSession && !userData) {
     return redirect(`/logout`)
   }
 
   return json(
-    { nodeEnv, user, userData },
+    { nodeEnv, userSession, userData },
     { headers: createCacheHeaders(request, 3600) },
   )
 }

@@ -108,16 +108,38 @@ export const dataUsers: DataUser[] = [
     },
   },
   {
+    name: "Muhammad Haekal",
+    username: "haekal",
+    nick: "haekal",
+    tags: ["MENTOR", "DEVELOPER"],
+    profiles: {
+      create: [
+        {
+          headline: "Senior Frontend Engineer at Ajaib",
+          bio: "👋👋👋",
+          modeName: "Engineer",
+        },
+      ],
+    },
+  },
+  {
     name: "Zain Fathoni",
     username: "zain",
     nick: "Zain",
     tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
     profiles: {
-      create: {
-        headline: "Software Engineer at Ninja Van",
-        bio: "An Indonesian 🇮🇩 Developer Living in Singapore 🇸🇬",
-        modeName: "Engineer",
-      },
+      create: [
+        {
+          headline: "Software Engineer at Ninja Van",
+          bio: "An Indonesian 🇮🇩 Developer Living in Singapore 🇸🇬",
+          modeName: "Engineer",
+        },
+        {
+          headline: "Pejuang Kode",
+          bio: "Berjuang untuk kode dan masyarakat",
+          modeName: "Pejuan",
+        },
+      ],
     },
   },
   {

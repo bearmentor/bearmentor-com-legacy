@@ -130,13 +130,13 @@ async function seedUsers() {
 
   // Upsert (update or insert/create if new) the users with complete fields
   dataUsersWithCredentials.forEach(async user => {
-    await prisma.user.upsert({
+    const upsertedUser = await prisma.user.upsert({
       where: { username: user.username },
       update: user,
       create: user,
     })
 
-    console.info(`✅ User "${user.username}" created`)
+    console.info(`✅ User "${upsertedUser.username}" upserted`)
   })
 }
 

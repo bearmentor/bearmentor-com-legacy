@@ -6,6 +6,7 @@ import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatTitle } from "~/utils"
+import { useRootLoaderData } from "~/hooks"
 import { AvatarAuto, Button, Layout } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
@@ -46,8 +47,9 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 export default function Route() {
-  const { user } = useLoaderData<typeof loader>()
   const params = useParams()
+  const { userSession } = useRootLoaderData()
+  const { user } = useLoaderData<typeof loader>()
 
   const defaultCoverImageURL = `https://images.unsplash.com/photo-1571745544682-143ea663cf2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80`
 
@@ -82,6 +84,8 @@ export default function Route() {
     )
   }
 
+  const isOwner = userSession?.id === user.id
+
   return (
     <Layout>
       <section className="flex justify-center sm:px-2">
@@ -95,15 +99,25 @@ export default function Route() {
       </section>
 
       <section className="max-w-3xl space-y-8 px-4 sm:container sm:px-8">
-        <header className="-mt-16">
-          <AvatarAuto
-            className="mb-4 h-32 w-32 outline outline-4 outline-background"
-            src={user.avatars[0]?.url}
-            alt={user.username}
-            fallback={user.username[0].toUpperCase()}
-          />
-          <h1 className="text-4xl">{user.name}</h1>
-          <h2 className="text-2xl text-muted-foreground">@{user.username}</h2>
+        <header className="-mt-16 flex flex-wrap items-end justify-between">
+          <div>
+            <AvatarAuto
+              className="mb-4 h-32 w-32 outline outline-4 outline-background"
+              src={user.avatars[0]?.url}
+              alt={user.username}
+              fallback={user.username[0].toUpperCase()}
+            />
+            <h1 className="text-4xl">{user.name}</h1>
+            <h2 className="text-2xl text-muted-foreground">@{user.username}</h2>
+          </div>
+
+          {isOwner && (
+            <div>
+              <Button asChild variant="outline" size="sm">
+                <Link to="/profile">Edit Profile</Link>
+              </Button>
+            </div>
+          )}
         </header>
 
         <div className="space-y-2">

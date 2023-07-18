@@ -131,8 +131,11 @@ export function LandingMentees() {
                   alt={user.username}
                   fallback={user.username[0].toUpperCase()}
                 />
-                <div className="flex items-center">
+                <div>
                   <h3 className="text-base">{user.name}</h3>
+                  <p className="text-sm text-muted-foreground">
+                    @{user.username}
+                  </p>
                 </div>
               </Link>
             </li>
