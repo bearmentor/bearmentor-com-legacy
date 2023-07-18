@@ -41,7 +41,7 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function Index() {
   return (
-    <Layout className="space-y-20 px-4 sm:px-8">
+    <Layout className="flex flex-col items-center justify-center gap-20 px-4 sm:px-8">
       <LandingHero />
       <LandingMentors />
       <LandingMentees />
@@ -52,7 +52,7 @@ export default function Index() {
 
 export function LandingHero() {
   return (
-    <article className="max-w-3xl space-y-8 pb-10 pt-20 sm:container">
+    <article className="w-full max-w-3xl space-y-8 pb-10 pt-20">
       <section className="flex gap-8">
         <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
@@ -90,7 +90,7 @@ export function LandingMentors() {
   }
 
   return (
-    <article className="max-w-7xl space-y-4">
+    <article className="w-full max-w-7xl space-y-4">
       <h2 className="text-emerald-500">Available Mentors</h2>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {mentors.map((user) => {
@@ -115,7 +115,7 @@ export function LandingMentees() {
   }
 
   return (
-    <article className="max-w-7xl space-y-4">
+    <article className="w-full max-w-7xl space-y-4">
       <h2 className="text-emerald-500">Featured Mentees</h2>
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {mentees.map((user) => {
@@ -145,7 +145,7 @@ export function LandingMentees() {
 
 export function LandingDevelopment() {
   return (
-    <article className="max-w-3xl space-y-8 py-20 sm:container">
+    <article className="w-full max-w-3xl space-y-8 py-20">
       <section className="space-y-4">
         <img
           src="/images/bearmentor.png"
@@ -153,14 +153,16 @@ export function LandingDevelopment() {
           className="rounded bg-slate-900"
         />
 
-        <ul className="space-y-2">
-          <li>
+        <div className="space-y-4">
+          <p>
             Bearmentor is available as open source, free to use, still has
-            manual payment process, will have automatic payment options, and
-            also making a business/revenue/profit model in mind for
+            manual payment process, will have automatic payment options.
+          </p>
+          <p>
+            But also making a business, revenue, profit model in mind for
             sustainability.
-          </li>
-          <li>
+          </p>
+          <p>
             This is still in very early development. Check out{" "}
             <a
               href="https://github.com/bearmentor"
@@ -170,8 +172,8 @@ export function LandingDevelopment() {
             >
               github.com/bearmentor
             </a>
-          </li>
-        </ul>
+          </p>
+        </div>
       </section>
     </article>
   )

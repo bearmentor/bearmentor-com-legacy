@@ -90,16 +90,16 @@
     @apply text-4xl font-bold sm:text-5xl md:text-6xl;
   }
   h2 {
-    @apply text-3xl font-semibold;
+    @apply text-2xl font-semibold sm:text-3xl;
   }
   h3 {
-    @apply text-2xl font-semibold;
+    @apply text-xl font-semibold sm:text-2xl;
   }
   h4 {
-    @apply text-xl font-semibold;
+    @apply text-lg font-semibold sm:text-xl;
   }
   h5 {
-    @apply text-lg font-semibold;
+    @apply text-base font-semibold sm:text-lg;
   }
   h6 {
     @apply text-base font-semibold;
@@ -119,7 +119,7 @@
   }
   p,
   li {
-    @apply text-lg;
+    @apply text-lg leading-snug;
   }
 }
 

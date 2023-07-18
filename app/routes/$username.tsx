@@ -51,7 +51,7 @@ export default function Route() {
 
   if (!user) {
     return (
-      <Layout>
+      <Layout className="px-4 sm:px-8">
         <section className="flex flex-col items-center justify-center pt-4">
           <Link to="/" className="transition hover:opacity-80">
             <img src="/favicon.png" alt="Bear" className="h-12" />
@@ -63,7 +63,8 @@ export default function Route() {
               className="h-40 object-contain"
             />
             <h2>
-              Sorry, this page isn't available or "{params.username}" is not
+              This page isn't available or{" "}
+              <span className="text-red-500">"{params.username}"</span> is not
               found
             </h2>
             <p className="text-muted-foreground">
