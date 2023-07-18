@@ -12,11 +12,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
   useNavigation,
 } from "@remix-run/react"
 import brandFontStyles from "@fontsource/anybody/600.css"
 import monoFontStyles from "@fontsource/pt-mono/index.css"
 import sansFontStyles from "@fontsource/pt-sans/index.css"
+import { Analytics } from "@vercel/analytics/react"
 import { modelUser } from "~/models"
 import NProgress from "nprogress"
 
@@ -68,6 +70,7 @@ export const meta: V2_MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
+  const nodeEnv = process.env.NODE_ENV
   const user = await authenticator.isAuthenticated(request)
   const userData = await modelUser.getForSession({ id: String(user?.id) })
 
@@ -77,12 +80,13 @@ export const loader = async ({ request }: LoaderArgs) => {
   }
 
   return json(
-    { user, userData },
+    { nodeEnv, user, userData },
     { headers: createCacheHeaders(request, 3600) },
   )
 }
 
 export default function App() {
+  const { nodeEnv } = useLoaderData<typeof loader>()
   const navigation = useNavigation()
 
   useEffect(() => {
@@ -103,6 +107,7 @@ export default function App() {
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
+        {nodeEnv !== "development" && <Analytics />}
       </body>
     </html>
   )
