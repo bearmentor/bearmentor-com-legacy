@@ -11,6 +11,8 @@
     "lint:fix": "eslint \"app/**/*.+(ts|tsx)\" --fix",
     "format": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
     "format:fix": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
+    "check": "pnpm format && pnpm lint && pnpm build",
+    "check:fix": "pnpm format:fix && pnpm lint:fix && pnpm build",
     "db:gen": "prisma generate",
     "db:push": "prisma db push",
     "db:migrate": "prisma migrate dev",
