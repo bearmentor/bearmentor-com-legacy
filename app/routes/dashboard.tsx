@@ -1,17 +1,9 @@
 import { type LoaderArgs } from "@remix-run/node"
-import { Form } from "@remix-run/react"
+import { Form, Link } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
 import { useRootLoaderData } from "~/hooks"
-import {
-  AvatarAuto,
-  Badge,
-  Button,
-  Card,
-  CardDescription,
-  CardTitle,
-  Layout,
-} from "~/components"
+import { Button, Layout, UserCard } from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
@@ -41,31 +33,9 @@ export default function DashboardRoute() {
       </section>
 
       <section className="flex max-w-xs justify-start">
-        <Card className="p-2">
-          <div className="flex gap-4">
-            <AvatarAuto
-              className="h-24 w-24"
-              src={user.avatars[0]?.url}
-              alt={user.username}
-              fallback={user.username[0].toUpperCase()}
-            />
-            <div className="flex flex-col justify-between space-y-1">
-              <div>
-                <CardTitle className="text-2xl">{user.name}</CardTitle>
-                <CardDescription>{user.profiles[0]?.headline}</CardDescription>
-              </div>
-              <ul className="flex flex-wrap gap-2">
-                {user.tags.map(tag => {
-                  return (
-                    <li key={tag.id}>
-                      <Badge size="sm">{tag.name}</Badge>
-                    </li>
-                  )
-                })}
-              </ul>
-            </div>
-          </div>
-        </Card>
+        <Link to={user.username}>
+          <UserCard user={user as any} />
+        </Link>
       </section>
     </Layout>
   )

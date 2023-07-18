@@ -49,6 +49,8 @@ export default function Route() {
   const { user } = useLoaderData<typeof loader>()
   const params = useParams()
 
+  const defaultCoverImageURL = `https://images.unsplash.com/photo-1571745544682-143ea663cf2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80`
+
   if (!user) {
     return (
       <Layout className="px-4 sm:px-8">
@@ -80,21 +82,19 @@ export default function Route() {
     )
   }
 
-  const coverImageURL = `https://images.unsplash.com/photo-1571745544682-143ea663cf2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80`
-
   return (
     <Layout>
-      <section className="flex justify-center px-2">
+      <section className="flex justify-center sm:px-2">
         <img
           className="h-32 rounded-b-lg object-cover sm:h-48 md:h-60"
           alt="User Cover"
-          src={coverImageURL}
+          src={defaultCoverImageURL}
           height={240}
           width={1440}
         />
       </section>
 
-      <section className="container max-w-3xl space-y-8">
+      <section className="max-w-3xl space-y-8 px-4 sm:container sm:px-8">
         <header className="-mt-16">
           <AvatarAuto
             className="mb-4 h-32 w-32 outline outline-4 outline-background"
@@ -103,7 +103,7 @@ export default function Route() {
             fallback={user.username[0].toUpperCase()}
           />
           <h1 className="text-4xl">{user.name}</h1>
-          <h2 className="text-3xl text-muted-foreground">@{user.username}</h2>
+          <h2 className="text-2xl text-muted-foreground">@{user.username}</h2>
         </header>
 
         <div className="space-y-2">
