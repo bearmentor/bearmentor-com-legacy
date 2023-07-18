@@ -3,7 +3,7 @@ import { Link, type V2_MetaFunction } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
 import { formatTitle } from "~/utils"
-import { Button, Layout, UserAuthForm } from "~/components"
+import { Layout, UserAuthForm } from "~/components"
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -25,12 +25,6 @@ export default function Route() {
   return (
     <Layout hasFooter={false}>
       <div className="container relative grid h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <Button asChild variant="ghost">
-          <Link to="/register" className="absolute right-4 top-4">
-            Register
-          </Link>
-        </Button>
-
         <section className="lg:p-8">
           <div className="mx-auto flex w-full max-w-sm flex-col space-y-8">
             <div className="flex flex-col space-y-2">
