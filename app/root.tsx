@@ -17,13 +17,13 @@ import {
 import brandFontStyles from "@fontsource/anybody/600.css"
 import monoFontStyles from "@fontsource/pt-mono/index.css"
 import sansFontStyles from "@fontsource/pt-sans/index.css"
+import { modelUser } from "~/models"
 import NProgress from "nprogress"
 
 import { authenticator } from "~/services/auth.server"
-import { prisma } from "~/libs"
+import { createCacheHeaders } from "~/utils"
 
 import styles from "./globals.css"
-import { modelUser } from "./models"
 
 export const links: LinksFunction = () => [
   {
@@ -76,7 +76,10 @@ export const loader = async ({ request }: LoaderArgs) => {
     return redirect(`/logout`)
   }
 
-  return json({ user, userData })
+  return json(
+    { user, userData },
+    { headers: createCacheHeaders(request, 3600) },
+  )
 }
 
 export default function App() {

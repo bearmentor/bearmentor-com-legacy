@@ -7,6 +7,9 @@ import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
 // Firstly check ~/data/README.md
 import dataUsersCredentials from "~/data/users-credentials.json"
 
+/**
+ * Main
+ */
 async function main() {
   await seedUserRoles()
   await seedUserTags()
@@ -16,6 +19,9 @@ async function main() {
   await getUsers()
 }
 
+/**
+ * User Roles
+ */
 async function seedUserRoles() {
   console.info("🟢 Seed user roles...")
   await prisma.userRole.deleteMany()
@@ -27,6 +33,9 @@ async function seedUserRoles() {
   console.info(`✅ Created user roles`)
 }
 
+/**
+ * User Tags
+ */
 async function seedUserTags() {
   console.info("🟢 Seed user tags...")
   await prisma.userTag.deleteMany()
@@ -38,6 +47,9 @@ async function seedUserTags() {
   console.info(`✅ Created user tags`)
 }
 
+/**
+ * Users
+ */
 async function seedUsers() {
   console.info("🟢 Seed users...")
   await prisma.user.deleteMany()
@@ -159,6 +171,9 @@ async function getUsers() {
   log(usernames)
 }
 
+/**
+ * Run
+ */
 main()
   .then(async () => {
     console.info("🔵 Seeding complete")

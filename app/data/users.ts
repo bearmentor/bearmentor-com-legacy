@@ -388,4 +388,14 @@ export const dataUsers: DataUser[] = [
     username: "yosua",
     tags: ["DEVELOPER"],
   },
+  {
+    name: "Ahyana Rizky Pratama",
+    username: "ahyanarizky",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "R Adysurya Agus",
+    username: "r17x",
+    tags: ["MENTOR", "DEVELOPER"],
+  },
 ]

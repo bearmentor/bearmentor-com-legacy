@@ -2,7 +2,7 @@ import { json, type LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatTitle } from "~/utils"
+import { createCacheHeaders, formatTitle } from "~/utils"
 import {
   AvatarAuto,
   Badge,
@@ -48,7 +48,10 @@ export const loader = async ({ request }: LoaderArgs) => {
       },
     })
 
-    return json({ query, count: mentees.length, mentees })
+    return json(
+      { query, count: mentees.length, mentees },
+      { headers: createCacheHeaders(request, 3600) },
+    )
   }
 
   const mentees = await prisma.user.findMany({

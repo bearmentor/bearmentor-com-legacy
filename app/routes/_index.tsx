@@ -188,8 +188,10 @@ export function LandingDevelopment() {
 
         <ul className="space-y-2">
           <li>
-            Bearmentor is free to use, available as open source, but also has
-            business/revenue/profit model in mind for sustainability.
+            Bearmentor is available as open source, free to use, still has
+            manual payment process, will have automatic payment options, and
+            also making a business/revenue/profit model in mind for
+            sustainability.
           </li>
           <li>
             This is still in very early development. Check out{" "}
@@ -203,10 +205,6 @@ export function LandingDevelopment() {
             </a>
           </li>
         </ul>
-
-        <pre className="rounded bg-stone-200 p-2 dark:bg-stone-900">
-          <code>console.log("Hello, Bear")</code>
-        </pre>
       </section>
     </article>
   )

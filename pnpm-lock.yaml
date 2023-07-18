@@ -57,8 +57,8 @@ dependencies:
     specifier: 2.4.3
     version: 2.4.3
   class-variance-authority:
-    specifier: 0.6.1
-    version: 0.6.1
+    specifier: 0.7.0
+    version: 0.7.0
   clsx:
     specifier: 2.0.0
     version: 2.0.0
@@ -66,8 +66,8 @@ dependencies:
     specifier: ^3.6.12
     version: 3.6.12
   lucide-react:
-    specifier: 0.260.0
-    version: 0.260.0(react@18.2.0)
+    specifier: 0.261.0
+    version: 0.261.0(react@18.2.0)
   nprogress:
     specifier: 0.2.0
     version: 0.2.0
@@ -87,8 +87,8 @@ dependencies:
     specifier: 6.6.0
     version: 6.6.0(@remix-run/react@1.18.1)(@remix-run/server-runtime@1.18.1)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
   tailwind-merge:
-    specifier: 1.13.2
-    version: 1.13.2
+    specifier: 1.14.0
+    version: 1.14.0
   tailwindcss:
     specifier: 3.3.3
     version: 3.3.3(ts-node@10.9.1)
@@ -3678,10 +3678,10 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /class-variance-authority@0.6.1:
-    resolution: {integrity: sha512-eurOEGc7YVx3majOrOb099PNKgO3KnKSApOprXI4BTq6bcfbqbQXPN2u+rPPmIJ2di23bMwhk0SxCCthBmszEQ==}
+  /class-variance-authority@0.7.0:
+    resolution: {integrity: sha512-jFI8IQw4hczaL4ALINxqLEXQbWcNjoSkloa4IaufXCJr6QawJyw7tuRysRsrE8w2p/4gGaxKIt/hX3qz/IbD1A==}
     dependencies:
-      clsx: 1.2.1
+      clsx: 2.0.0
     dev: false
 
   /clean-stack@2.2.0:
@@ -3716,11 +3716,6 @@ packages:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
     dev: true
-
-  /clsx@1.2.1:
-    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
-    engines: {node: '>=6'}
-    dev: false
 
   /clsx@2.0.0:
     resolution: {integrity: sha512-rQ1+kcj+ttHG0MKVGBUXwayCCF1oh39BF5COIpRzuCEv8Mwjv0XucrI2ExNTOn9IlLifGClWQcU9BrZORvtw6Q==}
@@ -6210,8 +6205,8 @@ packages:
       yallist: 4.0.0
     dev: true
 
-  /lucide-react@0.260.0(react@18.2.0):
-    resolution: {integrity: sha512-xN6wuhUlcXeS4GsxZpd2DZp+m1jEZPckuCr90nQAXKRNl63GZ4KshIcGmqJEUqEygmv8Rf99MhcwF3DqBqQ9Dg==}
+  /lucide-react@0.261.0(react@18.2.0):
+    resolution: {integrity: sha512-gzxEvIxf8+hGbm2ZQU/VP5TxTcnTu3ODDmYoS3a53wC4gkW9ukxmexKjTcZUzz3q8ema+DMwmPypx9Z0Bvvxog==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
@@ -8312,8 +8307,8 @@ packages:
       tslib: 2.6.0
     dev: true
 
-  /tailwind-merge@1.13.2:
-    resolution: {integrity: sha512-R2/nULkdg1VR/EL4RXg4dEohdoxNUJGLMnWIQnPKL+O9Twu7Cn3Rxi4dlXkDzZrEGtR+G+psSXFouWlpTyLhCQ==}
+  /tailwind-merge@1.14.0:
+    resolution: {integrity: sha512-3mFKyCo/MBcgyOTlrY8T7odzZFx+w+qKSMAmdFzRvqBfLlSigU6TZnlFHK0lkMwj9Bj8OYU+9yW9lmGuS0QEnQ==}
     dev: false
 
   /tailwindcss-animate@1.0.6(tailwindcss@3.3.3):

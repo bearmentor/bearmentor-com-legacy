@@ -9,7 +9,14 @@ export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query || ""
   const count = data?.count || 0
 
-  if (count <= 0) {
+  if (!query && !count) {
+    return [
+      { title: formatTitle(`Search anything`) },
+      { name: "description", content: `Search for various information.` },
+    ]
+  }
+
+  if (query && !count) {
     return [
       { title: formatTitle(`Keyword "${query}" has no users`) },
       { name: "description", content: `No search users.` },
