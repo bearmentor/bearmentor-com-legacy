@@ -33,7 +33,7 @@ export function UserCard({ user, filterSymbol }: Props) {
         <div className="flex flex-col justify-between">
           <div>
             <CardTitle className="text-2xl">{user.name}</CardTitle>
-            <h4 className="text-base">@{user.username}</h4>
+            <p className="text-muted-foreground">@{user.username}</p>
           </div>
           <CardDescription>{user.profiles[0]?.headline}</CardDescription>
         </div>
