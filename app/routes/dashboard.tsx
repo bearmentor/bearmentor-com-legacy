@@ -20,22 +20,27 @@ export default function DashboardRoute() {
   return (
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header>
-        <h2>Welcome, {user?.name}</h2>
-        <p>This is the dashboard.</p>
+        <span>Welcome,</span>
+        <h2>{user?.name}</h2>
+        <p className="text-muted-foreground">This is your dashboard.</p>
       </header>
 
-      <section>
+      <section className="space-y-2">
+        <h4>Your profile card:</h4>
+        <Link to={`/${user.username}`} className="block">
+          <UserCard user={user as any} />
+        </Link>
+      </section>
+
+      <section className="flex gap-2">
+        <Button asChild variant="secondary">
+          <Link to="/profile">Edit Profile</Link>
+        </Button>
         <Form method="POST" action="/logout">
           <Button type="submit" variant="destructive">
             Logout
           </Button>
         </Form>
-      </section>
-
-      <section className="flex max-w-xs justify-start">
-        <Link to={user.username}>
-          <UserCard user={user as any} />
-        </Link>
       </section>
     </Layout>
   )

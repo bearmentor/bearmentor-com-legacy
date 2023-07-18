@@ -70,7 +70,7 @@ export default function Route() {
   const { query, count, mentees } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="space-y-8 px-4 py-4 sm:px-8">
+    <Layout className="max-w-7xl space-y-8 px-4 py-4 sm:px-8">
       <header className="space-y-4">
         <h1 className="flex items-center gap-2 text-4xl text-emerald-500">
           <img src="/images/bear-smile.png" alt="Bear" className="h-10" />
@@ -83,7 +83,7 @@ export default function Route() {
         <section className="space-y-2">
           {count && !query && <p>All {count} mentees</p>}
           {count && query && (
-            <p>
+            <p className="text-muted-foreground">
               Found {mentees.length} mentees with keyword "{query}"
             </p>
           )}

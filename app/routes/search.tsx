@@ -72,7 +72,7 @@ export default function Route() {
   const { query, count, users } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="space-y-8 px-4 py-4 sm:px-8">
+    <Layout className="max-w-7xl space-y-8 px-4 py-4 sm:px-8">
       <header className="space-y-4">
         <h1 className="flex items-center gap-2 text-4xl text-emerald-500">
           <img src="/images/bear-monocle.png" alt="Bear" className="h-10" />
@@ -90,9 +90,10 @@ export default function Route() {
       {users.length > 0 && (
         <section className="space-y-2">
           <h2 className="text-emerald-700">Users</h2>
-          <p>
+          <p className="text-muted-foreground">
             Found {users.length} users with keyword "{query}"
           </p>
+
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
             {users.map(user => {
               return (

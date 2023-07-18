@@ -21,7 +21,7 @@ interface Props {
 
 export function UserCard({ user, filterSymbol }: Props) {
   return (
-    <Card className="transition hover:opacity-80">
+    <Card className="max-w-2xl transition hover:opacity-80">
       <CardHeader className="flex gap-4">
         <AvatarAuto
           className="h-24 w-24"

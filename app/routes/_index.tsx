@@ -96,7 +96,7 @@ export function LandingMentors() {
         {mentors.map(user => {
           return (
             <li key={user.id} className="w-full">
-              <Link to={user.username}>
+              <Link to={`/${user.username}`} className="block">
                 <UserCard user={user as any} />
               </Link>
             </li>
@@ -122,7 +122,7 @@ export function LandingMentees() {
           return (
             <li key={user.id}>
               <Link
-                to={user.username}
+                to={`/${user.username}`}
                 className="flex gap-2 py-1 transition hover:opacity-80"
               >
                 <AvatarAuto
