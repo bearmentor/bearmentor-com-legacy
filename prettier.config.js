@@ -13,6 +13,7 @@ module.exports = {
     "^types$",
     "^~/types",
     "^~/configs",
+    "^~/services",
     "^~/libs",
     "^~/utils",
     "^~/hooks",
