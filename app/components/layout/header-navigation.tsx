@@ -1,14 +1,25 @@
 import { NavLink } from "@remix-run/react"
+import {
+  FaceIcon,
+  HomeIcon,
+  LockOpen1Icon,
+  MagnifyingGlassIcon,
+  PersonIcon,
+} from "@radix-ui/react-icons"
 
 import { cn } from "~/libs"
-import { Icons, TooltipAuto, TooltipProvider } from "~/components"
+import { TooltipAuto, TooltipProvider } from "~/components"
 
 const navItems = [
-  { to: "/", text: "Home", icon: <Icons.Home className="icon" /> },
-  { to: "/search", text: "Search", icon: <Icons.Search className="icon" /> },
-  { to: "/mentors", text: "Mentors", icon: <Icons.User2 className="icon" /> },
-  { to: "/mentees", text: "Mentees", icon: <Icons.Users2 className="icon" /> },
-  { to: "/login", text: "Login", icon: <Icons.Unlock className="icon" /> },
+  { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
+  {
+    to: "/search",
+    text: "Search",
+    icon: <MagnifyingGlassIcon className="icon" />,
+  },
+  { to: "/mentors", text: "Mentors", icon: <FaceIcon className="icon" /> },
+  { to: "/mentees", text: "Mentees", icon: <PersonIcon className="icon" /> },
+  { to: "/login", text: "Login", icon: <LockOpen1Icon className="icon" /> },
 ]
 
 export function HeaderNavigation() {

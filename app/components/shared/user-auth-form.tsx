@@ -1,8 +1,9 @@
 import { Form, useNavigation } from "@remix-run/react"
+import { GitHubLogoIcon, UpdateIcon } from "@radix-ui/react-icons"
 
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
-import { Button, Icons, Input, Label } from "~/components"
+import { Button, Input, Label } from "~/components"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -39,9 +40,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
 
           <Button disabled={isLoading}>
-            {isLoading && (
-              <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
-            )}
+            {isLoading && <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />}
             <span>Login</span>
           </Button>
         </div>
@@ -60,9 +59,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
       <Button variant="outline" type="button" disabled>
         {isLoading ? (
-          <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+          <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Icons.GitHub className="mr-2 h-4 w-4" />
+          <GitHubLogoIcon className="mr-2 h-4 w-4" />
         )}
         <span>GitHub</span>
       </Button>
@@ -83,7 +82,7 @@ export const SocialAuthButton = ({
   return (
     <Form method="POST" action={`/auth/${provider}`}>
       <Button type="submit" disabled={isLoading}>
-        {isLoading && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
+        {isLoading && <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />}
         <span>{label}</span>
       </Button>
     </Form>
