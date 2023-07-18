@@ -3,15 +3,7 @@ import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatTitle } from "~/utils"
-import {
-  AvatarAuto,
-  Badge,
-  Card,
-  CardDescription,
-  CardTitle,
-  Layout,
-  SearchForm,
-} from "~/components"
+import { Layout, SearchForm, UserCard } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
   const query = data?.query
@@ -101,37 +93,7 @@ export default function Route() {
               return (
                 <li key={user.id} className="w-full">
                   <Link to={`/${user.username}`}>
-                    <Card className="p-2 transition hover:opacity-80">
-                      <div className="flex gap-4">
-                        <AvatarAuto
-                          className="h-24 w-24"
-                          src={user.avatars[0]?.url}
-                          alt={user.username}
-                          fallback={user.username[0].toUpperCase()}
-                        />
-                        <div className="flex flex-col justify-between space-y-1">
-                          <div>
-                            <CardTitle className="text-2xl">
-                              {user.name}
-                            </CardTitle>
-                            <CardDescription>
-                              {user.profiles[0]?.headline}
-                            </CardDescription>
-                          </div>
-                          <ul className="flex flex-wrap gap-2">
-                            {user.tags
-                              .filter((tag) => tag.symbol !== "MENTOR")
-                              .map((tag) => {
-                                return (
-                                  <li key={tag.id}>
-                                    <Badge size="sm">{tag.name}</Badge>
-                                  </li>
-                                )
-                              })}
-                          </ul>
-                        </div>
-                      </div>
-                    </Card>
+                    <UserCard user={user as any} filterSymbol={["MENTOR"]} />
                   </Link>
                 </li>
               )

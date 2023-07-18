@@ -5,7 +5,7 @@ import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { formatTitle } from "~/utils"
+import { createCacheHeaders, formatTitle } from "~/utils"
 import { AvatarAuto, Button, Layout } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
@@ -42,7 +42,7 @@ export async function loader({ request, params }: LoaderArgs) {
   })
   if (!user) return notFound({ user: null })
 
-  return json({ user })
+  return json({ user }, { headers: createCacheHeaders(request, 60) })
 }
 
 export default function Route() {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"

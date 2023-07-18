@@ -1,18 +1,12 @@
 import { json } from "@remix-run/node"
+import type { LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import {
-  AvatarAuto,
-  Badge,
-  Button,
-  Card,
-  CardDescription,
-  CardTitle,
-  Layout,
-} from "~/components"
+import { createCacheHeaders } from "~/utils"
+import { AvatarAuto, Button, Layout, UserCard } from "~/components"
 
-export async function loader() {
+export async function loader({ request }: LoaderArgs) {
   const mentors = await prisma.user.findMany({
     where: { tags: { some: { symbol: "MENTOR" } } },
     orderBy: { createdAt: "asc" },
@@ -39,7 +33,10 @@ export async function loader() {
     },
   })
 
-  return json({ mentors, mentees })
+  return json(
+    { mentors, mentees },
+    { headers: createCacheHeaders(request, 3600) },
+  )
 }
 
 export default function Index() {
@@ -57,15 +54,13 @@ export function LandingHero() {
   return (
     <article className="max-w-3xl space-y-8 pb-10 pt-20 sm:container">
       <section className="flex gap-8">
-        <div className="flex w-full flex-col items-center justify-center space-y-4 lg:items-start">
+        <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
             <img src="/images/bear-rounded.png" alt="Bear" className="h-16" />
             <span className="text-emerald-500">Bearmentor</span>
           </h1>
           <h2>Brilliant mentoring</h2>
-          <p className="text-center lg:text-left">
-            The mentoring platform for people and organization.
-          </p>
+          <p>The mentoring platform for people and organization.</p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button size="lg" asChild>
               <Link to="/mentors">Discover Mentors</Link>
@@ -102,35 +97,7 @@ export function LandingMentors() {
           return (
             <li key={user.id} className="w-full">
               <Link to={user.username}>
-                <Card className="p-2 transition hover:opacity-80">
-                  <div className="flex gap-4">
-                    <AvatarAuto
-                      className="h-24 w-24"
-                      src={user.avatars[0]?.url}
-                      alt={user.username}
-                      fallback={user.username[0].toUpperCase()}
-                    />
-                    <div className="flex flex-col justify-between space-y-1">
-                      <div>
-                        <CardTitle className="text-2xl">{user.name}</CardTitle>
-                        <CardDescription>
-                          {user.profiles[0]?.headline}
-                        </CardDescription>
-                      </div>
-                      <ul className="flex flex-wrap gap-2">
-                        {user.tags
-                          .filter((tag) => tag.symbol !== "MENTOR")
-                          .map((tag) => {
-                            return (
-                              <li key={tag.id}>
-                                <Badge size="sm">{tag.name}</Badge>
-                              </li>
-                            )
-                          })}
-                      </ul>
-                    </div>
-                  </div>
-                </Card>
+                <UserCard user={user as any} />
               </Link>
             </li>
           )

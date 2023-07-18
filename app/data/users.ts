@@ -63,7 +63,7 @@ export const dataUsers: DataUser[] = [
     name: "Maya Asmara",
     username: "maya",
     nick: "maya",
-    tags: ["COLLABORATOR", "WRITER"],
+    tags: ["COLLABORATOR", "MENTOR", "WRITER"],
     profiles: {
       create: {
         headline: "Writer and Speaker",
