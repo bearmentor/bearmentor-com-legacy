@@ -8,6 +8,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       id: true,
       name: true,
       username: true,
+      avatars: { select: { url: true } },
       role: { select: { symbol: true } },
       profiles: { select: { headline: true, links: true } },
     },

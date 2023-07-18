@@ -1,21 +1,15 @@
 import { NavLink } from "@remix-run/react"
-import {
-  HomeIcon,
-  SearchIcon,
-  UnlockIcon,
-  User2Icon,
-  Users2Icon,
-} from "lucide-react"
+import { Home, Search, Unlock, User2, Users2 } from "lucide-react"
 
 import { cn } from "~/libs"
 import { TooltipAuto, TooltipProvider } from "~/components"
 
 const navItems = [
-  { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
-  { to: "/search", text: "Search", icon: <SearchIcon className="icon" /> },
-  { to: "/mentors", text: "Mentors", icon: <User2Icon className="icon" /> },
-  { to: "/mentees", text: "Mentees", icon: <Users2Icon className="icon" /> },
-  { to: "/login", text: "Login", icon: <UnlockIcon className="icon" /> },
+  { to: "/", text: "Home", icon: <Home className="icon" /> },
+  { to: "/search", text: "Search", icon: <Search className="icon" /> },
+  { to: "/mentors", text: "Mentors", icon: <User2 className="icon" /> },
+  { to: "/mentees", text: "Mentees", icon: <Users2 className="icon" /> },
+  { to: "/login", text: "Login", icon: <Unlock className="icon" /> },
 ]
 
 export function HeaderNavigation() {

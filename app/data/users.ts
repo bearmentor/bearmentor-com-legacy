@@ -380,13 +380,18 @@ export const dataUsers: DataUser[] = [
   },
   {
     name: "Dandi Rizky Eko Saputro",
-    username: "dandi",
+    username: "dandirizky",
     tags: ["MENTEE", "DEVELOPER"],
   },
   {
     name: "Yosua Halim",
     username: "yosua",
     tags: ["DEVELOPER"],
+  },
+  {
+    name: "Haidar Dzaky",
+    username: "haidardzaky",
+    tags: ["MENTEE", "DEVELOPER"],
   },
   {
     name: "Ahyana Rizky Pratama",

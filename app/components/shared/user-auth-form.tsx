@@ -1,5 +1,5 @@
 import { Form, useNavigation } from "@remix-run/react"
-import { GithubIcon, Loader2Icon } from "lucide-react"
+import { Github, Loader2 } from "lucide-react"
 
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
@@ -40,7 +40,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
 
           <Button disabled={isLoading}>
-            {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             <span>Login</span>
           </Button>
         </div>
@@ -59,9 +59,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
       <Button variant="outline" type="button" disabled>
         {isLoading ? (
-          <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <GithubIcon className="mr-2 h-4 w-4" />
+          <Github className="mr-2 h-4 w-4" />
         )}
         <span>GitHub</span>
       </Button>
@@ -82,7 +82,7 @@ export const SocialAuthButton = ({
   return (
     <Form method="POST" action={`/auth/${provider}`}>
       <Button type="submit" disabled={isLoading}>
-        {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
+        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         <span>{label}</span>
       </Button>
     </Form>

@@ -1,5 +1,5 @@
 import { Form, useSearchParams } from "@remix-run/react"
-import { SearchIcon } from "lucide-react"
+import { Search } from "lucide-react"
 
 import { Input, Label } from "~/components"
 
@@ -28,7 +28,7 @@ export function SearchForm({
           className="block h-12 w-full px-3 py-2 ps-12 text-xl"
         />
         <span className="pointer-events-none absolute flex ps-3">
-          <SearchIcon className="h-6 w-6 text-muted-foreground" />
+          <Search className="h-6 w-6 text-muted-foreground" />
         </span>
       </fieldset>
     </Form>

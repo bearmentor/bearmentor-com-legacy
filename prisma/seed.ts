@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
@@ -14,8 +15,6 @@ async function main() {
   await seedUserTags()
   await seedUsers()
   await seedUserContents()
-
-  await getUsers()
 }
 
 /**
@@ -159,15 +158,6 @@ async function seedUserContents() {
   })
   if (!contentAdmin) return null
   console.info(`✅ Content by "admin" created`)
-}
-
-async function getUsers() {
-  console.info("🟣 Get users...")
-  const users = await prisma.user.findMany({
-    select: { username: true },
-  })
-  const usernames = users.map((user) => user.username)
-  log(usernames)
 }
 
 /**
