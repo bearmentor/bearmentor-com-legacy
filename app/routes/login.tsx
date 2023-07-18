@@ -1,6 +1,7 @@
-import type { ActionArgs } from "@remix-run/node"
+import type { LoaderArgs } from "@remix-run/node"
 import { Link, type V2_MetaFunction } from "@remix-run/react"
 
+import { authenticator } from "~/services/auth.server"
 import { formatTitle } from "~/utils"
 import { Button, Layout, UserAuthForm } from "~/components"
 
@@ -12,6 +13,12 @@ export const meta: V2_MetaFunction = () => {
       content: "Login to your 🐻 Bearmentor user account.",
     },
   ]
+}
+
+export const loader = async ({ request }: LoaderArgs) => {
+  return await authenticator.isAuthenticated(request, {
+    successRedirect: "/dashboard",
+  })
 }
 
 export default function Route() {
@@ -64,8 +71,4 @@ export default function Route() {
       </div>
     </Layout>
   )
-}
-
-export const action = async ({ request }: ActionArgs) => {
-  return null
 }

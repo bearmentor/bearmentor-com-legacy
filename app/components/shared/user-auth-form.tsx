@@ -1,6 +1,7 @@
 import { Form, useNavigation } from "@remix-run/react"
 import { GithubIcon, Loader2Icon } from "lucide-react"
 
+import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
 import { Button, Input, Label } from "~/components"
 
@@ -12,7 +13,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
-      <Form method="POST">
+      <Form method="POST" action={`/auth/form`}>
         <div className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -38,6 +39,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               disabled={isLoading}
             />
           </div>
+
           <Button disabled={isLoading}>
             {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
             <span>Login</span>
@@ -65,5 +67,25 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         <span>GitHub</span>
       </Button>
     </div>
+  )
+}
+
+export const SocialAuthButton = ({
+  provider,
+  label,
+}: {
+  provider: AuthStrategy
+  label: string
+}) => {
+  const navigation = useNavigation()
+  const isLoading = navigation.state === "loading"
+
+  return (
+    <Form method="POST" action={`/auth/${provider}`}>
+      <Button type="submit" disabled={isLoading}>
+        {isLoading && <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />}
+        <span>{label}</span>
+      </Button>
+    </Form>
   )
 }
