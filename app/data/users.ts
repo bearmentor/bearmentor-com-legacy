@@ -5,6 +5,7 @@ import type { DataUserTagSymbol } from "~/data"
 export type DataUser = Pick<User, "name" | "username"> & {
   nick?: User["nick"]
   tags?: DataUserTagSymbol[]
+  isAdmin?: boolean
 } & {
   profiles?: { create: DataUserProfile | DataUserProfile[] }
 }
@@ -17,11 +18,12 @@ export type DataUserProfile = Pick<
   sequence?: UserProfile["sequence"]
 }
 
-export const dataAdminUsers: DataUser[] = [
+export const dataUsers: DataUser[] = [
   {
     name: "Administrator",
     username: "admin",
     nick: "Admin",
+    tags: ["COLLABORATOR"],
     profiles: {
       create: { headline: "The Ruler", bio: "I'm Admin.", modeName: "Admin" },
     },
@@ -30,13 +32,11 @@ export const dataAdminUsers: DataUser[] = [
     name: "Bearmentor",
     username: "bearmentor",
     nick: "Bear",
+    tags: ["COLLABORATOR"],
     profiles: {
       create: { headline: "The Bear", bio: "I'm the Bear.", modeName: "Bear" },
     },
   },
-]
-
-export const dataUsers: DataUser[] = [
   {
     name: "M Haidar Hanif",
     username: "haidar",
@@ -301,16 +301,37 @@ export const dataUsers: DataUser[] = [
     name: "Kresna Galuh",
     username: "kresnagaluh",
     tags: ["FOUNDER", "DEVELOPER"],
+    profiles: {
+      create: {
+        headline: "CEO at CodePolitan",
+        bio: "Build something with tech.",
+        modeName: "CEO",
+      },
+    },
   },
   {
     name: "Ahmad Oriza",
     username: "ahmadoriza",
     tags: ["FOUNDER", "DEVELOPER", "MENTOR"],
+    profiles: {
+      create: {
+        headline: "CTO at CodePolitan",
+        bio: "Curious about Tech World.",
+        modeName: "CTO",
+      },
+    },
   },
   {
     name: "Hadyan Palupi",
     username: "hadyanpalupi",
     tags: ["MARKETER"],
+    profiles: {
+      create: {
+        headline: "COO at CodePolitan",
+        bio: "Operating tech company.",
+        modeName: "COO",
+      },
+    },
   },
   {
     name: "Irsan Sebastian",

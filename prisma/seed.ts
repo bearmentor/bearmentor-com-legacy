@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import bcrypt from "bcryptjs"
+
 import { createAvatarImageURL, prisma } from "~/libs"
 import { log } from "~/utils"
-import { dataAdminUsers, dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
+// Firstly check ~/data/README.md
+import dataUsersCredentials from "~/data/users-credentials.json"
 
 async function main() {
   await seedUserRoles()
@@ -9,7 +13,7 @@ async function main() {
   await seedUsers()
   await seedUserContents()
 
-  // await getUsers()
+  await getUsers()
 }
 
 async function seedUserRoles() {
@@ -73,19 +77,6 @@ async function seedUsers() {
   )
     return null
 
-  dataAdminUsers.forEach(async (user) => {
-    await prisma.user.create({
-      data: {
-        ...user,
-        roleId: ADMIN.id,
-        tags: { connect: { id: COLLABORATOR.id } },
-        avatars: { create: { url: createAvatarImageURL(user.username) } },
-      },
-    })
-    console.info(`✅ User "${user.username}" created`)
-  })
-  console.info(`✅ Admin users created`)
-
   // Setup data users to connect to the tag ids
   const dataUsersWithTags = dataUsers.map((user) => {
     const tags = user.tags?.map((tag) => {
@@ -99,20 +90,44 @@ async function seedUsers() {
       if (tag === "ARTIST") return { id: ARTIST.id }
       return { id: UNKNOWN.id }
     })
+
+    const isCollaborator = user.tags?.find((tag) => tag === "COLLABORATOR")
+
     return {
       ...user,
       tags: { connect: tags },
+      role: { connect: { id: isCollaborator ? ADMIN.id : NORMAL.id } },
       avatars: { create: { url: createAvatarImageURL(user.username) } },
     }
   })
 
-  // Finally create the users with the tags
-  dataUsersWithTags.forEach(async (user) => {
-    await prisma.user.create({ data: { ...user, roleId: NORMAL.id } })
+  // Setup data users to have email and passwords
+  const dataUsersWithCredentials = dataUsersWithTags.map((user) => {
+    const newCred = dataUsersCredentials.find(
+      (cred) => cred.username === user.username,
+    )
+
+    const hash = bcrypt.hashSync(newCred?.password || "", 10)
+
+    const newUser = {
+      ...user,
+      email: newCred?.email,
+      password: { create: { hash } },
+    }
+
+    return newUser
+  })
+
+  // Finally create the users with complete fields
+  dataUsersWithCredentials.forEach(async (user) => {
+    await prisma.user.create({ data: user })
     console.info(`✅ User "${user.username}" created`)
   })
 }
 
+/**
+ * User Contents
+ */
 async function seedUserContents() {
   console.info("🟢 Seed user contents...")
   await prisma.content.deleteMany()
@@ -138,19 +153,20 @@ async function seedUserContents() {
 async function getUsers() {
   console.info("🟣 Get users...")
   const users = await prisma.user.findMany({
-    select: { username: true, tags: { select: { symbol: true } } },
+    select: { username: true },
   })
-  log(users)
+  const usernames = users.map((user) => user.username)
+  log(usernames)
 }
 
 main()
   .then(async () => {
-    console.log("🔵 Seeding complete")
+    console.info("🔵 Seeding complete")
     await prisma.$disconnect()
   })
   .catch((e) => {
     console.error(e)
-    console.log("🔴 Seeding failed")
+    console.error("🔴 Seeding failed")
     prisma.$disconnect()
     process.exit(1)
   })
