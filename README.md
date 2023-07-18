@@ -21,7 +21,8 @@ Check out:
 > men·tor·ship (noun): the guidance provided by a mentor, especially an
 > experienced person in a company or educational institution.
 
-A true mentorship should enable to teach, guide, and share in long term growth.
+A true mentorship should enable to teach, guide, and share that can be for long
+term growth.
 
 🐻 Bearmentor allow you to:
 
@@ -38,13 +39,13 @@ A true mentorship should enable to teach, guide, and share in long term growth.
 
 ## Getting Started
 
-Read the [Remix Docs](https://remix.run/docs) to understand about Remix.
-
-Tips:
-
-- If you're new, focus on Remix basics, don't use the Stacks yet.
-- If you're experienced, can already use various integration such as Prisma ORM
-  and database.
+1. Read the [Remix Docs](https://remix.run/docs) to understand about Remix.
+2. If you're new, focus on Remix basics, don't use the Stacks yet. Read
+   [Super Simple Start to Remix](https://kentcdodds.com/blog/super-simple-start-to-remix).
+3. If you're experienced, can already use various integration such as Prisma ORM
+   and database like MySQL. Read
+   [Blog Tutorial (short)](http://remix.run/docs/en/main/tutorials/blog) and
+   [App Tutorial (long)](http://remix.run/docs/en/main/tutorials/jokes).
 
 ## Tech Stack
 
@@ -70,22 +71,23 @@ Create the `.env` file from the example `.env` file.
 cp -i .env.example .env
 ```
 
+> This .env file is only for local development, not production
+
 Let's configure the required environment variables in the `.env` file if local,
 otherwise in the project settings, for:
 
 - `DATABASE_URL`
 - `SESSION_SECRET`
 
-Create a [PlanetScale](https://planetscale.com) account to have a
-production-ready MySQL instance for development. After the database has been
-created, "Get the connection string" and select "Prisma", then copy the full
-`DATABASE_URL`.
+Create a [PlanetScale](https://planetscale.com) account to have a MySQL instance
+for development. After the database has been created, "Get the connection
+string" and select "Prisma", then copy the full `DATABASE_URL`.
 
 > Keep in mind the free plan only allow for 1 database. So either later you keep
 > it, delete it when unused, or upgrade your plan.
 
 Generate a random string for the `SESSION_SECRET` using
-`openssl rand -base64 32` on the terminal or you can put any random text.
+`openssl rand -base64 32` on the terminal or you can put any long random text.
 
 ```sh
 DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"

@@ -2,7 +2,7 @@ console.info("🐻 Bearmentor is running")
 
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverModuleFormat: "esm",
+  serverModuleFormat: "cjs",
   ignoredRouteFiles: ["**/.*"],
 
   // When running locally in development mode, we use the built-in remix

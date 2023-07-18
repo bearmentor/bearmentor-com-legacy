@@ -40,7 +40,7 @@ module.exports = {
     "^[./]",
   ],
   plugins: [
-    import("@ianvs/prettier-plugin-sort-imports"),
-    import("prettier-plugin-tailwindcss"),
+    require("@ianvs/prettier-plugin-sort-imports"),
+    require("prettier-plugin-tailwindcss"),
   ],
 }
