@@ -1,5 +1,10 @@
 import { useEffect } from "react"
-import type { LinksFunction, V2_MetaFunction } from "@remix-run/node"
+import type {
+  LinksFunction,
+  LoaderArgs,
+  V2_MetaFunction,
+} from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 import {
   Links,
   LiveReload,
@@ -14,7 +19,11 @@ import monoFontStyles from "@fontsource/pt-mono/index.css"
 import sansFontStyles from "@fontsource/pt-sans/index.css"
 import NProgress from "nprogress"
 
+import { authenticator } from "~/services/auth.server"
+import { prisma } from "~/libs"
+
 import styles from "./globals.css"
+import { modelUser } from "./models"
 
 export const links: LinksFunction = () => [
   {
@@ -56,6 +65,18 @@ export const meta: V2_MetaFunction = () => {
       content: "Brilliant mentoring platform for people and organization.",
     },
   ]
+}
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const user = await authenticator.isAuthenticated(request)
+  const userData = await modelUser.getForSession({ id: String(user?.id) })
+
+  // If there is an authenticated user, but the user doesn't exist anymore
+  if (user && !userData) {
+    return redirect(`/logout`)
+  }
+
+  return json({ user, userData })
 }
 
 export default function App() {

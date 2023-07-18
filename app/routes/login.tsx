@@ -1,8 +1,10 @@
-import type { LoaderArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Link, type V2_MetaFunction } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
-import { formatTitle } from "~/utils"
+import { prisma } from "~/libs"
+import { formatTitle, log } from "~/utils"
 import { Button, Layout, UserAuthForm } from "~/components"
 
 export const meta: V2_MetaFunction = () => {

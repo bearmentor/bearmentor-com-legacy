@@ -93,7 +93,7 @@ export const dataUsers: DataUser[] = [
     profiles: {
       create: [
         {
-          headline: "Software Engineering Mentor",
+          headline: "Software Engineering Instructor at Sea Labs",
           bio: "Mentoring future engineers.",
           modeName: "Mentor",
         },
@@ -114,8 +114,8 @@ export const dataUsers: DataUser[] = [
     tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
     profiles: {
       create: {
-        headline: "Software Engineer",
-        bio: "Frontend at Ninja Van",
+        headline: "Software Engineer at Ninja Van",
+        bio: "An Indonesian 🇮🇩 Developer Living in Singapore 🇸🇬",
         modeName: "Engineer",
       },
     },
@@ -127,8 +127,8 @@ export const dataUsers: DataUser[] = [
     tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
     profiles: {
       create: {
-        headline: "Frontend Web Developer",
-        bio: "Ningen (人間) in Tech",
+        headline: "Frontend Developer at eFishery",
+        bio: "Ningen (人間) in Tech @F2aldi",
         modeName: "Developer",
       },
     },

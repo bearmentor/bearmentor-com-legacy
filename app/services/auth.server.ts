@@ -1,3 +1,5 @@
+import type { Prisma } from "@prisma/client"
+import type { modelUser } from "~/models"
 import { Authenticator } from "remix-auth"
 
 import { AuthStrategies } from "~/services/auth_strategies"
@@ -7,7 +9,13 @@ import { formStrategy } from "./auth_strategies/form.strategy"
 
 export interface User {
   // Add your own user properties here or extend with a type from your database
+  id?: string
 }
+
+export interface UserData
+  extends NonNullable<
+    Prisma.PromiseReturnType<typeof modelUser.getForSession>
+  > {}
 
 export type AuthStrategy = (typeof AuthStrategies)[keyof typeof AuthStrategies]
 
