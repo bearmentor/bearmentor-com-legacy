@@ -25,7 +25,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              autoFocus={true}
               disabled={isLoading}
             />
           </div>

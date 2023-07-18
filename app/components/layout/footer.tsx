@@ -20,23 +20,29 @@ export function Footer({ className }: Props) {
     >
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-muted-foreground sm:flex-row sm:gap-8">
         <p>&copy; {today.getFullYear()} Bearmentor</p>
-        <nav>
-          <ul className="flex flex-wrap gap-4">
-            {footerNavItems.map((navItem) => {
-              return (
-                <li key={navItem.to}>
-                  <Link
-                    to={navItem.to}
-                    className="font-bold transition hover:opacity-80"
-                  >
-                    {navItem.text}
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </nav>
+        {/* <FooterNavigation /> */}
       </div>
     </footer>
+  )
+}
+
+export function FooterNavigation() {
+  return (
+    <nav>
+      <ul className="flex flex-wrap gap-4">
+        {footerNavItems.map((navItem) => {
+          return (
+            <li key={navItem.to}>
+              <Link
+                to={navItem.to}
+                className="font-bold transition hover:opacity-80"
+              >
+                {navItem.text}
+              </Link>
+            </li>
+          )
+        })}
+      </ul>
+    </nav>
   )
 }

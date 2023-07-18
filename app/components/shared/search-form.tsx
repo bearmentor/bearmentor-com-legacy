@@ -24,7 +24,6 @@ export function SearchForm({
           type="search"
           placeholder={placeholder}
           autoComplete="off"
-          autoFocus={true}
           defaultValue={query}
           className="block h-12 w-full px-3 py-2 ps-12 text-xl"
         />
