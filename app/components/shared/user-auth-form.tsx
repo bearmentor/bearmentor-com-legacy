@@ -1,9 +1,8 @@
 import { Form, useNavigation } from "@remix-run/react"
-import { Github, Loader2 } from "lucide-react"
 
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
-import { Button, Input, Label } from "~/components"
+import { Button, Icons, Input, Label } from "~/components"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -40,7 +39,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
 
           <Button disabled={isLoading}>
-            {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && (
+              <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
+            )}
             <span>Login</span>
           </Button>
         </div>
@@ -59,9 +60,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 
       <Button variant="outline" type="button" disabled>
         {isLoading ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />
         ) : (
-          <Github className="mr-2 h-4 w-4" />
+          <Icons.GitHub className="mr-2 h-4 w-4" />
         )}
         <span>GitHub</span>
       </Button>
@@ -82,7 +83,7 @@ export const SocialAuthButton = ({
   return (
     <Form method="POST" action={`/auth/${provider}`}>
       <Button type="submit" disabled={isLoading}>
-        {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+        {isLoading && <Icons.Spinner className="mr-2 h-4 w-4 animate-spin" />}
         <span>{label}</span>
       </Button>
     </Form>

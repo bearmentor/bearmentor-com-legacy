@@ -62,9 +62,6 @@ dependencies:
   isbot:
     specifier: ^3.6.12
     version: 3.6.12
-  lucide-react:
-    specifier: 0.261.0
-    version: 0.261.0(react@18.2.0)
   nprogress:
     specifier: 0.2.0
     version: 0.2.0
@@ -6387,14 +6384,6 @@ packages:
     dependencies:
       yallist: 4.0.0
     dev: true
-
-  /lucide-react@0.261.0(react@18.2.0):
-    resolution: {integrity: sha512-gzxEvIxf8+hGbm2ZQU/VP5TxTcnTu3ODDmYoS3a53wC4gkW9ukxmexKjTcZUzz3q8ema+DMwmPypx9Z0Bvvxog==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
-    dependencies:
-      react: 18.2.0
-    dev: false
 
   /lz-string@1.5.0:
     resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
