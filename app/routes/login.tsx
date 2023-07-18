@@ -55,8 +55,8 @@ export default function Route() {
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2 text-right">
               <p className="text-lg font-semibold">
-                &ldquo;The mentors from Bearmentor are top notch quality people,
-                both developers and designers.&rdquo;
+                &ldquo;The mentors from 🐻 Bearmentor are helpful
+                professionals.&rdquo;
               </p>
               <footer>— Somebody</footer>
             </blockquote>

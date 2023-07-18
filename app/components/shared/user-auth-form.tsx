@@ -1,13 +1,15 @@
 import { Form, useNavigation } from "@remix-run/react"
-import { GitHubLogoIcon, UpdateIcon } from "@radix-ui/react-icons"
+import { GitHubLogoIcon, UpdateIcon, ValueIcon } from "@radix-ui/react-icons"
 
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
+import { useScreenLarge } from "~/hooks"
 import { Button, Input, Label } from "~/components"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const isScreenLarge = useScreenLarge()
   const navigation = useNavigation()
   const isLoading = navigation.state === "loading"
 
@@ -25,6 +27,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
+              autoFocus={isScreenLarge}
               disabled={isLoading}
             />
           </div>
@@ -52,19 +55,25 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
+            Or later continue with
           </span>
         </div>
       </div>
 
-      <Button variant="outline" type="button" disabled>
-        {isLoading ? (
-          <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <GitHubLogoIcon className="mr-2 h-4 w-4" />
-        )}
-        <span>GitHub</span>
-      </Button>
+      <div className="flex gap-2">
+        <SocialAuthButton
+          provider="github"
+          label="GitHub"
+          icon={<GitHubLogoIcon className="mr-2 h-4 w-4" />}
+          disabled
+        />
+        <SocialAuthButton
+          provider="google"
+          label="Google"
+          icon={<ValueIcon className="mr-2 h-4 w-4" />}
+          disabled
+        />
+      </div>
     </div>
   )
 }
@@ -72,17 +81,27 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 export const SocialAuthButton = ({
   provider,
   label,
+  icon,
+  disabled,
 }: {
   provider: AuthStrategy
   label: string
+  icon?: React.ReactNode
+  disabled?: boolean
 }) => {
   const navigation = useNavigation()
   const isLoading = navigation.state === "loading"
 
   return (
-    <Form method="POST" action={`/auth/${provider}`}>
-      <Button type="submit" disabled={isLoading}>
+    <Form method="POST" action={`/auth/${provider}`} className="w-full">
+      <Button
+        type="submit"
+        variant="outline"
+        disabled={disabled || isLoading}
+        className="w-full"
+      >
         {isLoading && <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />}
+        {!isLoading && icon}
         <span>{label}</span>
       </Button>
     </Form>
