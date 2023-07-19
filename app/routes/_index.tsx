@@ -60,7 +60,10 @@ export function LandingHero() {
             <span className="text-emerald-500">Bearmentor</span>
           </h1>
           <h2>Brilliant mentoring</h2>
-          <p>The mentoring platform for people and organization.</p>
+          <p>
+            The mentoring platform for people and organization. Get live
+            technical help, various learning materials, and gain your income.
+          </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button size="lg" asChild>
               <Link to="/mentors">Discover Mentors</Link>
@@ -147,6 +150,14 @@ export function LandingMentees() {
 }
 
 export function LandingDevelopment() {
+  const dataReferences = [
+    { href: "https://catamyst.com", text: "Catamyst" },
+    { href: "https://codementor.io", text: "Codementor" },
+    { href: "https://adplist.org", text: "ADPList" },
+    { href: "https://upwork.com", text: "Upwork" },
+    { href: "https://pair-up.org", text: "Pair Up" },
+  ]
+
   return (
     <article className="w-full max-w-3xl space-y-8 py-20">
       <section className="space-y-4">
@@ -176,6 +187,16 @@ export function LandingDevelopment() {
               github.com/bearmentor
             </a>
           </p>
+          <p>Some references:</p>
+          <ul>
+            {dataReferences.map(reference => {
+              return (
+                <li key={reference.text}>
+                  <a href={reference.href}>{reference.text}</a>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </section>
     </article>
