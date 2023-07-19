@@ -1,5 +1,5 @@
 import type { LoaderArgs } from "@remix-run/node"
-import { json } from "@remix-run/node"
+import { json, redirect } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { User } from "@prisma/client"
@@ -25,8 +25,12 @@ import {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
+  if (!userSession?.id) {
+    return redirect("/logout")
+  }
+
   const user = await prisma.user.findFirst({
-    where: { id: userSession?.id },
+    where: { id: userSession.id },
     select: {
       id: true,
       name: true,

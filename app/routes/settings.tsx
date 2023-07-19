@@ -1,5 +1,7 @@
+import type { LoaderArgs } from "@remix-run/node"
 import { NavLink, Outlet } from "@remix-run/react"
 
+import { authenticator } from "~/services/auth.server"
 import { cn } from "~/libs"
 import { buttonVariants, Layout } from "~/components"
 
@@ -10,6 +12,11 @@ export const settingsNavItems = [
   { title: "Notifications", to: "/settings/notifications" },
   { title: "Display", to: "/settings/display" },
 ]
+
+export const loader = async ({ request }: LoaderArgs) => {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  return null
+}
 
 export default function Route() {
   return (
