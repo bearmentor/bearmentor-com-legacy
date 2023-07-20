@@ -12,7 +12,7 @@ import {
 
 import type { UserData } from "~/services/auth.server"
 import { cn } from "~/libs"
-import { useRootLoaderData } from "~/hooks"
+import { useRootLoaderData, useScreenLarge } from "~/hooks"
 import { TooltipAuto, TooltipProvider } from "~/components"
 
 type NavItem = {
@@ -66,7 +66,7 @@ export function HeaderNavigation() {
       )}
     >
       <nav className="w-full max-w-md md:max-w-3xl">
-        <TooltipProvider delayDuration={300}>
+        <TooltipProvider>
           <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
             <NavigationList navItems={navPublicItems} />
             {!userSession && (
@@ -83,6 +83,7 @@ export function HeaderNavigation() {
 export function NavigationList({ navItems }: { navItems: NavItem[] }) {
   const location = useLocation()
   const { userData } = useRootLoaderData()
+  const isScreenLarge = useScreenLarge()
 
   return (
     <>
@@ -92,7 +93,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
             <TooltipAuto
               content={navItem.text}
               className="hidden lg:block"
-              side="right"
+              side={isScreenLarge ? "right" : "top"}
             >
               <NavLink
                 to={navItem.to}
@@ -107,7 +108,16 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                   )
                 }}
               >
-                {navItem.icon}
+                {navItem.to === "/profile" && userData ? (
+                  <img
+                    className="icon rounded lg:w-full"
+                    src={userData?.avatars[0]?.url}
+                    alt={userData?.username}
+                  />
+                ) : (
+                  navItem.icon
+                )}
+
                 <span className="hidden md:block lg:hidden">
                   {navItem.text}
                 </span>

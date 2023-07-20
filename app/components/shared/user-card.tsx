@@ -47,7 +47,9 @@ export function UserCard({ user }: Props) {
               {user.tags.map(tag => {
                 return (
                   <li key={tag.id}>
-                    <Badge size="sm">{tag.name}</Badge>
+                    <Badge size="sm" variant="secondary">
+                      {tag.name}
+                    </Badge>
                   </li>
                 )
               })}
