@@ -4,7 +4,7 @@ import { GitHubLogoIcon, UpdateIcon, ValueIcon } from "@radix-ui/react-icons"
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
 import { useScreenLarge } from "~/hooks"
-import { Button, Input, Label } from "~/components"
+import { Button, Input, InputPassword, Label } from "~/components"
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -33,7 +33,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
-            <Input
+            <InputPassword
               id="password"
               name="password"
               type="password"

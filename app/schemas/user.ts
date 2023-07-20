@@ -27,6 +27,8 @@ const password = z
   .min(8, "Password require at least 8 characters")
   .max(100, "Password max length limited to 100 characters")
 
+const confirmPassword = z.string()
+
 const remember = z.boolean().optional()
 
 const redirectTo = z.string().optional()
@@ -91,7 +93,7 @@ export const schemaUserUpdatePassword = z
   .object({
     id,
     password,
-    confirmPassword: password,
+    confirmPassword,
   })
   .superRefine(({ password, confirmPassword }, ctx) => {
     if (password !== confirmPassword) {

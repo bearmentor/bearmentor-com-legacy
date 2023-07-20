@@ -70,7 +70,7 @@
     @apply scroll-m-20 font-brand tracking-tight;
   }
   h1 {
-    @apply text-4xl font-bold sm:text-5xl md:text-5xl;
+    @apply text-3xl font-bold sm:text-4xl;
   }
   h2 {
     @apply text-2xl font-semibold sm:text-3xl;

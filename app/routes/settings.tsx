@@ -7,6 +7,8 @@ import { buttonVariants, Layout } from "~/components"
 
 export const settingsNavItems = [
   { title: "Profile", to: "/settings/profile" },
+  { title: "Email", to: "/settings/email" },
+  { title: "Password", to: "/settings/password" },
   { title: "Account", to: "/settings/account" },
   { title: "Appearance", to: "/settings/appearance" },
   { title: "Notifications", to: "/settings/notifications" },
@@ -32,7 +34,7 @@ export default function Route() {
 
       <div className="flex max-w-4xl flex-col gap-8 sm:-mx-4 sm:flex-row">
         {/* Maximum width is less than xs */}
-        <aside className="w-full max-w-[200px] sm:block">
+        <aside className="w-full sm:block sm:max-w-[240px]">
           <SidebarNav items={settingsNavItems} />
         </aside>
 
@@ -51,7 +53,10 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   return (
-    <nav className={cn("flex gap-2 sm:flex-col", className)} {...props}>
+    <nav
+      className={cn("flex w-full gap-2 overflow-auto sm:flex-col", className)}
+      {...props}
+    >
       {items.map(item => (
         <NavLink
           key={item.to}

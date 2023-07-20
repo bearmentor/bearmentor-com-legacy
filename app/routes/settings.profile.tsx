@@ -24,7 +24,6 @@ import {
   Input,
 } from "~/components"
 import {
-  schemaUserUpdateEmail,
   schemaUserUpdateName,
   schemaUserUpdateNick,
   schemaUserUpdatePassword,
@@ -70,7 +69,6 @@ export default function Route() {
         <UserUsernameForm user={user as any} />
         <UserNameForm user={user as any} />
         <UserNickForm user={user as any} />
-        <UserEmailForm user={user as any} />
       </div>
     </div>
   )
@@ -95,7 +93,7 @@ export function UserUsernameForm({
   })
 
   return (
-    <Form {...form.props} replace method="PUT" className="space-y-4">
+    <Form {...form.props} replace method="PUT" className="space-y-6">
       <fieldset
         disabled={isSubmitting}
         className="space-y-2 disabled:opacity-80"
@@ -103,16 +101,16 @@ export function UserUsernameForm({
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
-          <FormLabel htmlFor={username.id}>Username</FormLabel>
+          <FormLabel htmlFor={username.id}>Your Username</FormLabel>
           <Input
             {...conform.input(username)}
             type="text"
             defaultValue={user.username}
             placeholder="yourname"
-            className="max-w-xs"
           />
           <FormDescription>
-            This is your public username as @username
+            This is your public username as @username and your URL namespace
+            within Bearmentor
           </FormDescription>
           {username.error && (
             <Alert variant="destructive" id={username.errorId}>
@@ -122,7 +120,6 @@ export function UserUsernameForm({
         </FormField>
 
         <Button
-          size="sm"
           type="submit"
           name="intent"
           variant="secondary"
@@ -150,7 +147,7 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
   })
 
   return (
-    <Form {...form.props} replace method="PUT" className="space-y-4">
+    <Form {...form.props} replace method="PUT" className="space-y-6">
       <fieldset
         disabled={isSubmitting}
         className="space-y-2 disabled:opacity-80"
@@ -158,17 +155,16 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
-          <FormLabel htmlFor={name.id}>Full Name</FormLabel>
+          <FormLabel htmlFor={name.id}>Your Full Name</FormLabel>
           <Input
             {...conform.input(name)}
             type="text"
             defaultValue={user.name}
             placeholder="Your Full Name"
-            className="max-w-xs"
           />
           <FormDescription>
-            This is your public display name, can be your real name or a
-            pseudonym
+            Please enter your full name, or a display name you are comfortable
+            with, can be real name or a pseudonym
           </FormDescription>
           {name.error && (
             <Alert variant="destructive" id={name.errorId}>
@@ -178,7 +174,6 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
         </FormField>
 
         <Button
-          size="sm"
           type="submit"
           name="intent"
           variant="secondary"
@@ -206,7 +201,7 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
   })
 
   return (
-    <Form {...form.props} replace method="PUT" className="space-y-4">
+    <Form {...form.props} replace method="PUT" className="space-y-6">
       <fieldset
         disabled={isSubmitting}
         className="space-y-2 disabled:opacity-80"
@@ -214,13 +209,12 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
-          <FormLabel htmlFor={nick.id}>Nick</FormLabel>
+          <FormLabel htmlFor={nick.id}>Your Nick Name</FormLabel>
           <Input
             {...conform.input(nick)}
             type="text"
             defaultValue={String(user.nick)}
             placeholder="Your Nick"
-            className="max-w-xs"
           />
           <FormDescription>
             This is your nick name when being called
@@ -233,7 +227,6 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
         </FormField>
 
         <Button
-          size="sm"
           type="submit"
           name="intent"
           variant="secondary"
@@ -241,61 +234,6 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
           disabled={isSubmitting}
         >
           Save Nick
-        </Button>
-      </fieldset>
-    </Form>
-  )
-}
-
-export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
-  const actionData = useActionData<typeof action>()
-  const navigation = useNavigation()
-  const isSubmitting = navigation.state === "submitting"
-
-  const [form, { id, email }] = useForm<z.infer<typeof schemaUserUpdateEmail>>({
-    shouldValidate: "onSubmit",
-    lastSubmission: actionData,
-    onValidate({ formData }) {
-      return parseZod(formData, { schema: schemaUserUpdateEmail })
-    },
-  })
-
-  return (
-    <Form {...form.props} replace method="PUT" className="space-y-4">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-2 disabled:opacity-80"
-      >
-        <input hidden {...conform.input(id)} defaultValue={user.id} />
-
-        <FormField>
-          <FormLabel htmlFor={email.id}>Email</FormLabel>
-          <Input
-            {...conform.input(email)}
-            type="email"
-            defaultValue={String(user.email)}
-            placeholder="you@yourname.com"
-            className="max-w-xs"
-          />
-          <FormDescription>
-            This is your default email to communicate with
-          </FormDescription>
-          {email.error && (
-            <Alert variant="destructive" id={email.errorId}>
-              {email.error}
-            </Alert>
-          )}
-        </FormField>
-
-        <Button
-          size="sm"
-          type="submit"
-          name="intent"
-          variant="secondary"
-          value="update-user-email"
-          disabled={isSubmitting}
-        >
-          Save Email
         </Button>
       </fieldset>
     </Form>
@@ -329,14 +267,6 @@ export async function action({ request }: ActionArgs) {
     const submission = parseZod(formData, { schema: schemaUserUpdateNick })
     if (!submission.value) return badRequest(submission)
     const result = await model.user.mutation.updateNick(submission.value)
-    if (result.error) return forbidden({ ...submission, error: result.error })
-    return json(submission)
-  }
-
-  if (intent === "update-user-email") {
-    const submission = parseZod(formData, { schema: schemaUserUpdateEmail })
-    if (!submission.value) return badRequest(submission)
-    const result = await model.user.mutation.updateEmail(submission.value)
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }
