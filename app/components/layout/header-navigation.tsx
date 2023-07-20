@@ -41,12 +41,12 @@ const navUnauthenticatedItems: NavItem[] = [
 const navAuthenticatedItems: NavItem[] = [
   {
     to: "/dashboard",
-    text: "dashboard",
+    text: "Dashboard",
     icon: <DashboardIcon className="icon" />,
   },
   {
     to: "/profile",
-    text: "profile",
+    text: "Profile",
     icon: <PersonIcon className="icon" />,
   },
 ]
@@ -63,13 +63,15 @@ export function HeaderNavigation() {
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >
-      <nav className="w-full max-w-md sm:max-w-3xl">
+      <nav className="w-full max-w-md md:max-w-3xl">
         <TooltipProvider delayDuration={300}>
-          <NavigationList navItems={navPublicItems} />
-          {!userSession && (
-            <NavigationList navItems={navUnauthenticatedItems} />
-          )}
-          {userSession && <NavigationList navItems={navAuthenticatedItems} />}
+          <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
+            <NavigationList navItems={navPublicItems} />
+            {!userSession && (
+              <NavigationList navItems={navUnauthenticatedItems} />
+            )}
+            {userSession && <NavigationList navItems={navAuthenticatedItems} />}
+          </ul>
         </TooltipProvider>
       </nav>
     </header>
@@ -78,7 +80,7 @@ export function HeaderNavigation() {
 
 export function NavigationList({ navItems }: { navItems: NavItem[] }) {
   return (
-    <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
+    <>
       {navItems.map(navItem => {
         return (
           <li key={navItem.to}>
@@ -99,7 +101,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 }
               >
                 {navItem.icon}
-                <span className="hidden sm:block lg:hidden">
+                <span className="hidden md:block lg:hidden">
                   {navItem.text}
                 </span>
               </NavLink>
@@ -107,6 +109,6 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
           </li>
         )
       })}
-    </ul>
+    </>
   )
 }
