@@ -18,24 +18,10 @@ export const mutation = {
 
     const user = await prisma.user.update({
       where: { id },
-      data: {
-        password: {
-          update: {
-            hash: hashedPassword,
-          },
-        },
-      },
+      data: { password: { update: { hash: hashedPassword } } },
     })
+    if (!user) return { error: { password: `Password is failed to change` } }
 
-    if (!user) {
-      return {
-        error: { password: `Password is failed to change` },
-      }
-    }
-
-    return {
-      user,
-      error: null,
-    }
+    return { user, error: null }
   },
 }

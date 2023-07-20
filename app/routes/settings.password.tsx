@@ -80,7 +80,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
-          <FormLabel htmlFor={password.id}>Password</FormLabel>
+          <FormLabel htmlFor={password.id}>New Password</FormLabel>
           <InputPassword
             {...conform.input(password)}
             placeholder="Your new password"
@@ -119,7 +119,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
           value="update-user-password"
           disabled={isSubmitting}
         >
-          Save Password
+          Save New Password
         </Button>
       </fieldset>
     </Form>
