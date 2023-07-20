@@ -112,17 +112,25 @@ export default function Route() {
           </div>
 
           {isOwner && (
-            <div>
-              <Button asChild variant="outline">
-                <Link to="/settings/general">Edit Profile</Link>
+            <section className="flex flex-wrap gap-1">
+              <Button asChild variant="secondary" size="xs">
+                <Link to="/settings">Settings</Link>
               </Button>
-            </div>
+              <Button asChild variant="secondary" size="xs">
+                <Link to="/settings/profile">Edit Profile</Link>
+              </Button>
+              <Button asChild type="submit" variant="destructive" size="xs">
+                <Link to="/logout">Logout</Link>
+              </Button>
+            </section>
           )}
         </header>
 
-        <div className="space-y-2">
+        <div className="space-y-4">
           <h3>{user.profiles[0]?.headline}</h3>
-          <p>{user.profiles[0]?.bio}</p>
+          <p className="prose dark:prose-invert whitespace-pre">
+            {user.profiles[0]?.bio}
+          </p>
         </div>
 
         <Debug name="user">{{ params, userSession, user }}</Debug>

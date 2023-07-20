@@ -1,5 +1,5 @@
 import { type LoaderArgs } from "@remix-run/node"
-import { Form, Link } from "@remix-run/react"
+import { Link } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
 import { useRootLoaderData } from "~/hooks"
@@ -34,18 +34,16 @@ export default function DashboardRoute() {
         </Link>
       </section>
 
-      <section className="flex gap-2">
-        <Button asChild>
+      <section className="flex flex-wrap gap-2">
+        <Button asChild variant="secondary">
           <Link to="/settings">Settings</Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link to="/settings/general">Edit Profile</Link>
+          <Link to="/settings/profile">Edit Profile</Link>
         </Button>
-        <Form method="POST" action="/logout">
-          <Button type="submit" variant="destructive">
-            Logout
-          </Button>
-        </Form>
+        <Button asChild type="submit" variant="destructive">
+          <Link to="/logout">Logout</Link>
+        </Button>
       </section>
     </Layout>
   )

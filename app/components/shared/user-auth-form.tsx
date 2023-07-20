@@ -1,5 +1,5 @@
 import { Form, useNavigation } from "@remix-run/react"
-import { GitHubLogoIcon, UpdateIcon, ValueIcon } from "@radix-ui/react-icons"
+import { GitHubLogoIcon, ReloadIcon, ValueIcon } from "@radix-ui/react-icons"
 
 import type { AuthStrategy } from "~/services/auth.server"
 import { cn } from "~/libs"
@@ -43,7 +43,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           </div>
 
           <Button disabled={isLoading}>
-            {isLoading && <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />}
+            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
             <span>Login</span>
           </Button>
         </div>
@@ -100,7 +100,7 @@ export const SocialAuthButton = ({
         disabled={disabled || isLoading}
         className="w-full"
       >
-        {isLoading && <UpdateIcon className="mr-2 h-4 w-4 animate-spin" />}
+        {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
         {!isLoading && icon}
         <span>{label}</span>
       </Button>

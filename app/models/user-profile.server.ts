@@ -4,7 +4,7 @@ import { prisma } from "~/libs"
 import type {
   schemaUserProfileBio,
   schemaUserProfileHeadline,
-  schemaUserUpdateProfile,
+  schemaUserProfileModeName,
 } from "~/schemas"
 
 export type { User } from "@prisma/client"
@@ -20,16 +20,17 @@ export const query = {
 }
 
 export const mutation = {
-  async update({ id, headline, bio }: z.infer<typeof schemaUserUpdateProfile>) {
+  async updateModeName({
+    id,
+    modeName,
+  }: z.infer<typeof schemaUserProfileModeName>) {
     const userProfile = await prisma.userProfile.update({
       where: { id },
-      data: { headline, bio },
+      data: { modeName },
     })
-
     if (!userProfile) {
-      return { error: { password: `Profile is failed to change` } }
+      return { error: { modeName: `Mode name is failed to change` } }
     }
-
     return { userProfile, error: null }
   },
 
@@ -41,11 +42,9 @@ export const mutation = {
       where: { id },
       data: { headline },
     })
-
     if (!userProfile) {
       return { error: { headline: `Headline is failed to change` } }
     }
-
     return { userProfile, error: null }
   },
 
@@ -54,9 +53,7 @@ export const mutation = {
       where: { id },
       data: { bio },
     })
-
     if (!userProfile) return { error: { bio: `Bio is failed to change` } }
-
     return { userProfile, error: null }
   },
 }

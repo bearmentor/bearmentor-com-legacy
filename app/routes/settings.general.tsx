@@ -2,6 +2,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
   Form,
+  Link,
   useActionData,
   useLoaderData,
   useNavigation,
@@ -56,6 +57,9 @@ export default function Route() {
       <header>
         <h2>General</h2>
         <p className="text-muted-foreground">Your general information.</p>
+        <Button asChild size="xs">
+          <Link to="/profile">Go to your profile</Link>
+        </Button>
       </header>
 
       <div className="space-y-6">

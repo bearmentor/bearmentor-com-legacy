@@ -2,6 +2,7 @@ import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
   Form,
+  Link,
   useActionData,
   useLoaderData,
   useNavigation,
@@ -55,17 +56,18 @@ export default function Route() {
       <header>
         <h2>Profile</h2>
         <p className="text-muted-foreground">
-          Your multiples profiles and links.
+          Your profiles and links. In Bearmentor, you could have multiple
+          profiles.
         </p>
+        <Button asChild size="xs">
+          <Link to="/profile">Go to your profile</Link>
+        </Button>
       </header>
 
       <ul className="space-y-10">
         {user?.profiles.map(userProfile => {
           return (
             <li key={userProfile.id} className="space-y-6">
-              <h3>
-                <b className="text-emerald-700">{userProfile.modeName}</b>
-              </h3>
               <UserProfileModeNameForm userProfile={userProfile as any} />
               <UserProfileHeadlineForm userProfile={userProfile as any} />
               <UserProfileBioForm userProfile={userProfile as any} />
@@ -259,6 +261,16 @@ export async function action({ request }: ActionArgs) {
   const formData = await request.formData()
   const parsed = parse(formData)
   const { intent } = parsed.payload
+
+  if (intent === "update-user-profile-modename") {
+    const submission = parseZod(formData, { schema: schemaUserProfileModeName })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.userProfile.mutation.updateModeName(
+      submission.value,
+    )
+    if (result.error) return forbidden({ ...submission, error: result.error })
+    return json(submission)
+  }
 
   if (intent === "update-user-profile-headline") {
     const submission = parseZod(formData, { schema: schemaUserProfileHeadline })

@@ -69,7 +69,7 @@ export function LandingHero() {
             <Button size="lg" asChild>
               <Link to="/mentors">Discover Mentors</Link>
             </Button>
-            <Button size="lg" variant="outline" asChild>
+            <Button size="lg" variant="secondary" asChild>
               <Link to="/login">Login to Continue</Link>
             </Button>
           </div>
