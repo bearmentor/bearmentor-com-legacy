@@ -1,6 +1,8 @@
 import { NavLink } from "@remix-run/react"
 import {
-  FaceIcon,
+  DashboardIcon,
+  Half1Icon,
+  Half2Icon,
   HomeIcon,
   LockOpen1Icon,
   MagnifyingGlassIcon,
@@ -8,21 +10,50 @@ import {
 } from "@radix-ui/react-icons"
 
 import { cn } from "~/libs"
+import { useRootLoaderData } from "~/hooks"
 import { TooltipAuto, TooltipProvider } from "~/components"
 
-const navItems = [
+type NavItem = {
+  to: string
+  text: string
+  icon: React.ReactNode
+}
+
+const navPublicItems: NavItem[] = [
   { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
   {
     to: "/search",
     text: "Search",
     icon: <MagnifyingGlassIcon className="icon" />,
   },
-  { to: "/mentors", text: "Mentors", icon: <FaceIcon className="icon" /> },
-  { to: "/mentees", text: "Mentees", icon: <PersonIcon className="icon" /> },
-  { to: "/login", text: "Login", icon: <LockOpen1Icon className="icon" /> },
+  { to: "/mentors", text: "Mentors", icon: <Half2Icon className="icon" /> },
+  { to: "/mentees", text: "Mentees", icon: <Half1Icon className="icon" /> },
+]
+
+const navUnauthenticatedItems: NavItem[] = [
+  {
+    to: "/login",
+    text: "Login",
+    icon: <LockOpen1Icon className="icon" />,
+  },
+]
+
+const navAuthenticatedItems: NavItem[] = [
+  {
+    to: "/dashboard",
+    text: "dashboard",
+    icon: <DashboardIcon className="icon" />,
+  },
+  {
+    to: "/profile",
+    text: "profile",
+    icon: <PersonIcon className="icon" />,
+  },
 ]
 
 export function HeaderNavigation() {
+  const { userSession } = useRootLoaderData()
+
   return (
     <header
       className={cn(
@@ -34,38 +65,48 @@ export function HeaderNavigation() {
     >
       <nav className="w-full max-w-md sm:max-w-3xl">
         <TooltipProvider delayDuration={300}>
-          <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
-            {navItems.map(navItem => {
-              return (
-                <li key={navItem.to}>
-                  <TooltipAuto
-                    content={navItem.text}
-                    className="hidden lg:block"
-                    side="right"
-                  >
-                    <NavLink
-                      to={navItem.to}
-                      className={({ isActive }) =>
-                        cn(
-                          "flex items-center justify-center gap-2 rounded p-2 font-bold ",
-                          isActive
-                            ? "dark:bg-emerald-950 dark:hover:bg-emerald-900"
-                            : "hover:bg-stone-800",
-                        )
-                      }
-                    >
-                      {navItem.icon}
-                      <span className="hidden sm:block lg:hidden">
-                        {navItem.text}
-                      </span>
-                    </NavLink>
-                  </TooltipAuto>
-                </li>
-              )
-            })}
-          </ul>
+          <NavigationList navItems={navPublicItems} />
+          {!userSession && (
+            <NavigationList navItems={navUnauthenticatedItems} />
+          )}
+          {userSession && <NavigationList navItems={navAuthenticatedItems} />}
         </TooltipProvider>
       </nav>
     </header>
+  )
+}
+
+export function NavigationList({ navItems }: { navItems: NavItem[] }) {
+  return (
+    <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
+      {navItems.map(navItem => {
+        return (
+          <li key={navItem.to}>
+            <TooltipAuto
+              content={navItem.text}
+              className="hidden lg:block"
+              side="right"
+            >
+              <NavLink
+                to={navItem.to}
+                className={({ isActive }) =>
+                  cn(
+                    "flex items-center justify-center gap-2 rounded p-2 font-bold ",
+                    isActive
+                      ? "dark:bg-emerald-950 dark:hover:bg-emerald-900"
+                      : "hover:bg-stone-800",
+                  )
+                }
+              >
+                {navItem.icon}
+                <span className="hidden sm:block lg:hidden">
+                  {navItem.text}
+                </span>
+              </NavLink>
+            </TooltipAuto>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
