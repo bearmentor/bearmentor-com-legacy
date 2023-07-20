@@ -100,7 +100,7 @@ export default function Route() {
                 <li key={user.id}>
                   <Link
                     to={`/${user.username}`}
-                    className="flex gap-2 py-1 transition hover:opacity-80"
+                    className="hover-opacity flex gap-2 py-1"
                   >
                     <AvatarAuto
                       className="h-14 w-14"

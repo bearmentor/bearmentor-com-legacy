@@ -57,7 +57,7 @@ export default function Route() {
     return (
       <Layout className="px-4 sm:px-8">
         <section className="flex flex-col items-center justify-center pt-4">
-          <Link to="/" className="transition hover:opacity-80">
+          <Link to="/" className="hover-opacity">
             <img src="/favicon.png" alt="Bear" className="h-12" />
           </Link>
           <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">

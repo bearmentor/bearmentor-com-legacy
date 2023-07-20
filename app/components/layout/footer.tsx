@@ -35,7 +35,7 @@ export function FooterNavigation() {
             <li key={navItem.to}>
               <Link
                 to={navItem.to}
-                className="font-bold transition hover:opacity-80"
+                className="font-bold hover-opacity"
               >
                 {navItem.text}
               </Link>

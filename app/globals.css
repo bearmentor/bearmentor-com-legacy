@@ -129,6 +129,12 @@
   }
 }
 
+@layer utilities {
+  .hover-opacity {
+    @apply transition hover:opacity-80;
+  }
+}
+
 /* NProgress styles need to be outside of layers because using #id */
 #nprogress {
   @apply pointer-events-none z-50;

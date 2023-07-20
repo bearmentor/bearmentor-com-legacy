@@ -1,10 +1,11 @@
 import { json } from "@remix-run/node"
 import type { LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData } from "@remix-run/react"
+import arrayShuffle from "array-shuffle"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { AvatarAuto, Button, Layout, UserCard } from "~/components"
+import { Anchor, AvatarAuto, Button, Layout, UserCard } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const mentors = await prisma.user.findMany({
@@ -34,8 +35,8 @@ export async function loader({ request }: LoaderArgs) {
   })
 
   return json(
-    { mentors, mentees },
-    { headers: createCacheHeaders(request, 3600) },
+    { mentors: arrayShuffle(mentors), mentees: arrayShuffle(mentees) },
+    { headers: createCacheHeaders(request, 60) },
   )
 }
 
@@ -94,7 +95,12 @@ export function LandingMentors() {
 
   return (
     <article className="w-full max-w-7xl space-y-4">
-      <h2 className="text-emerald-500">Available Mentors</h2>
+      <header className="space-y-1">
+        <Link to="/mentors">
+          <h2 className="hover-opacity text-emerald-500">Available Mentors</h2>
+        </Link>
+        <p>In randomized order</p>
+      </header>
       <ul className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {mentors.map(user => {
           return (
@@ -119,14 +125,19 @@ export function LandingMentees() {
 
   return (
     <article className="w-full max-w-7xl space-y-4">
-      <h2 className="text-emerald-500">Featured Mentees</h2>
+      <header className="space-y-1">
+        <Link to="/mentees">
+          <h2 className="hover-opacity text-emerald-500">Featured Mentees</h2>
+        </Link>
+        <p>In randomized order</p>
+      </header>
       <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {mentees.map(user => {
           return (
             <li key={user.id}>
               <Link
                 to={`/${user.username}`}
-                className="flex gap-2 py-1 transition hover:opacity-80"
+                className="hover-opacity flex gap-2 py-1"
               >
                 <AvatarAuto
                   className="h-14 w-14"
@@ -178,21 +189,16 @@ export function LandingDevelopment() {
           </p>
           <p>
             This is still in very early development. Check out{" "}
-            <a
-              href="https://github.com/bearmentor"
-              target="_blank"
-              rel="noreferrer"
-              className="font-bold text-emerald-700 transition hover:opacity-80 dark:text-emerald-300"
-            >
+            <Anchor href="https://github.com/bearmentor">
               github.com/bearmentor
-            </a>
+            </Anchor>
           </p>
           <p>Some references:</p>
-          <ul>
+          <ul className="list-inside list-disc">
             {dataReferences.map(reference => {
               return (
                 <li key={reference.text}>
-                  <a href={reference.href}>{reference.text}</a>
+                  <Anchor href={reference.href}>{reference.text}</Anchor>
                 </li>
               )
             })}

@@ -33,7 +33,7 @@ export default function Route() {
                 New to Bearmentor?{" "}
                 <Link
                   to={`/register`}
-                  className="font-bold text-emerald-500 transition hover:opacity-80"
+                  className="hover-opacity font-bold text-emerald-500"
                 >
                   Create an account
                 </Link>
