@@ -33,10 +33,7 @@ export function FooterNavigation() {
         {footerNavItems.map(navItem => {
           return (
             <li key={navItem.to}>
-              <Link
-                to={navItem.to}
-                className="font-bold hover-opacity"
-              >
+              <Link to={navItem.to} className="hover-opacity font-bold">
                 {navItem.text}
               </Link>
             </li>

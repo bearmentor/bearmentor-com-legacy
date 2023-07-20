@@ -6,6 +6,7 @@
     "yzhang.markdown-all-in-one",
     "bradlc.vscode-tailwindcss",
     "moalamri.inline-fold",
-    "codeforge.remix-forge"
+    "codeforge.remix-forge",
+    "stylelint.vscode-stylelint"
   ]
 }

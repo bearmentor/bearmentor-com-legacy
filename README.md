@@ -96,12 +96,30 @@ SESSION_SECRET="random_secret_text"
 
 ## Development
 
+### Dependencies
+
 To run the app locally, make sure the project's local dependencies are
 installed:
 
 ```sh
 pnpm install
 ```
+
+### Code
+
+Format, lint, and build to check your setup is fine:
+
+```sh
+pnpm check
+# run: format lint stylelint build
+
+pnpm check:fix # to fix most cases if there's an issue
+# run: format:fix lint:fix stylelint:fix
+```
+
+> Note: Ignore non-critical warning about ESLint and TypeScript
+
+### Database
 
 Sync between the schema of Prisma and the database, which we can do regularly
 while updating the Prisma schema:
@@ -122,11 +140,15 @@ Check if the data is fine:
 pnpm db:check
 ```
 
+### Build
+
 Check if the build is fine:
 
 ```sh
 pnpm build
 ```
+
+### Develop Locally
 
 If everything works fine, start the Remix development server like so:
 
@@ -138,9 +160,11 @@ Open up [http://localhost:3000](http://localhost:3000) and it should be ready to
 go!
 
 The `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) can
-also be used.
+also be used when necessary.
 
 ## Deployment
+
+This repo has been setup to autodeploy to Vercel automatically on Git push.
 
 > The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of
 > the box Vercel functionality and will be removed in Remix v2.  
