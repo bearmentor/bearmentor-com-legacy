@@ -1,4 +1,5 @@
-import { NavLink } from "@remix-run/react"
+import { NavLink, useLocation } from "@remix-run/react"
+import type { Location } from "@remix-run/react"
 import {
   DashboardIcon,
   Half1Icon,
@@ -9,6 +10,7 @@ import {
   PersonIcon,
 } from "@radix-ui/react-icons"
 
+import type { UserData } from "~/services/auth.server"
 import { cn } from "~/libs"
 import { useRootLoaderData } from "~/hooks"
 import { TooltipAuto, TooltipProvider } from "~/components"
@@ -79,6 +81,9 @@ export function HeaderNavigation() {
 }
 
 export function NavigationList({ navItems }: { navItems: NavItem[] }) {
+  const location = useLocation()
+  const { userData } = useRootLoaderData()
+
   return (
     <>
       {navItems.map(navItem => {
@@ -91,14 +96,16 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
             >
               <NavLink
                 to={navItem.to}
-                className={({ isActive }) =>
-                  cn(
+                className={({ isActive }) => {
+                  return cn(
                     "flex items-center justify-center gap-2 rounded p-2 font-bold ",
-                    isActive
+                    isActive ||
+                      (navItem.to === "/profile" &&
+                        checkIfActiveUsername(location, userData))
                       ? "dark:bg-emerald-950 dark:hover:bg-emerald-900"
                       : "hover:bg-stone-800",
                   )
-                }
+                }}
               >
                 {navItem.icon}
                 <span className="hidden md:block lg:hidden">
@@ -111,4 +118,13 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
       })}
     </>
   )
+}
+
+// Because the navigation has a Link to /profile route
+// But if we are in the /$username route, then we have to check it
+export function checkIfActiveUsername(
+  location: Location,
+  userData: UserData | undefined,
+) {
+  return location?.pathname === `/${userData?.username}`
 }

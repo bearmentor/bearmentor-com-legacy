@@ -124,9 +124,9 @@ export default function Route() {
           <h3>{user.profiles[0]?.headline}</h3>
           <p>{user.profiles[0]?.bio}</p>
         </div>
-      </section>
 
-      <Debug name="user">{{ params, userSession, user }}</Debug>
+        <Debug name="user">{{ params, userSession, user }}</Debug>
+      </section>
     </Layout>
   )
 }

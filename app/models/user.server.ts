@@ -11,6 +11,7 @@ export const modelUser = {
         name: true,
         username: true,
         nick: true,
+        role: { select: { symbol: true, name: true } },
         avatars: { select: { url: true } },
         tags: { select: { id: true, symbol: true, name: true } },
         profiles: { select: { headline: true, links: true } },

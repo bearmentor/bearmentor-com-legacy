@@ -4,7 +4,8 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "prisma generate && remix build",
+    "build": "remix build",
+    "build:ci": "prisma db push && remix build",
     "dev": "remix dev",
     "typecheck": "tsc",
     "format": "prettier --check \"**/*.{ts,tsx,mdx}\" --cache",
@@ -20,7 +21,11 @@
     "db:migrate": "prisma migrate dev",
     "db:seed": "prisma db seed",
     "db:check": "tsx prisma/check.ts",
-    "db:studio": "prisma studio --browser none"
+    "db:studio": "prisma studio --browser none",
+    "reveal": "remix reveal",
+    "clean": "rm -rf build public/build",
+    "prebuild": "prisma generate",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@ariakit/react": "0.2.12",

@@ -128,6 +128,8 @@ while updating the Prisma schema:
 pnpm db:push
 ```
 
+> This will also run `prisma generate` automatically when success
+
 Then seed the initial data when needed:
 
 ```sh
@@ -148,6 +150,8 @@ Check if the build is fine:
 pnpm build
 ```
 
+> This will also run `prisma generate` too before the build
+
 ### Develop Locally
 
 If everything works fine, start the Remix development server like so:
@@ -161,6 +165,16 @@ go!
 
 The `vercel dev` command provided by [Vercel CLI](https://vercel.com/cli) can
 also be used when necessary.
+
+Regularly, either push or generate the schema when changing the database fields.
+
+```sh
+pnpm db:push
+# run: prisma db push
+
+pnpm db:gen
+# run: prisma generate
+```
 
 ## Deployment
 
