@@ -29,6 +29,8 @@
   },
   "dependencies": {
     "@ariakit/react": "0.2.12",
+    "@conform-to/react": "0.7.4",
+    "@conform-to/zod": "0.7.4",
     "@fontsource/anybody": "5.0.5",
     "@fontsource/pt-mono": "5.0.5",
     "@fontsource/pt-sans": "5.0.5",

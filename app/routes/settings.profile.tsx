@@ -1,6 +1,7 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
+import { Form as RemixForm, useLoaderData } from "@remix-run/react"
+import { parse } from "@conform-to/zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { User } from "@prisma/client"
 import { useFieldArray, useForm } from "react-hook-form"
@@ -8,7 +9,7 @@ import * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
 import { cn, prisma } from "~/libs"
-import { stringify } from "~/utils"
+import { log, stringify } from "~/utils"
 import {
   Button,
   Form,
@@ -63,6 +64,12 @@ export default function Route() {
   )
 }
 
+const linkSchema = z.object({
+  value: z.string().url({ message: "Please enter a valid URL." }),
+  text: z.string().optional(),
+  sequence: z.number().int().optional(),
+})
+
 const profileFormSchema = z.object({
   name: z
     .string()
@@ -80,13 +87,7 @@ const profileFormSchema = z.object({
     .string({ required_error: "Please select an email to display." })
     .email(),
   bio: z.string().max(160).min(4),
-  links: z
-    .array(
-      z.object({
-        value: z.string().url({ message: "Please enter a valid URL." }),
-      }),
-    )
-    .optional(),
+  links: z.array(linkSchema).optional(),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
@@ -101,7 +102,7 @@ export function ProfileForm({
       links: {
         value: string
         text?: string
-        sequence?: string
+        sequence?: number
       }[]
     }[]
   }
@@ -115,8 +116,8 @@ export function ProfileForm({
     email: user.email || "",
     bio: firstProfile.bio || "This is my default bio.",
     links: firstProfile.links || [
-      { value: "https://yourname.com" },
-      { value: "http://twitter.com/yourname" },
+      { value: "https://yourname.com", text: "Website" },
+      { value: "http://twitter.com/yourname", text: "Twitter" },
     ],
   }
 
@@ -145,7 +146,7 @@ export function ProfileForm({
 
   return (
     <Form {...form}>
-      <form className="space-y-8">
+      <RemixForm method="POST" className="space-y-8">
         <FormField
           control={form.control}
           name="name"
@@ -302,13 +303,22 @@ export function ProfileForm({
         <Button type="submit" size="lg">
           Save Profile
         </Button>
-      </form>
+      </RemixForm>
     </Form>
   )
 }
 
 export const action = async ({ request }: ActionArgs) => {
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+
+  const formData = await request.formData()
+  const submission = parse(formData, { schema: profileFormSchema })
+
+  log(submission)
+
+  if (!submission.value || submission.intent !== "submit") {
+    return json(submission)
+  }
 
   return null
 }
