@@ -1,7 +1,11 @@
 import type { z } from "zod"
 
 import { prisma } from "~/libs"
-import type { schemaUserUpdateProfile } from "~/schemas"
+import type {
+  schemaUserProfileBio,
+  schemaUserProfileHeadline,
+  schemaUserUpdateProfile,
+} from "~/schemas"
 
 export type { User } from "@prisma/client"
 
@@ -26,9 +30,33 @@ export const mutation = {
       return { error: { password: `Profile is failed to change` } }
     }
 
-    return {
-      userProfile,
-      error: null,
+    return { userProfile, error: null }
+  },
+
+  async updateHeadline({
+    id,
+    headline,
+  }: z.infer<typeof schemaUserProfileHeadline>) {
+    const userProfile = await prisma.userProfile.update({
+      where: { id },
+      data: { headline },
+    })
+
+    if (!userProfile) {
+      return { error: { headline: `Headline is failed to change` } }
     }
+
+    return { userProfile, error: null }
+  },
+
+  async updateBio({ id, bio }: z.infer<typeof schemaUserProfileBio>) {
+    const userProfile = await prisma.userProfile.update({
+      where: { id },
+      data: { bio },
+    })
+
+    if (!userProfile) return { error: { bio: `Bio is failed to change` } }
+
+    return { userProfile, error: null }
   },
 }

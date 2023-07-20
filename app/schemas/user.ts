@@ -35,14 +35,13 @@ const redirectTo = z.string().optional()
 
 const roleSymbol = z.string().min(1, "Role is required")
 
-const headline = z
-  .string()
-  .max(50, "Headline limited to 50 characters")
-  .optional()
+const modeName = z.string().min(1, "Profile mode name is required")
+
+const headline = z.string().max(50, "Headline limited to 50 characters")
 
 const bio = z.string().max(280, "Bio limited to 280 characters").optional()
 
-const links = z.object({
+const link = z.object({
   value: z.string().url({ message: "Please enter a valid URL." }),
   text: z.string().optional(),
   sequence: z.number().int().optional(),
@@ -63,31 +62,15 @@ export const schemaUserLogin = z.object({
   redirectTo,
 })
 
-export const schemaUserUpdateUsername = z.object({
-  id,
-  username,
-})
+export const schemaUserUpdateUsername = z.object({ id, username })
+export const schemaUserUpdateName = z.object({ id, name })
+export const schemaUserUpdateNick = z.object({ id, nick })
+export const schemaUserUpdateEmail = z.object({ id, email })
+export const schemaUserUpdateProfile = z.object({ id, headline, bio })
 
-export const schemaUserUpdateName = z.object({
-  id,
-  name,
-})
-
-export const schemaUserUpdateNick = z.object({
-  id,
-  nick,
-})
-
-export const schemaUserUpdateEmail = z.object({
-  id,
-  email,
-})
-
-export const schemaUserUpdateProfile = z.object({
-  id,
-  headline,
-  bio,
-})
+export const schemaUserProfileModeName = z.object({ id, modeName })
+export const schemaUserProfileHeadline = z.object({ id, headline })
+export const schemaUserProfileBio = z.object({ id, bio })
 
 export const schemaUserUpdatePassword = z
   .object({
@@ -111,6 +94,6 @@ export const schemaAdminUserUpdate = z.object({
   name,
   nick,
   email,
-  links,
+  links: z.array(link),
   roleSymbol,
 })

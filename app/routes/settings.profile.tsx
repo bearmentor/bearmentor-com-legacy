@@ -8,7 +8,7 @@ import {
 } from "@remix-run/react"
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
-import type { User } from "@prisma/client"
+import type { UserProfile } from "@prisma/client"
 import { model } from "~/models"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
@@ -22,12 +22,12 @@ import {
   FormField,
   FormLabel,
   Input,
+  Textarea,
 } from "~/components"
 import {
-  schemaUserUpdateName,
-  schemaUserUpdateNick,
-  schemaUserUpdatePassword,
-  schemaUserUpdateUsername,
+  schemaUserProfileBio,
+  schemaUserProfileHeadline,
+  schemaUserProfileModeName,
 } from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -40,12 +40,6 @@ export const loader = async ({ request }: LoaderArgs) => {
     where: { id: userSession.id },
     select: {
       id: true,
-      name: true,
-      nick: true,
-      username: true,
-      email: true,
-      avatars: { select: { url: true } },
-      tags: { select: { id: true, symbol: true, name: true } },
       profiles: true,
     },
   })
@@ -61,34 +55,44 @@ export default function Route() {
       <header>
         <h2>Profile</h2>
         <p className="text-muted-foreground">
-          Your personal profile information and links.
+          Your multiples profiles and links.
         </p>
       </header>
 
-      <div className="space-y-6">
-        <UserUsernameForm user={user as any} />
-        <UserNameForm user={user as any} />
-        <UserNickForm user={user as any} />
-      </div>
+      <ul className="space-y-10">
+        {user?.profiles.map(userProfile => {
+          return (
+            <li key={userProfile.id} className="space-y-6">
+              <h3>
+                <b className="text-emerald-700">{userProfile.modeName}</b>
+              </h3>
+              <UserProfileModeNameForm userProfile={userProfile as any} />
+              <UserProfileHeadlineForm userProfile={userProfile as any} />
+              <UserProfileBioForm userProfile={userProfile as any} />
+            </li>
+          )
+        })}
+      </ul>
     </div>
   )
 }
 
-export function UserUsernameForm({
-  user,
+export function UserProfileModeNameForm({
+  userProfile,
 }: {
-  user: Pick<User, "id" | "username">
+  userProfile: Pick<UserProfile, "id" | "modeName">
 }) {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
-  const schema = schemaUserUpdateUsername
 
-  const [form, { id, username }] = useForm<z.infer<typeof schema>>({
+  const [form, { id, modeName }] = useForm<
+    z.infer<typeof schemaUserProfileModeName>
+  >({
     shouldValidate: "onSubmit",
     lastSubmission: actionData,
     onValidate({ formData }) {
-      return parseZod(formData, { schema })
+      return parseZod(formData, { schema: schemaUserProfileModeName })
     },
   })
 
@@ -98,23 +102,22 @@ export function UserUsernameForm({
         disabled={isSubmitting}
         className="space-y-2 disabled:opacity-80"
       >
-        <input hidden {...conform.input(id)} defaultValue={user.id} />
+        <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={username.id}>Your Username</FormLabel>
+          <FormLabel htmlFor={modeName.id}>Profile Mode Name</FormLabel>
           <Input
-            {...conform.input(username)}
+            {...conform.input(modeName)}
             type="text"
-            defaultValue={user.username}
-            placeholder="yourname"
+            defaultValue={String(userProfile.modeName)}
+            placeholder="Profile Mode Name"
           />
           <FormDescription>
-            Your public username as @username and your URL namespace within
-            Bearmentor
+            Mode name is used to identify from your multiple profiles
           </FormDescription>
-          {username.error && (
-            <Alert variant="destructive" id={username.errorId}>
-              {username.error}
+          {modeName.error && (
+            <Alert variant="destructive" id={modeName.errorId}>
+              {modeName.error}
             </Alert>
           )}
         </FormField>
@@ -123,26 +126,32 @@ export function UserUsernameForm({
           type="submit"
           name="intent"
           variant="secondary"
-          value="update-user-username"
+          value="update-user-profile-modename"
           disabled={isSubmitting}
         >
-          Save Username
+          Save Mode Name
         </Button>
       </fieldset>
     </Form>
   )
 }
 
-export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
+export function UserProfileHeadlineForm({
+  userProfile,
+}: {
+  userProfile: Pick<UserProfile, "id" | "headline">
+}) {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
-  const [form, { id, name }] = useForm<z.infer<typeof schemaUserUpdateName>>({
+  const [form, { id, headline }] = useForm<
+    z.infer<typeof schemaUserProfileHeadline>
+  >({
     shouldValidate: "onSubmit",
     lastSubmission: actionData,
     onValidate({ formData }) {
-      return parseZod(formData, { schema: schemaUserUpdateName })
+      return parseZod(formData, { schema: schemaUserProfileHeadline })
     },
   })
 
@@ -152,23 +161,22 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
         disabled={isSubmitting}
         className="space-y-2 disabled:opacity-80"
       >
-        <input hidden {...conform.input(id)} defaultValue={user.id} />
+        <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={name.id}>Your Full Name</FormLabel>
+          <FormLabel htmlFor={headline.id}>Your Headline</FormLabel>
           <Input
-            {...conform.input(name)}
+            {...conform.input(headline)}
             type="text"
-            defaultValue={user.name}
-            placeholder="Your Full Name"
+            defaultValue={userProfile.headline || ""}
+            placeholder="Your Headline"
           />
           <FormDescription>
-            Please enter your full name, or a display name you are comfortable
-            with, can be real name or a pseudonym
+            Your headline to recognize your profile
           </FormDescription>
-          {name.error && (
-            <Alert variant="destructive" id={name.errorId}>
-              {name.error}
+          {headline.error && (
+            <Alert variant="destructive" id={headline.errorId}>
+              {headline.error}
             </Alert>
           )}
         </FormField>
@@ -177,26 +185,30 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
           type="submit"
           name="intent"
           variant="secondary"
-          value="update-user-name"
+          value="update-user-profile-headline"
           disabled={isSubmitting}
         >
-          Save Name
+          Save Headline
         </Button>
       </fieldset>
     </Form>
   )
 }
 
-export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
+export function UserProfileBioForm({
+  userProfile,
+}: {
+  userProfile: Pick<UserProfile, "id" | "bio">
+}) {
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
-  const [form, { id, nick }] = useForm<z.infer<typeof schemaUserUpdateNick>>({
+  const [form, { id, bio }] = useForm<z.infer<typeof schemaUserProfileBio>>({
     shouldValidate: "onSubmit",
     lastSubmission: actionData,
     onValidate({ formData }) {
-      return parseZod(formData, { schema: schemaUserUpdateNick })
+      return parseZod(formData, { schema: schemaUserProfileBio })
     },
   })
 
@@ -206,20 +218,23 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
         disabled={isSubmitting}
         className="space-y-2 disabled:opacity-80"
       >
-        <input hidden {...conform.input(id)} defaultValue={user.id} />
+        <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={nick.id}>Your Nick Name</FormLabel>
-          <Input
-            {...conform.input(nick)}
-            type="text"
-            defaultValue={String(user.nick)}
-            placeholder="Your Nick"
+          <FormLabel htmlFor={bio.id}>Your Bio</FormLabel>
+          <Textarea
+            {...conform.input(bio)}
+            defaultValue={userProfile.bio || ""}
+            placeholder="Tell us a bit about yourself..."
+            className="min-h-[200px]"
           />
-          <FormDescription>Your nick name when being called</FormDescription>
-          {nick.error && (
-            <Alert variant="destructive" id={nick.errorId}>
-              {nick.error}
+          <FormDescription>
+            Your bio information about yourself. Can also <span>@mention</span>{" "}
+            other users and organizations to link to them (later).
+          </FormDescription>
+          {bio.error && (
+            <Alert variant="destructive" id={bio.errorId}>
+              {bio.error}
             </Alert>
           )}
         </FormField>
@@ -228,10 +243,10 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
           type="submit"
           name="intent"
           variant="secondary"
-          value="update-user-nick"
+          value="update-user-bio"
           disabled={isSubmitting}
         >
-          Save Nick
+          Save Bio
         </Button>
       </fieldset>
     </Form>
@@ -245,34 +260,20 @@ export async function action({ request }: ActionArgs) {
   const parsed = parse(formData)
   const { intent } = parsed.payload
 
-  if (intent === "update-user-username") {
-    const submission = parseZod(formData, { schema: schemaUserUpdateUsername })
+  if (intent === "update-user-profile-headline") {
+    const submission = parseZod(formData, { schema: schemaUserProfileHeadline })
     if (!submission.value) return badRequest(submission)
-    const result = await model.user.mutation.updateUsername(submission.value)
+    const result = await model.userProfile.mutation.updateHeadline(
+      submission.value,
+    )
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }
 
-  if (intent === "update-user-name") {
-    const submission = parseZod(formData, { schema: schemaUserUpdateName })
+  if (intent === "update-user-bio") {
+    const submission = parseZod(formData, { schema: schemaUserProfileBio })
     if (!submission.value) return badRequest(submission)
-    const result = await model.user.mutation.updateName(submission.value)
-    if (result?.error) return forbidden({ ...submission, error: result.error })
-    return json(submission)
-  }
-
-  if (intent === "update-user-nick") {
-    const submission = parseZod(formData, { schema: schemaUserUpdateNick })
-    if (!submission.value) return badRequest(submission)
-    const result = await model.user.mutation.updateNick(submission.value)
-    if (result.error) return forbidden({ ...submission, error: result.error })
-    return json(submission)
-  }
-
-  if (intent === "update-user-password") {
-    const submission = parseZod(formData, { schema: schemaUserUpdatePassword })
-    if (!submission.value) return badRequest(submission)
-    const result = await model.userPassword.mutation.update(submission.value)
+    const result = await model.userProfile.mutation.updateBio(submission.value)
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }

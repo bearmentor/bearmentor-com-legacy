@@ -26,7 +26,6 @@ import {
 import {
   schemaUserUpdateName,
   schemaUserUpdateNick,
-  schemaUserUpdatePassword,
   schemaUserUpdateUsername,
 } from "~/schemas"
 
@@ -40,13 +39,9 @@ export const loader = async ({ request }: LoaderArgs) => {
     where: { id: userSession.id },
     select: {
       id: true,
+      username: true,
       name: true,
       nick: true,
-      username: true,
-      email: true,
-      avatars: { select: { url: true } },
-      tags: { select: { id: true, symbol: true, name: true } },
-      profiles: true,
     },
   })
 
@@ -60,9 +55,7 @@ export default function Route() {
     <div className="w-full space-y-10">
       <header>
         <h2>General</h2>
-        <p className="text-muted-foreground">
-          This is how others will generally see you on the site.
-        </p>
+        <p className="text-muted-foreground">Your general information.</p>
       </header>
 
       <div className="space-y-6">
@@ -213,7 +206,7 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
           <Input
             {...conform.input(nick)}
             type="text"
-            defaultValue={String(user.nick)}
+            defaultValue={user.nick || ""}
             placeholder="Your Nick"
           />
           <FormDescription>Your nick name when being called</FormDescription>
@@ -265,14 +258,6 @@ export async function action({ request }: ActionArgs) {
     const submission = parseZod(formData, { schema: schemaUserUpdateNick })
     if (!submission.value) return badRequest(submission)
     const result = await model.user.mutation.updateNick(submission.value)
-    if (result.error) return forbidden({ ...submission, error: result.error })
-    return json(submission)
-  }
-
-  if (intent === "update-user-password") {
-    const submission = parseZod(formData, { schema: schemaUserUpdatePassword })
-    if (!submission.value) return badRequest(submission)
-    const result = await model.userPassword.mutation.update(submission.value)
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }
