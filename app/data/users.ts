@@ -29,6 +29,15 @@ export const dataUsers: DataUser[] = [
     },
   },
   {
+    name: "Test",
+    username: "test",
+    nick: "Test",
+    tags: ["COLLABORATOR"],
+    profiles: {
+      create: { headline: "The Tester", bio: "I'm Tester.", modeName: "Test" },
+    },
+  },
+  {
     name: "Bearmentor",
     username: "bearmentor",
     nick: "Bear",
@@ -247,6 +256,19 @@ export const dataUsers: DataUser[] = [
       create: {
         headline: "Sofware Engineer at Ubersnap",
         bio: "I have worked in complex applications such as e-commerce and event management service",
+        modeName: "Engineer",
+      },
+    },
+  },
+  {
+    name: "Dicky Muhamad Rizky",
+    username: "dickymr",
+    nick: "Dicky MR",
+    tags: ["MENTEE", "DEVELOPER"],
+    profiles: {
+      create: {
+        headline: "Associate Frontend Engineer at Garena",
+        bio: "I am a Frontend Web Developer",
         modeName: "Engineer",
       },
     },

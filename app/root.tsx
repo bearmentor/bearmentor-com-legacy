@@ -19,7 +19,7 @@ import brandFontStyles from "@fontsource/anybody/600.css"
 import monoFontStyles from "@fontsource/pt-mono/index.css"
 import sansFontStyles from "@fontsource/pt-sans/index.css"
 import { Analytics } from "@vercel/analytics/react"
-import { modelUser } from "~/models"
+import { model } from "~/models"
 import NProgress from "nprogress"
 
 import { authenticator } from "~/services/auth.server"
@@ -61,7 +61,7 @@ export const links: LinksFunction = () => [
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: "🐻 Bearmentor" },
+    { title: "Bearmentor" },
     {
       name: "description",
       content: "Brilliant mentoring platform for people and organization.",
@@ -72,7 +72,7 @@ export const meta: V2_MetaFunction = () => {
 export const loader = async ({ request }: LoaderArgs) => {
   const nodeEnv = process.env.NODE_ENV
   const userSession = await authenticator.isAuthenticated(request)
-  const userData = await modelUser.getForSession({
+  const userData = await model.user.query.getForSession({
     id: String(userSession?.id),
   })
 
@@ -83,7 +83,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   return json(
     { nodeEnv, userSession, userData },
-    { headers: createCacheHeaders(request, 60) },
+    { headers: createCacheHeaders(request, 5) },
   )
 }
 

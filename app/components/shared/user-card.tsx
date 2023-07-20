@@ -16,19 +16,20 @@ interface Props {
     tags: { id: string; symbol: string; name: string }[]
     profiles: { headline: string; links: string }[]
   }
-  filterSymbol?: string[]
 }
 
-export function UserCard({ user, filterSymbol }: Props) {
+export function UserCard({ user }: Props) {
   return (
     <Card className="hover-opacity max-w-2xl">
       <CardHeader className="flex gap-4">
-        <AvatarAuto
-          className="h-24 w-24"
-          src={user.avatars[0]?.url}
-          alt={user.username}
-          fallback={user.username[0].toUpperCase()}
-        />
+        {user?.avatars[0]?.url && (
+          <AvatarAuto
+            className="h-24 w-24"
+            src={user.avatars[0]?.url}
+            alt={user.username}
+            fallback={user.username[0].toUpperCase()}
+          />
+        )}
 
         <div className="flex flex-col justify-between">
           <div>
@@ -40,19 +41,19 @@ export function UserCard({ user, filterSymbol }: Props) {
       </CardHeader>
 
       <CardContent>
-        <ul className="flex flex-wrap gap-1 sm:gap-2">
-          {user.tags
-            .filter(tag => {
-              return !filterSymbol || !filterSymbol.includes(tag.symbol)
-            })
-            .map(tag => {
-              return (
-                <li key={tag.id}>
-                  <Badge size="sm">{tag.name}</Badge>
-                </li>
-              )
-            })}
-        </ul>
+        <div>
+          {user.tags?.length > 0 && (
+            <ul className="flex flex-wrap gap-1 sm:gap-2">
+              {user.tags.map(tag => {
+                return (
+                  <li key={tag.id}>
+                    <Badge size="sm">{tag.name}</Badge>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </div>
       </CardContent>
     </Card>
   )

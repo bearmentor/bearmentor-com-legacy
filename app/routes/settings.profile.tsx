@@ -1,28 +1,35 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
-import { Form as RemixForm, useLoaderData } from "@remix-run/react"
-import { parse } from "@conform-to/zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useNavigation,
+} from "@remix-run/react"
+import { conform, parse, useForm } from "@conform-to/react"
+import { parse as parseZod } from "@conform-to/zod"
 import type { User } from "@prisma/client"
-import { useFieldArray, useForm } from "react-hook-form"
-import * as z from "zod"
+import { model } from "~/models"
+import { badRequest, forbidden } from "remix-utils"
+import type * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
-import { cn, prisma } from "~/libs"
-import { log, stringify } from "~/utils"
+import { prisma } from "~/libs"
 import {
+  Alert,
   Button,
-  Form,
-  FormControl,
   FormDescription,
   FormField,
-  FormItem,
   FormLabel,
-  FormMessage,
   Input,
-  Textarea,
-  toast,
 } from "~/components"
+import {
+  schemaUserUpdateEmail,
+  schemaUserUpdateName,
+  schemaUserUpdateNick,
+  schemaUserUpdatePassword,
+  schemaUserUpdateUsername,
+} from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
@@ -59,266 +66,288 @@ export default function Route() {
         </p>
       </header>
 
-      <ProfileForm user={user as any} />
+      <div className="space-y-6">
+        <UserUsernameForm user={user as any} />
+        <UserNameForm user={user as any} />
+        <UserNickForm user={user as any} />
+        <UserEmailForm user={user as any} />
+      </div>
     </div>
   )
 }
 
-const linkSchema = z.object({
-  value: z.string().url({ message: "Please enter a valid URL." }),
-  text: z.string().optional(),
-  sequence: z.number().int().optional(),
-})
-
-const profileFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, { message: "Name must be at least 2 characters." })
-    .max(30, { message: "Name must not be longer than 30 characters." }),
-  nick: z
-    .string()
-    .min(2, { message: "Nick must be at least 1 character." })
-    .max(30, { message: "Nick must not be longer than 30 characters." }),
-  username: z
-    .string()
-    .min(2, { message: "Username must be at least 2 characters." })
-    .max(30, { message: "Username must not be longer than 30 characters." }),
-  email: z
-    .string({ required_error: "Please select an email to display." })
-    .email(),
-  bio: z.string().max(160).min(4),
-  links: z.array(linkSchema).optional(),
-})
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>
-
-export function ProfileForm({
+export function UserUsernameForm({
   user,
 }: {
-  user: Pick<User, "name" | "nick" | "username" | "email"> & {
-    profiles: {
-      id: string
-      bio: string
-      links: {
-        value: string
-        text?: string
-        sequence?: number
-      }[]
-    }[]
-  }
+  user: Pick<User, "id" | "username">
 }) {
-  const firstProfile = user.profiles[0]
+  const actionData = useActionData<typeof action>()
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === "submitting"
+  const schema = schemaUserUpdateUsername
 
-  const defaultValues: Partial<ProfileFormValues> = {
-    name: user.name || "",
-    nick: user.nick || "",
-    username: user.username || "",
-    email: user.email || "",
-    bio: firstProfile.bio || "This is my default bio.",
-    links: firstProfile.links || [
-      { value: "https://yourname.com", text: "Website" },
-      { value: "http://twitter.com/yourname", text: "Twitter" },
-    ],
-  }
-
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
+  const [form, { id, username }] = useForm<z.infer<typeof schema>>({
+    shouldValidate: "onSubmit",
+    lastSubmission: actionData,
+    onValidate({ formData }) {
+      return parseZod(formData, { schema })
+    },
   })
-
-  const { fields, append } = useFieldArray({
-    name: "links",
-    control: form.control,
-  })
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function toastOnSubmit(data: ProfileFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-40 rounded bg-stone-950 p-4">
-          <code className="text-stone-50">{stringify(data)}</code>
-        </pre>
-      ),
-    })
-  }
 
   return (
-    <Form {...form}>
-      <RemixForm method="POST" className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Your Full Name" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+    <Form {...form.props} replace method="PUT" className="space-y-4">
+      <fieldset
+        disabled={isSubmitting}
+        className="space-y-2 disabled:opacity-80"
+      >
+        <input hidden {...conform.input(id)} defaultValue={user.id} />
+
+        <FormField>
+          <FormLabel htmlFor={username.id}>Username</FormLabel>
+          <Input
+            {...conform.input(username)}
+            type="text"
+            defaultValue={user.username}
+            placeholder="yourname"
+            className="max-w-xs"
+          />
+          <FormDescription>
+            This is your public username as @username
+          </FormDescription>
+          {username.error && (
+            <Alert variant="destructive" id={username.errorId}>
+              {username.error}
+            </Alert>
           )}
-        />
+        </FormField>
 
-        <FormField
-          control={form.control}
-          name="nick"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nick name</FormLabel>
-              <FormControl>
-                <Input placeholder="nick" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your nick name when being called
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="yourname" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public username as @username
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="you@yourname.com" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your default email to communicate with
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="you@yourname.com">
-                    you@yourname.com
-                  </SelectItem>
-                  <SelectItem value="you@gmail.com">you@gmail.com</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                You can manage verified email addresses in your{" "}
-                <Link to="/settings/email">email settings</Link>.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
-
-        <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Bio</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <div>
-          {fields.map((field, index) => (
-            <FormField
-              control={form.control}
-              key={field.id}
-              name={`links.${index}.value`}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={cn(index !== 0 && "sr-only")}>
-                    Links
-                  </FormLabel>
-                  <FormDescription className={cn(index !== 0 && "sr-only")}>
-                    Add links or URLs to your website, blog, or social media
-                    profiles.
-                  </FormDescription>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          ))}
-
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            className="mt-2"
-            onClick={() => append({ value: "" })}
-          >
-            Add URL
-          </Button>
-        </div>
-
-        <Button type="submit" size="lg">
-          Save Profile
+        <Button
+          size="sm"
+          type="submit"
+          name="intent"
+          variant="secondary"
+          value="update-user-username"
+          disabled={isSubmitting}
+        >
+          Save Username
         </Button>
-      </RemixForm>
+      </fieldset>
     </Form>
   )
 }
 
-export const action = async ({ request }: ActionArgs) => {
+export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
+  const actionData = useActionData<typeof action>()
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === "submitting"
+
+  const [form, { id, name }] = useForm<z.infer<typeof schemaUserUpdateName>>({
+    shouldValidate: "onSubmit",
+    lastSubmission: actionData,
+    onValidate({ formData }) {
+      return parseZod(formData, { schema: schemaUserUpdateName })
+    },
+  })
+
+  return (
+    <Form {...form.props} replace method="PUT" className="space-y-4">
+      <fieldset
+        disabled={isSubmitting}
+        className="space-y-2 disabled:opacity-80"
+      >
+        <input hidden {...conform.input(id)} defaultValue={user.id} />
+
+        <FormField>
+          <FormLabel htmlFor={name.id}>Full Name</FormLabel>
+          <Input
+            {...conform.input(name)}
+            type="text"
+            defaultValue={user.name}
+            placeholder="Your Full Name"
+            className="max-w-xs"
+          />
+          <FormDescription>
+            This is your public display name, can be your real name or a
+            pseudonym
+          </FormDescription>
+          {name.error && (
+            <Alert variant="destructive" id={name.errorId}>
+              {name.error}
+            </Alert>
+          )}
+        </FormField>
+
+        <Button
+          size="sm"
+          type="submit"
+          name="intent"
+          variant="secondary"
+          value="update-user-name"
+          disabled={isSubmitting}
+        >
+          Save Name
+        </Button>
+      </fieldset>
+    </Form>
+  )
+}
+
+export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
+  const actionData = useActionData<typeof action>()
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === "submitting"
+
+  const [form, { id, nick }] = useForm<z.infer<typeof schemaUserUpdateNick>>({
+    shouldValidate: "onSubmit",
+    lastSubmission: actionData,
+    onValidate({ formData }) {
+      return parseZod(formData, { schema: schemaUserUpdateNick })
+    },
+  })
+
+  return (
+    <Form {...form.props} replace method="PUT" className="space-y-4">
+      <fieldset
+        disabled={isSubmitting}
+        className="space-y-2 disabled:opacity-80"
+      >
+        <input hidden {...conform.input(id)} defaultValue={user.id} />
+
+        <FormField>
+          <FormLabel htmlFor={nick.id}>Nick</FormLabel>
+          <Input
+            {...conform.input(nick)}
+            type="text"
+            defaultValue={String(user.nick)}
+            placeholder="Your Nick"
+            className="max-w-xs"
+          />
+          <FormDescription>
+            This is your nick name when being called
+          </FormDescription>
+          {nick.error && (
+            <Alert variant="destructive" id={nick.errorId}>
+              {nick.error}
+            </Alert>
+          )}
+        </FormField>
+
+        <Button
+          size="sm"
+          type="submit"
+          name="intent"
+          variant="secondary"
+          value="update-user-nick"
+          disabled={isSubmitting}
+        >
+          Save Nick
+        </Button>
+      </fieldset>
+    </Form>
+  )
+}
+
+export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
+  const actionData = useActionData<typeof action>()
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === "submitting"
+
+  const [form, { id, email }] = useForm<z.infer<typeof schemaUserUpdateEmail>>({
+    shouldValidate: "onSubmit",
+    lastSubmission: actionData,
+    onValidate({ formData }) {
+      return parseZod(formData, { schema: schemaUserUpdateEmail })
+    },
+  })
+
+  return (
+    <Form {...form.props} replace method="PUT" className="space-y-4">
+      <fieldset
+        disabled={isSubmitting}
+        className="space-y-2 disabled:opacity-80"
+      >
+        <input hidden {...conform.input(id)} defaultValue={user.id} />
+
+        <FormField>
+          <FormLabel htmlFor={email.id}>Email</FormLabel>
+          <Input
+            {...conform.input(email)}
+            type="email"
+            defaultValue={String(user.email)}
+            placeholder="you@yourname.com"
+            className="max-w-xs"
+          />
+          <FormDescription>
+            This is your default email to communicate with
+          </FormDescription>
+          {email.error && (
+            <Alert variant="destructive" id={email.errorId}>
+              {email.error}
+            </Alert>
+          )}
+        </FormField>
+
+        <Button
+          size="sm"
+          type="submit"
+          name="intent"
+          variant="secondary"
+          value="update-user-email"
+          disabled={isSubmitting}
+        >
+          Save Email
+        </Button>
+      </fieldset>
+    </Form>
+  )
+}
+
+export async function action({ request }: ActionArgs) {
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
 
   const formData = await request.formData()
-  const submission = parse(formData, { schema: profileFormSchema })
+  const parsed = parse(formData)
+  const { intent } = parsed.payload
 
-  log(submission)
-
-  if (!submission.value || submission.intent !== "submit") {
+  if (intent === "update-user-username") {
+    const submission = parseZod(formData, { schema: schemaUserUpdateUsername })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.user.mutation.updateUsername(submission.value)
+    if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }
 
-  return null
+  if (intent === "update-user-name") {
+    const submission = parseZod(formData, { schema: schemaUserUpdateName })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.user.mutation.updateName(submission.value)
+    if (result?.error) return forbidden({ ...submission, error: result.error })
+    return json(submission)
+  }
+
+  if (intent === "update-user-nick") {
+    const submission = parseZod(formData, { schema: schemaUserUpdateNick })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.user.mutation.updateNick(submission.value)
+    if (result.error) return forbidden({ ...submission, error: result.error })
+    return json(submission)
+  }
+
+  if (intent === "update-user-email") {
+    const submission = parseZod(formData, { schema: schemaUserUpdateEmail })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.user.mutation.updateEmail(submission.value)
+    if (result.error) return forbidden({ ...submission, error: result.error })
+    return json(submission)
+  }
+
+  if (intent === "update-user-password") {
+    const submission = parseZod(formData, { schema: schemaUserUpdatePassword })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.userPassword.mutation.update(submission.value)
+    if (result.error) return forbidden({ ...submission, error: result.error })
+    return json(submission)
+  }
+
+  return json(parsed)
 }

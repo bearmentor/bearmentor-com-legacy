@@ -36,6 +36,7 @@ module.exports = {
     "^~/registry",
     "^~/styles",
     "^~/data",
+    "^~/schemas",
     "",
     "^[./]",
   ],

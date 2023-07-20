@@ -93,7 +93,7 @@ export default function Route() {
               return (
                 <li key={user.id} className="w-full">
                   <Link to={`/${user.username}`}>
-                    <UserCard user={user as any} filterSymbol={["MENTOR"]} />
+                    <UserCard user={user as any} />
                   </Link>
                 </li>
               )

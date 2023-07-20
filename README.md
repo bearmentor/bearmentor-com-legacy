@@ -111,7 +111,7 @@ Format, lint, and build to check your setup is fine:
 
 ```sh
 pnpm check
-# run: format lint stylelint build
+# run: format lint stylelint build typecheck
 
 pnpm check:fix # to fix most cases if there's an issue
 # run: format:fix lint:fix stylelint:fix

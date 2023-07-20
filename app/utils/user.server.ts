@@ -1,7 +1,7 @@
 // Remix way to protect routes. Can only be used server-side
 
 import type { UserRole } from "@prisma/client"
-import { modelUser } from "~/models"
+import { model } from "~/models"
 import invariant from "tiny-invariant"
 
 import type { UserData } from "~/services/auth.server"
@@ -19,7 +19,7 @@ export async function requireUserSession(
   invariant(userSession.id, "User Session ID is not available")
 
   // Get user data from database
-  const userData = await modelUser.getForSession({ id: userSession.id })
+  const userData = await model.user.query.getForSession({ id: userSession.id })
   if (!userData) {
     return await authenticator.logout(request, { redirectTo: "/login" })
   }

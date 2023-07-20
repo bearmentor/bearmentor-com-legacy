@@ -22,7 +22,7 @@ export default function DashboardRoute() {
       <header>
         <span>Welcome,</span>
         <Link to="/dashboard">
-          <h2 className="hover-opacity text-brand">{userData?.name}</h2>
+          <h1 className="hover-opacity text-brand">{userData?.name}</h1>
         </Link>
         <p className="text-muted-foreground">This is your dashboard.</p>
       </header>

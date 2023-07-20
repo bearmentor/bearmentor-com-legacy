@@ -1,3 +1,4 @@
+export * from "./alert"
 export * from "./anchor"
 export * from "./avatar"
 export * from "./badge"
