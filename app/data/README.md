@@ -17,3 +17,6 @@ Create `users-credentials.json` with this format:
   // ...
 ]
 ```
+
+You can focus on certain users who want to be able to login in development, so
+it doesn't have to be everyone.

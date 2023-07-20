@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -305,4 +305,10 @@ export function ProfileForm({
       </form>
     </Form>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+
+  return null
 }
