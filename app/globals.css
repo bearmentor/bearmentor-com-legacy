@@ -71,7 +71,7 @@
     @apply text-4xl font-bold sm:text-5xl md:text-6xl;
   }
   h2 {
-    @apply text-2xl font-semibold sm:text-3xl;
+    @apply text-3xl font-semibold sm:text-4xl;
   }
   h3 {
     @apply text-xl font-semibold sm:text-2xl;
