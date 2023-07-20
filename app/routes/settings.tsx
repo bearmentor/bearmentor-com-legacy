@@ -6,6 +6,7 @@ import { cn } from "~/libs"
 import { buttonVariants, Layout } from "~/components"
 
 export const settingsNavItems = [
+  { title: "General", to: "/settings/general" },
   { title: "Profile", to: "/settings/profile" },
   { title: "Email", to: "/settings/email" },
   { title: "Password", to: "/settings/password" },

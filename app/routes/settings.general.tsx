@@ -59,9 +59,9 @@ export default function Route() {
   return (
     <div className="w-full space-y-10">
       <header>
-        <h2>Profile</h2>
+        <h2>General</h2>
         <p className="text-muted-foreground">
-          Your personal profile information and links.
+          This is how others will generally see you on the site.
         </p>
       </header>
 

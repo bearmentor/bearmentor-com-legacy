@@ -39,7 +39,7 @@ export default function DashboardRoute() {
           <Link to="/settings">Settings</Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link to="/settings/profile">Edit Profile</Link>
+          <Link to="/settings/general">Edit Profile</Link>
         </Button>
         <Form method="POST" action="/logout">
           <Button type="submit" variant="destructive">

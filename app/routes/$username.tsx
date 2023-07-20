@@ -114,7 +114,7 @@ export default function Route() {
           {isOwner && (
             <div>
               <Button asChild variant="outline">
-                <Link to="/settings/profile">Edit Profile</Link>
+                <Link to="/settings/general">Edit Profile</Link>
               </Button>
             </div>
           )}
