@@ -98,7 +98,11 @@ export function ProfileForm({
     profiles: {
       id: string
       bio: string
-      links: any
+      links: {
+        value: string
+        text?: string
+        sequence?: string
+      }[]
     }[]
   }
 }) {
@@ -238,6 +242,7 @@ export function ProfileForm({
             </FormItem>
           )}
         /> */}
+
         <FormField
           control={form.control}
           name="bio"

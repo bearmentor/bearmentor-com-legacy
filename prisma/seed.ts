@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import { createAvatarImageURL, prisma } from "~/libs"
 import { log } from "~/utils"
 import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
-// Firstly check ~/data/README.md
+// Check ~/data/README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"
 
 /**
@@ -49,6 +49,12 @@ async function seedUserTags() {
  * Users
  */
 async function seedUsers() {
+  if (dataUsersCredentials.length <= 0) {
+    console.error(`🔴 Please create /data/users-credentials.json`)
+    console.error(`  Check /data/README for the guide`)
+    return null
+  }
+
   console.info("🟢 Seed users...")
   await prisma.user.deleteMany()
   console.info("🟡 Deleted existing users...")
@@ -113,9 +119,9 @@ async function seedUsers() {
 
   // Setup data users to have email and passwords
   const dataUsersWithCredentials = dataUsersWithTags.map(user => {
-    const newCred = dataUsersCredentials.find(
-      cred => cred.username === user.username,
-    )
+    const newCred = dataUsersCredentials.find(cred => {
+      return cred.username === user.username
+    })
 
     const hash = bcrypt.hashSync(newCred?.password || "", 10)
 
