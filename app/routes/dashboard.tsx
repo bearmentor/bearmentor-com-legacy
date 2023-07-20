@@ -21,7 +21,9 @@ export default function DashboardRoute() {
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header>
         <span>Welcome,</span>
-        <h2>{userData?.name}</h2>
+        <Link to="/dashboard">
+          <h2 className="hover-opacity text-brand">{userData?.name}</h2>
+        </Link>
         <p className="text-muted-foreground">This is your dashboard.</p>
       </header>
 

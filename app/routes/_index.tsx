@@ -58,7 +58,7 @@ export function LandingHero() {
         <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
             <img src="/images/bear-rounded.png" alt="Bear" className="h-16" />
-            <span className="text-emerald-500">Bearmentor</span>
+            <span className="text-brand">Bearmentor</span>
           </h1>
           <h2>Brilliant mentoring</h2>
           <p>
@@ -97,7 +97,7 @@ export function LandingMentors() {
     <article className="w-full max-w-7xl space-y-4">
       <header className="space-y-1">
         <Link to="/mentors">
-          <h2 className="hover-opacity text-emerald-500">Available Mentors</h2>
+          <h2 className="hover-opacity text-brand">Available Mentors</h2>
         </Link>
         <p>In randomized order</p>
       </header>
@@ -127,7 +127,7 @@ export function LandingMentees() {
     <article className="w-full max-w-7xl space-y-4">
       <header className="space-y-1">
         <Link to="/mentees">
-          <h2 className="hover-opacity text-emerald-500">Featured Mentees</h2>
+          <h2 className="hover-opacity text-brand">Featured Mentees</h2>
         </Link>
         <p>In randomized order</p>
       </header>

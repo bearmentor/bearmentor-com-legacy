@@ -33,7 +33,7 @@ export default function Route() {
                 New to Bearmentor?{" "}
                 <Link
                   to={`/register`}
-                  className="hover-opacity font-bold text-emerald-500"
+                  className="hover-opacity font-bold text-brand"
                 >
                   Create an account
                 </Link>
@@ -48,7 +48,7 @@ export default function Route() {
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/bear-rounded.png" alt="Bear" className="h-10" />
-              <span className="text-emerald-500">Bearmentor</span>
+              <span className="text-brand">Bearmentor</span>
             </h1>
           </Link>
 

@@ -72,7 +72,7 @@ export default function Route() {
   return (
     <Layout className="max-w-7xl space-y-8 px-4 py-4 sm:px-8">
       <header className="space-y-4">
-        <h1 className="flex items-center gap-2 text-4xl text-emerald-500">
+        <h1 className="flex items-center gap-2 text-4xl text-brand">
           <img src="/images/bear-sunglasses.png" alt="Bear" className="h-10" />
           <span>Mentors</span>
         </h1>

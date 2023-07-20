@@ -4,6 +4,8 @@
 
 @layer base {
   :root {
+    --brand: #10b981;
+    --brand-bg: #292524;
     --background: 0 0% 100%;
     --foreground: 20 14.3% 4.1%;
     --muted: 60 4.8% 95.9%;
@@ -54,7 +56,7 @@
   }
   body {
     @apply bg-background text-foreground;
-    @apply selection:bg-emerald-500/30;
+    @apply selection:bg-emerald-950/80;
     @apply min-h-screen scroll-smooth antialiased transition-colors;
 
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -121,16 +123,19 @@
   @apply pointer-events-none z-50;
 }
 #nprogress .bar {
-  @apply fixed left-0 top-0 z-50 h-1 w-full bg-emerald-600 dark:bg-emerald-400;
+  @apply fixed left-0 top-0 z-50 h-1 w-full;
+  @apply bg-emerald-600 dark:bg-emerald-400;
+  @apply border-b-2 border-background;
 }
 #nprogress .peg {
   @apply absolute right-0 z-50 block h-full w-28 -translate-y-1 translate-x-0 rotate-3 opacity-100;
-  @apply shadow-[0_0_15px_#000,0_0_10px_#000] shadow-emerald-900 dark:shadow-[0_0_15px_#FFF,0_0_10px_#FFF] dark:shadow-emerald-500;
+  @apply shadow-[0_0_15px_#000,0_0_10px_#000] shadow-brand dark:shadow-[0_0_15px_#FFF,0_0_10px_#FFF];
 }
 #nprogress .spinner {
-  @apply fixed right-2 top-2 z-50 block;
+  @apply fixed right-4 top-4 z-50 block;
 }
 #nprogress .spinner-icon {
+  @apply bg-background;
   @apply z-50 box-border h-6 w-6 animate-spin rounded-full border-4 border-transparent duration-500;
   @apply border-l-emerald-600 border-t-emerald-600 dark:border-l-emerald-300 dark:border-t-emerald-300;
 }

@@ -1,5 +1,5 @@
 import type { LoaderArgs } from "@remix-run/node"
-import { NavLink, Outlet } from "@remix-run/react"
+import { Link, NavLink, Outlet } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
 import { cn } from "~/libs"
@@ -22,7 +22,9 @@ export default function Route() {
   return (
     <Layout className="px-4 sm:px-8">
       <header className="py-10">
-        <h1 className="text-4xl">Settings</h1>
+        <Link to="/settings">
+          <h1 className="hover-opacity text-4xl text-brand">Settings</h1>
+        </Link>
         <p className="text-muted-foreground">
           Manage your account settings and set e-mail preferences.
         </p>
