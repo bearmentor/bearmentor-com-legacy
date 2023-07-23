@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import bcrypt from "bcryptjs"
-
-import { createAvatarImageURL, prisma } from "~/libs"
-import { log } from "~/utils"
-import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import bcrypt from "bcryptjs";
+import { createAvatarImageURL, prisma } from "~/libs";
+import { dataUserRoles, dataUsers, dataUserTags } from "~/data";
 // Check ~/data/README.md for the guide to setup the credentials
-import dataUsersCredentials from "~/data/users-credentials.json"
+import dataUsersCredentials from "~/data/users-credentials.json";
+
+
+
+
 
 /**
  * Main
@@ -119,23 +121,21 @@ async function seedUsers() {
 
   // Setup data users to have email and passwords
   const dataUsersWithCredentials = dataUsersWithTags.map(user => {
-    const newCred = dataUsersCredentials.find(cred => {
+    const newCred = dataUsersCredentials.find((cred: { username: string }) => {
       return cred.username === user.username
     })
 
     const hash = bcrypt.hashSync(newCred?.password || "", 10)
 
-    const newUser = {
+    return {
       ...user,
       email: newCred?.email,
-      password: { create: { hash } },
+      password: {create: {hash}},
     }
-
-    return newUser
   })
 
   // Upsert (update or insert/create if new) the users with complete fields
-  dataUsersWithCredentials.forEach(async user => {
+  for (const user of dataUsersWithCredentials) {
     const upsertedUser = await prisma.user.upsert({
       where: { username: user.username },
       update: user,
@@ -143,7 +143,7 @@ async function seedUsers() {
     })
 
     console.info(`✅ User "${upsertedUser.username}" upserted`)
-  })
+  }
 }
 
 /**
