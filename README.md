@@ -24,26 +24,26 @@ Check out:
 A true mentorship should enable to teach, guide, and share that can be for long
 term growth.
 
-🐻 Bearmentor allow you to:
+🐻 Bearmentor allow to:
 
 - Connect to people, rospective mentors and mentees
 - Explore various learning programs- Filter out for serious commitment
 - Design custom mentorship experience
 - Set achievable goals
 - Get paid to mentor people
-- Adjust your compensation rate, public or private
+- Adjust mentor compensation rate, public or private
 - Prefer between live/sync or recorded/async communication
-- Link your social profiles, portfolios, projects, products, and more
+- Link social profiles, portfolios, projects, products, and more
 
 [Read more about the features]()
 
 ## Getting Started
 
 1. Read the [Remix Docs](https://remix.run/docs) to understand about Remix.
-2. If you're new, focus on Remix basics, don't use the Stacks yet. Read
+2. If new, focus on Remix basics, don't use the Stacks yet. Read
    [Super Simple Start to Remix](https://kentcdodds.com/blog/super-simple-start-to-remix).
-3. If you're experienced, can already use various integration such as Prisma ORM
-   and database like MySQL. Read
+3. If experienced, use various integration such as Prisma ORM and database like
+   MySQL. Read
    [Blog Tutorial (short)](http://remix.run/docs/en/main/tutorials/blog) and
    [App Tutorial (long)](http://remix.run/docs/en/main/tutorials/jokes).
 
@@ -85,11 +85,11 @@ Create a [PlanetScale](https://planetscale.com) account to have a MySQL instance
 for development. After the database has been created, "Get the connection
 string" and select "Prisma", then copy the full `DATABASE_URL`.
 
-> Keep in mind the free plan only allow for 1 database. So either later you keep
-> it, delete it when unused, or upgrade your plan.
+> Keep in mind the free plan only allow for 1 database. So either later keep it,
+> delete it when unused, or upgrade the plan.
 
 Generate a random string for the `SESSION_SECRET` using
-`openssl rand -base64 32` on the terminal or you can put any long random text.
+`openssl rand -base64 32` on the terminal or put any long random text.
 
 ```sh
 DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"
@@ -98,9 +98,9 @@ SESSION_SECRET="random_secret_text"
 
 ### Code Editor
 
-When using VS Code, there are several recommended extensions you can install to
-improve the workflow. It's nice to accept the recommendations that listed in
-[`.vscode/extensions.json`](./.vscode/extensions.json).
+When using VS Code, there are several recommended extensions that can be
+installed to improve the workflow. It's nice to accept the recommendations that
+listed in [`.vscode/extensions.json`](./.vscode/extensions.json).
 
 Especially (in alphabetical order):
 
@@ -117,7 +117,7 @@ Especially (in alphabetical order):
 
 ### Dependencies
 
-We're using pnpm to improve productivity, so make sure
+Use [pnpm](https://pnpm.io) to improve productivity, so make sure
 [pnpm is installed](https://pnpm.io/installation#using-npm):
 
 ```sh
@@ -133,7 +133,7 @@ pnpm install
 
 ### Code
 
-Format, lint, and build to check your setup is fine:
+Format, lint, and build to check if the setup is fine:
 
 ```sh
 pnpm check
@@ -147,11 +147,17 @@ pnpm check:fix # to fix most cases if there's an issue
 
 ### Database
 
-Sync between the schema of Prisma and the database, which we can do regularly
-while updating the Prisma schema:
+Prisma ORM is used to communicate with the database easily. Since this app is
+primarily using PlanetScale, the migration files are not needed. Therefore, push
+the schema directly there, then the migration will be handled through the
+[deploy requests](https://planetscale.com/docs/concepts/deploy-requests).
+
+Sync between the schema of Prisma and the database directly with
+`prisma db push`, which can be done regularly while updating the Prisma schema:
 
 ```sh
 pnpm db:push
+# prisma db push
 ```
 
 > This will also run `prisma generate` automatically when success
@@ -160,12 +166,14 @@ Then seed the initial data when needed:
 
 ```sh
 pnpm db:seed
+# prisma db seed
 ```
 
 Check if the data is fine:
 
 ```sh
 pnpm db:check
+# tsx prisma/check.ts
 ```
 
 ### Build
@@ -174,6 +182,7 @@ Check if the build is fine:
 
 ```sh
 pnpm build
+# remix build
 ```
 
 > This will also run `prisma generate` too before the build
@@ -184,6 +193,7 @@ If everything works fine, start the Remix development server like so:
 
 ```sh
 pnpm dev
+# remix dev
 ```
 
 Open up [http://localhost:3000](http://localhost:3000) and it should be ready to
@@ -196,10 +206,10 @@ Regularly, either push or generate the schema when changing the database fields.
 
 ```sh
 pnpm db:push
-# run: prisma db push
+# prisma db push
 
 pnpm db:gen
-# run: prisma generate
+# prisma generate
 ```
 
 ## Deployment
