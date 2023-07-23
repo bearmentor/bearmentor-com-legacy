@@ -65,6 +65,8 @@ term growth.
 
 ## Setup
 
+### Environment Variables
+
 Create the `.env` file from the example `.env` file.
 
 ```sh
@@ -93,6 +95,23 @@ Generate a random string for the `SESSION_SECRET` using
 DATABASE_URL="mysql://username:password@aws.connect.psdb.cloud/bearmentor?sslaccept=strict"
 SESSION_SECRET="random_secret_text"
 ```
+
+### Code Editor
+
+When using VS Code, there are several recommended extensions you can install to
+improve the workflow. It's nice to accept the recommendations that listed in
+[`.vscode/extensions.json`](./.vscode/extensions.json).
+
+Especially (in alphabetical order):
+
+- ESLint
+- Inline Fold for CSS
+- Markdown All in One
+- Prettier
+- Prisma
+- Remix Forge
+- Stylelint
+- Tailwind CSS
 
 ## Development
 
