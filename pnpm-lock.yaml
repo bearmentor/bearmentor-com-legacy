@@ -68,6 +68,9 @@ dependencies:
   '@remix-run/vercel':
     specifier: ^1.18.1
     version: 1.18.1(@vercel/node@2.15.5)
+  '@tabler/icons-react':
+    specifier: ^2.28.0
+    version: 2.28.0(react@18.2.0)
   '@vercel/analytics':
     specifier: 1.0.1
     version: 1.0.1
@@ -3038,6 +3041,20 @@ packages:
     dependencies:
       defer-to-connect: 2.0.1
     dev: true
+
+  /@tabler/icons-react@2.28.0(react@18.2.0):
+    resolution: {integrity: sha512-AuUd2hdK/4pa/DIIqCHZ32Dh9bIbbzo/2zEm2jr6cPARh81hJHScf/901ABYLNljWULCLSyz7YDOjnh+G1RGUw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tabler/icons': 2.28.0
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
+  /@tabler/icons@2.28.0:
+    resolution: {integrity: sha512-JgqeXzS2Cik0Bed+dn3AYh/N2OqLv7FzoOqIzAWnywJyVOBNxB47pzW4Zc0hidDVCk2dt1ekeC2jHaXSheT+BQ==}
+    dev: false
 
   /@tailwindcss/typography@0.5.9(tailwindcss@3.3.3):
     resolution: {integrity: sha512-t8Sg3DyynFysV9f4JDOVISGsjazNb48AeIYQwcL+Bsq5uf4RYL75C1giZ43KISjeDGBaTN3Kxh7Xj/vRSMJUUg==}
@@ -8271,7 +8288,6 @@ packages:
       loose-envify: 1.4.0
       object-assign: 4.1.1
       react-is: 16.13.1
-    dev: true
 
   /property-information@6.2.0:
     resolution: {integrity: sha512-kma4U7AFCTwpqq5twzC1YVIDXSqg6qQK6JN0smOw8fgRy1OkMi0CYSzFmsy6dnqSenamAtj0CyXMUJ1Mf6oROg==}
@@ -8392,7 +8408,6 @@ packages:
 
   /react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-    dev: true
 
   /react-is@17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}

@@ -1,14 +1,14 @@
-import { NavLink, useLocation } from "@remix-run/react"
 import type { Location } from "@remix-run/react"
+import { NavLink, useLocation } from "@remix-run/react"
 import {
-  DashboardIcon,
-  Half1Icon,
-  Half2Icon,
-  HomeIcon,
-  LockOpen1Icon,
-  MagnifyingGlassIcon,
-  PersonIcon,
-} from "@radix-ui/react-icons"
+  IconDashboard,
+  IconHome2,
+  IconLogin,
+  IconSearch,
+  IconUser,
+  IconUserSearch,
+  IconUsersGroup,
+} from "@tabler/icons-react"
 
 import type { UserData } from "~/services/auth.server"
 import { cn } from "~/libs"
@@ -22,21 +22,21 @@ type NavItem = {
 }
 
 const navPublicItems: NavItem[] = [
-  { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
+  { to: "/", text: "Home", icon: <IconHome2 className="icon" /> },
   {
     to: "/search",
     text: "Search",
-    icon: <MagnifyingGlassIcon className="icon" />,
+    icon: <IconSearch className="icon" />,
   },
-  { to: "/mentors", text: "Mentors", icon: <Half2Icon className="icon" /> },
-  { to: "/mentees", text: "Mentees", icon: <Half1Icon className="icon" /> },
+  { to: "/mentors", text: "Mentors", icon: <IconUsersGroup className="icon" /> },
+  { to: "/mentees", text: "Mentees", icon: <IconUserSearch className="icon" /> },
 ]
 
 const navUnauthenticatedItems: NavItem[] = [
   {
     to: "/login",
     text: "Login",
-    icon: <LockOpen1Icon className="icon" />,
+    icon: <IconLogin className="icon" />,
   },
 ]
 
@@ -44,12 +44,12 @@ const navAuthenticatedItems: NavItem[] = [
   {
     to: "/dashboard",
     text: "Dashboard",
-    icon: <DashboardIcon className="icon" />,
+    icon: <IconDashboard className="icon" />,
   },
   {
     to: "/profile",
     text: "Profile",
-    icon: <PersonIcon className="icon" />,
+    icon: <IconUser className="icon" />,
   },
 ]
 
