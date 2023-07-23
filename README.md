@@ -152,8 +152,13 @@ primarily using PlanetScale, the migration files are not needed. Therefore, push
 the schema directly there, then the migration will be handled through the
 [deploy requests](https://planetscale.com/docs/concepts/deploy-requests).
 
-Sync between the schema of Prisma and the database directly with
-`prisma db push`, which can be done regularly while updating the Prisma schema:
+Also read:
+
+- [Prisma with PlanetScale](https://prisma.io/docs/guides/database/planetscale)
+- [PlanetScale with Prisma](https://planetscale.com/docs/prisma/prisma-quickstart)
+
+Sync between Prisma schema and the database directly, by making schema changes
+with `prisma db push`, which can be done regularly while updating the models:
 
 ```sh
 pnpm db:push
