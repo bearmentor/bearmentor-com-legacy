@@ -28,8 +28,16 @@ const navPublicItems: NavItem[] = [
     text: "Search",
     icon: <IconSearch className="icon" />,
   },
-  { to: "/mentors", text: "Mentors", icon: <IconUsersGroup className="icon" /> },
-  { to: "/mentees", text: "Mentees", icon: <IconUserSearch className="icon" /> },
+  {
+    to: "/mentors",
+    text: "Mentors",
+    icon: <IconUsersGroup className="icon" />,
+  },
+  {
+    to: "/mentees",
+    text: "Mentees",
+    icon: <IconUserSearch className="icon" />,
+  },
 ]
 
 const navUnauthenticatedItems: NavItem[] = [

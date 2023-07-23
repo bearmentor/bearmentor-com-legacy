@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import bcrypt from "bcryptjs";
-import { createAvatarImageURL, prisma } from "~/libs";
-import { dataUserRoles, dataUsers, dataUserTags } from "~/data";
+import bcrypt from "bcryptjs"
+
+import { createAvatarImageURL, prisma } from "~/libs"
+import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
 // Check ~/data/README.md for the guide to setup the credentials
-import dataUsersCredentials from "~/data/users-credentials.json";
-
-
-
-
+import dataUsersCredentials from "~/data/users-credentials.json"
 
 /**
  * Main
@@ -130,7 +127,7 @@ async function seedUsers() {
     return {
       ...user,
       email: newCred?.email,
-      password: {create: {hash}},
+      password: { create: { hash } },
     }
   })
 
