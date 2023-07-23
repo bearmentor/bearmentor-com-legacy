@@ -98,6 +98,13 @@ SESSION_SECRET="random_secret_text"
 
 ### Dependencies
 
+We're using pnpm to improve productivity, so make sure
+[pnpm is installed](https://pnpm.io/installation#using-npm):
+
+```sh
+npm i -g pnpm
+```
+
 To run the app locally, make sure the project's local dependencies are
 installed:
 
