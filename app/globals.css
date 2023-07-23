@@ -108,7 +108,7 @@
 
 @layer components {
   .icon {
-    @apply h-6 w-6 lg:h-8 stroke-[1.2] lg:w-8;
+    @apply h-6 w-6 lg:h-8 stroke-[1.25] lg:w-7;
   }
   .icon-avatar {
     @apply h-3 w-3 lg:h-4 lg:w-4;

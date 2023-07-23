@@ -1,14 +1,15 @@
 import type { Location } from "@remix-run/react"
 import { NavLink, useLocation } from "@remix-run/react"
 import {
-  IconDashboard,
+  IconBackpack,
+  IconDashboard, IconFriends,
   IconHome2,
   IconLogin,
   IconSearch,
   IconUser,
   IconUserSearch,
-  IconUsersGroup,
-} from "@tabler/icons-react"
+  IconUsersGroup
+} from "@tabler/icons-react";
 
 import type { UserData } from "~/services/auth.server"
 import { cn } from "~/libs"
@@ -36,7 +37,7 @@ const navPublicItems: NavItem[] = [
   {
     to: "/mentees",
     text: "Mentees",
-    icon: <IconUserSearch className="icon" />,
+    icon: <IconBackpack className="icon" />,
   },
 ]
 
