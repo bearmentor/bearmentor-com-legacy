@@ -165,7 +165,9 @@ pnpm db:push
 # prisma db push
 ```
 
-> This will also run `prisma generate` automatically when success
+Even with local development without PlanetScale, this is still okay when
+[prototyping the schema](https://prisma.io/docs/concepts/components/prisma-migrate/db-push).
+After a success push, then it will automatically run `prisma generate`.
 
 Then seed the initial data when needed:
 
