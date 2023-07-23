@@ -1,14 +1,16 @@
+__*
+
 node_modules
 
 .cache
 .env
 .vercel
 .output
+.DS_Store
+.idea
 
 /build/
 /public/build
+/api
 /api/index.js
 /api/index.js.map
-
-__*
-
