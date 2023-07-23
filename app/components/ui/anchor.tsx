@@ -2,10 +2,6 @@ import * as React from "react"
 
 import { cn } from "~/libs"
 
-
-
-
-
 export interface AnchorProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
