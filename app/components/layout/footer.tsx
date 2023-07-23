@@ -2,6 +2,10 @@ import { Link } from "@remix-run/react"
 
 import { cn } from "~/libs"
 
+
+
+
+
 const footerNavItems = [
   { to: "search", text: "Search" },
   { to: "login", text: "Login" },
