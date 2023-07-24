@@ -40,7 +40,7 @@ export default function BroadcastsRoute() {
 
   return (
     <Layout className="flex justify-center pt-10">
-      <div className="w-ful max-w-xl space-y-6">
+      <div className="w-full max-w-xl space-y-6">
         <header className="space-y-2">
           <h1 className="flex">
             <Link

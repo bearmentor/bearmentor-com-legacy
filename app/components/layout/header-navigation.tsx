@@ -83,7 +83,7 @@ export function HeaderNavigation() {
         "lg:top-0 lg:h-screen lg:w-16 lg:border-r-2 lg:border-t-0",
       )}
     >
-      <nav className="w-full">
+      <nav className="w-full max-w-sm">
         <TooltipProvider delayDuration={500}>
           <ul className="flex justify-between gap-0 p-2 sm:gap-2 lg:flex-col">
             <NavigationList navItems={navPublicItems} />

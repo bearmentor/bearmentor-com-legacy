@@ -112,7 +112,7 @@ export default function BroadcastsRoute() {
 
   return (
     <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
-      <section className="max-w-md space-y-8">
+      <section className="w-full space-y-8 sm:max-w-sm">
         <header className="space-y-4">
           <h1 className="text-4xl text-brand">
             <Link to="/broadcasts" className="hover-opacity">
@@ -121,9 +121,17 @@ export default function BroadcastsRoute() {
           </h1>
           <p className="text-muted-foreground">
             Use broadcasts to posts some announcements or requests for everyone,
-            that you need help or offer a service.
+            that you ask for help or offer a service
           </p>
         </header>
+
+        {!userData?.id && (
+          <section>
+            <Button asChild>
+              <Link to="/login">Create New Broadcast</Link>
+            </Button>
+          </section>
+        )}
 
         {userData?.id && (
           <section
@@ -133,7 +141,7 @@ export default function BroadcastsRoute() {
             <header>
               <h3>New Broadcast</h3>
               <p className="text-sm text-muted-foreground">
-                Quickly create new broadcast to ask for help or offer a service
+                Quickly create new broadcast to ask or offer
               </p>
             </header>
 
