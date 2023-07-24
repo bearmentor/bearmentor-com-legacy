@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import { createAvatarImageURL, prisma } from "~/libs"
 import { log } from "~/utils"
 import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
-// Check ~/data/README.md for the guide to setup the credentials
+// Check README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"
 
 /**
@@ -49,9 +49,9 @@ async function seedUserTags() {
  * Users
  */
 async function seedUsers() {
-  if (dataUsersCredentials.length <= 0) {
-    console.error(`🔴 Please create /data/users-credentials.json`)
-    console.error(`  Check /data/README for the guide`)
+  if (dataUsersCredentials?.length <= 0) {
+    console.error(`🔴 Please create app/data/users-credentials.json file`)
+    console.error(`🔴 Check README for the guide`)
     return null
   }
 

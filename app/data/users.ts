@@ -452,4 +452,24 @@ export const dataUsers: DataUser[] = [
     username: "irsyadadl",
     tags: ["MENTOR", "DEVELOPER"],
   },
+  {
+    name: "Sahbana Lubis",
+    username: "sahbanagold",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Septhianto Diga Chandra",
+    username: "digachandra",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Ari Adiprana",
+    username: "ariadiprana",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
+    name: "Ivan Gerard",
+    username: "ivangerard",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
 ]
