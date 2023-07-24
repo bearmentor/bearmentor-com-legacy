@@ -58,7 +58,9 @@ export function LandingHero() {
         <div className="flex w-full flex-col items-center justify-center space-y-4 text-center lg:items-start lg:text-left">
           <h1 className="flex flex-col flex-wrap items-center gap-2 lg:flex-row">
             <img src="/images/bear-rounded.png" alt="Bear" className="h-16" />
-            <span className="text-brand">Bearmentor</span>
+            <span className="text-brand md:text-5xl lg:text-6xl">
+              Bearmentor
+            </span>
           </h1>
           <h2>Brilliant mentoring</h2>
           <p>
