@@ -2,24 +2,37 @@
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
-import { log } from "~/utils"
-import { dataUserRoles, dataUsers, dataUserTags } from "~/data"
+import { createBroadcastSlug, log } from "~/utils"
+import { dataBroadcasts, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 // Check README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"
 
-/**
- * Main
- */
+// Enable and disable by commenting in/out the enabled items
+const enabledItems = [
+  "userRoles",
+  "userTags",
+  "users",
+  "broadcasts",
+  "contents",
+]
+
 async function main() {
-  await seedUserRoles()
-  await seedUserTags()
-  await seedUsers()
-  await seedUserContents()
+  const seeds: { [key: string]: () => Promise<any> } = {
+    userRoles: seedUserRoles,
+    userTags: seedUserTags,
+    users: seedUsers,
+    broadcasts: seedBroadcasts,
+    contents: seedContents,
+  }
+
+  for (const seedName of enabledItems) {
+    const seed = seeds[seedName]
+    if (seed) {
+      await seed()
+    }
+  }
 }
 
-/**
- * User Roles
- */
 async function seedUserRoles() {
   console.info("🟢 Seed user roles...")
   await prisma.userRole.deleteMany()
@@ -31,9 +44,6 @@ async function seedUserRoles() {
   console.info(`✅ Created user roles`)
 }
 
-/**
- * User Tags
- */
 async function seedUserTags() {
   console.info("🟢 Seed user tags...")
   await prisma.userTag.deleteMany()
@@ -45,9 +55,6 @@ async function seedUserTags() {
   console.info(`✅ Created user tags`)
 }
 
-/**
- * Users
- */
 async function seedUsers() {
   if (dataUsersCredentials?.length <= 0) {
     console.error(`🔴 Please create app/data/users-credentials.json file`)
@@ -135,7 +142,7 @@ async function seedUsers() {
   })
 
   // Upsert (update or insert/create if new) the users with complete fields
-  dataUsersWithCredentials.forEach(async user => {
+  for (const user of dataUsersWithCredentials) {
     const upsertedUser = await prisma.user.upsert({
       where: { username: user.username },
       update: user,
@@ -143,15 +150,43 @@ async function seedUsers() {
     })
 
     console.info(`✅ User "${upsertedUser.username}" upserted`)
-  })
+  }
 }
 
-/**
- * User Contents
- */
-async function seedUserContents() {
+async function seedBroadcasts() {
+  console.info("🟢 Seed broadcasts...")
+  await prisma.broadcast.deleteMany()
+  console.info("🟡 Deleted existing broadcasts...")
+
+  for (const broadcast of dataBroadcasts) {
+    const user = await prisma.user.findFirst({
+      where: { username: broadcast.username },
+    })
+    if (!user) return null
+
+    const newBroadcast = {
+      userId: user.id,
+      slug: createBroadcastSlug(broadcast.title),
+      title: broadcast.title,
+      description: broadcast?.description,
+      body: broadcast?.body,
+    }
+
+    const createdBroadcast = await prisma.broadcast.create({
+      data: newBroadcast,
+      include: { user: { select: { username: true } } },
+    })
+    if (!createdBroadcast) return null
+    console.info(
+      `✅ Broadcast "${createdBroadcast.slug}" by "${createdBroadcast.user.username}" created`,
+    )
+  }
+}
+
+async function seedContents() {
   console.info("🟢 Seed user contents...")
   await prisma.content.deleteMany()
+  console.info("🟡 Deleted existing broadcasts...")
 
   const userAdmin = await prisma.user.findFirst({
     where: { username: "admin" },
@@ -171,9 +206,6 @@ async function seedUserContents() {
   console.info(`✅ Content by "admin" created`)
 }
 
-/**
- * Run
- */
 main()
   .then(async () => {
     console.info("🔵 Seeding complete")

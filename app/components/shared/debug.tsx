@@ -18,7 +18,7 @@ import {
 } from "~/components"
 
 export function Debug({
-  name = "unknown",
+  name,
   isCollapsibleOpen = false,
   isAlwaysShow = false,
   className,
@@ -47,7 +47,7 @@ export function Debug({
               "inline-flex cursor-pointer select-none gap-2 pr-0",
             )}
           >
-            <code>DEBUG: {name}</code>
+            {name ? <code>DEBUG: {name}</code> : <code>DEBUG</code>}
             <span
               onClick={() => setIsVisible(false)}
               className="rounded p-2 hover:bg-destructive"

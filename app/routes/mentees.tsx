@@ -88,7 +88,7 @@ export default function Route() {
           {count && !query && <p>All {count} mentees</p>}
           {count && query && (
             <p className="text-muted-foreground">
-              Found {mentees.length} mentees with keyword "{query}"
+              Found {count} mentees with keyword "{query}"
             </p>
           )}
 

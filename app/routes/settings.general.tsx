@@ -10,7 +10,6 @@ import {
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { User } from "@prisma/client"
-import { model } from "~/models"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
 
@@ -24,6 +23,7 @@ import {
   FormLabel,
   Input,
 } from "~/components"
+import { model } from "~/models"
 import {
   schemaUserUpdateName,
   schemaUserUpdateNick,

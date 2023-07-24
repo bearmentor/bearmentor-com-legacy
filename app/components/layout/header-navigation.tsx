@@ -8,6 +8,7 @@ import {
   LockOpen1Icon,
   MagnifyingGlassIcon,
   PersonIcon,
+  RocketIcon,
 } from "@radix-ui/react-icons"
 
 import type { UserData } from "~/services/auth.server"
@@ -22,14 +23,31 @@ type NavItem = {
 }
 
 const navPublicItems: NavItem[] = [
-  { to: "/", text: "Home", icon: <HomeIcon className="icon" /> },
+  {
+    to: "/",
+    text: "Home",
+    icon: <HomeIcon className="icon" />,
+  },
+  {
+    to: "/broadcasts",
+    text: "Broadcasts",
+    icon: <RocketIcon className="icon" />,
+  },
   {
     to: "/search",
     text: "Search",
     icon: <MagnifyingGlassIcon className="icon" />,
   },
-  { to: "/mentors", text: "Mentors", icon: <Half2Icon className="icon" /> },
-  { to: "/mentees", text: "Mentees", icon: <Half1Icon className="icon" /> },
+  {
+    to: "/mentors",
+    text: "Mentors",
+    icon: <Half2Icon className="icon" />,
+  },
+  {
+    to: "/mentees",
+    text: "Mentees",
+    icon: <Half1Icon className="icon" />,
+  },
 ]
 
 const navUnauthenticatedItems: NavItem[] = [
@@ -67,7 +85,7 @@ export function HeaderNavigation() {
     >
       <nav className="w-full max-w-md md:max-w-3xl">
         <TooltipProvider delayDuration={500}>
-          <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
+          <ul className="flex justify-between gap-0 p-2 sm:gap-2 lg:flex-col">
             <NavigationList navItems={navPublicItems} />
             {!userSession && (
               <NavigationList navItems={navUnauthenticatedItems} />
@@ -113,6 +131,8 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                     className="icon rounded lg:w-full"
                     src={userData?.avatars[0]?.url}
                     alt={userData?.username}
+                    width={24}
+                    height={24}
                   />
                 ) : (
                   navItem.icon

@@ -14,7 +14,7 @@ module.exports = {
   // assetsBuildDirectory: "public/build",
   // publicPath: "/build/",
 
-  serverDependenciesToBundle: ["array-shuffle"],
+  serverDependenciesToBundle: ["nanoid", "array-shuffle"],
 
   tailwind: true,
   postcss: true,

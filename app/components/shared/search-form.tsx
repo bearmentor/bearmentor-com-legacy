@@ -30,7 +30,7 @@ export function SearchForm({
           placeholder={placeholder}
           defaultValue={query}
           autoComplete="off"
-          autoFocus={isScreenLarge}
+          autoFocus={isScreenLarge || false}
           className="block h-12 w-full px-3 py-2 ps-12 text-xl"
         />
         <span className="pointer-events-none absolute flex ps-3">

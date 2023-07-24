@@ -6,6 +6,7 @@ import type {
 } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
+  isRouteErrorResponse,
   Links,
   LiveReload,
   Meta,
@@ -14,16 +15,17 @@ import {
   ScrollRestoration,
   useLoaderData,
   useNavigation,
+  useRouteError,
 } from "@remix-run/react"
 import brandFontStyles from "@fontsource/anybody/600.css"
 import monoFontStyles from "@fontsource/pt-mono/index.css"
 import sansFontStyles from "@fontsource/pt-sans/index.css"
 import { Analytics } from "@vercel/analytics/react"
-import { model } from "~/models"
 import NProgress from "nprogress"
 
 import { authenticator } from "~/services/auth.server"
 import { createCacheHeaders } from "~/utils"
+import { model } from "~/models"
 
 import { Layout } from "./components"
 import styles from "./globals.css"
@@ -116,18 +118,51 @@ export default function App() {
   )
 }
 
-export function ErrorBoundary({ error }: { error: Error }) {
+export function AppBoundary({ children }: { children: React.ReactNode }) {
   return (
-    <Layout>
-      <header>
-        <h1>Sorry, there's an error</h1>
-        <p>{error.message}</p>
-      </header>
+    <html lang="en" className="dark">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
+      </head>
+      <body className="bg-stone-50 text-stone-950 dark:bg-stone-950 dark:text-stone-50">
+        <Layout className="p-4">{children}</Layout>
+        <ScrollRestoration />
+        <Scripts />
+        <LiveReload />
+      </body>
+    </html>
+  )
+}
 
-      <section>
+export function ErrorBoundary() {
+  const error = useRouteError()
+
+  if (isRouteErrorResponse(error)) {
+    return (
+      <AppBoundary>
+        <h1>
+          {error.status} {error.statusText}
+        </h1>
+        <p>{error.data}</p>
+      </AppBoundary>
+    )
+  } else if (error instanceof Error) {
+    return (
+      <AppBoundary>
+        <h1>Error</h1>
+        <p>{error.message}</p>
         <p>The stack trace is:</p>
         <pre>{error.stack}</pre>
-      </section>
-    </Layout>
-  )
+      </AppBoundary>
+    )
+  } else {
+    return (
+      <AppBoundary>
+        <h1>Unknown Error</h1>
+      </AppBoundary>
+    )
+  }
 }

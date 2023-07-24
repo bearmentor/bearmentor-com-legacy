@@ -47,6 +47,8 @@ const link = z.object({
   sequence: z.number().int().optional(),
 })
 
+const links = z.array(link).optional()
+
 export const schemaUserRegister = z.object({
   name,
   username,
@@ -93,6 +95,6 @@ export const schemaAdminUserUpdate = z.object({
   name,
   nick,
   email,
-  links: z.array(link),
+  links,
   roleSymbol,
 })

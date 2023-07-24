@@ -59,6 +59,7 @@ export const query = {
         id: true,
         name: true,
         username: true,
+        nick: true,
         email: true,
         role: { select: { symbol: true, name: true } },
         avatars: { select: { url: true } },

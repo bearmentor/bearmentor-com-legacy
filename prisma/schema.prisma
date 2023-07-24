@@ -38,6 +38,9 @@ model User {
   avatars   UserAvatarImage[]
   covers    UserCoverImage[]
 
+  broadcasts      Broadcast[]
+  broadcastImages BroadcastImage[]
+
   contents      Content[]
   contentImages ContentImage[]
 
@@ -192,6 +195,65 @@ model UserNotification {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+// -----------------------------------------------------------------------------
+// Broadcast
+// -----------------------------------------------------------------------------
+
+model Broadcast {
+  id String @id @default(cuid())
+
+  slug        String  @unique
+  title       String  @db.Text
+  description String? @db.Text
+  body        String? @db.LongText
+
+  tags   BroadcastTag[]
+  images BroadcastImage[]
+
+  isPublished   Boolean   @default(false)
+  isPublishedAt DateTime?
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model BroadcastImage {
+  id String @id @default(cuid())
+
+  url String
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
+  broadcast   Broadcast @relation(fields: [broadcastId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  broadcastId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([broadcastId])
+}
+
+model BroadcastTag {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "CODE" | "FRONTEND" | "FULL_STACK"
+  name        String  @unique // "CODE" | "FRONTEND" | "Full Stack"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "The entirety of a computer system..."
+
+  broadcasts Broadcast[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // -----------------------------------------------------------------------------

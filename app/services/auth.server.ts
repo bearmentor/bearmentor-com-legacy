@@ -1,9 +1,9 @@
 import type { Prisma } from "@prisma/client"
-import type { model } from "~/models"
 import { Authenticator } from "remix-auth"
 
 import { AuthStrategies } from "~/services/auth_strategies"
 import { sessionStorage } from "~/services/session.server"
+import type { model } from "~/models"
 
 import { formStrategy } from "./auth_strategies/form.strategy"
 

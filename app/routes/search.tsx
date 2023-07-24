@@ -94,7 +94,7 @@ export default function Route() {
         <section className="space-y-2">
           <h2 className="text-emerald-700">Users</h2>
           <p className="text-muted-foreground">
-            Found {users.length} users with keyword "{query}"
+            Found {count} users with keyword "{query}"
           </p>
 
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">

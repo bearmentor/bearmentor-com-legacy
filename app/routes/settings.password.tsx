@@ -9,7 +9,6 @@ import {
 import { conform, parse, useForm } from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { User } from "@prisma/client"
-import { model } from "~/models"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
 
@@ -23,6 +22,7 @@ import {
   FormLabel,
   InputPassword,
 } from "~/components"
+import { model } from "~/models"
 import { schemaUserUpdatePassword } from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {

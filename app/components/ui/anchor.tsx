@@ -3,18 +3,21 @@ import * as React from "react"
 import { cn } from "~/libs"
 
 export interface AnchorProps
-  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  href: string
+}
 
 const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
-  ({ className, children, ...props }, ref) => {
+  ({ href, className, children, ...props }, ref) => {
     return (
       <a
+        href={href}
+        target="_blank"
+        rel="noreferrer"
         className={cn(
           "hover-opacity text-emerald-700 dark:text-emerald-300",
           className,
         )}
-        target="_blank"
-        rel="noreferrer"
         ref={ref}
         {...props}
       >

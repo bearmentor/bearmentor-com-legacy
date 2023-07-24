@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react"
 
 import { cn } from "~/libs"
+import { Anchor } from "~/components"
 
 const footerNavItems = [
   { to: "search", text: "Search" },
@@ -19,7 +20,11 @@ export function Footer({ className }: Props) {
       className={cn("flex justify-center pb-20 pt-40 lg:pb-10", className)}
     >
       <div className="flex flex-col flex-wrap items-center justify-center gap-4 text-muted-foreground sm:flex-row sm:gap-8">
-        <p>&copy; {today.getFullYear()} Bearmentor</p>
+        <p>
+          <span>&copy; {today.getFullYear()} </span>
+          <Anchor href="https://github.com/bearmentor">🐻 Bearmentor</Anchor>
+        </p>
+
         {/* <FooterNavigation /> */}
       </div>
     </footer>
