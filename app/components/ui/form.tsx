@@ -16,7 +16,7 @@ const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
 >(({ className, ...props }, ref) => {
-  return <Label ref={ref} className={cn(className)} {...props} />
+  return <Label ref={ref} className={cn("text-base", className)} {...props} />
 })
 FormLabel.displayName = "FormLabel"
 

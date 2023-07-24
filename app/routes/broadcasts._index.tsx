@@ -1,5 +1,5 @@
-import { json } from "@remix-run/node"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import {
   Form,
   Link,
@@ -12,7 +12,7 @@ import { parse } from "@conform-to/zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems } from "~/utils"
+import { createCacheHeaders, formatPluralItems, log } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Alert,
@@ -24,7 +24,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Debug,
   FormField,
   FormLabel,
   Input,
@@ -97,7 +96,9 @@ export async function loader({ request }: LoaderArgs) {
 
 export default function BroadcastsRoute() {
   const { userData } = useRootLoaderData()
+
   const { query, count, broadcasts } = useLoaderData<typeof loader>()
+
   const lastSubmission = useActionData<typeof action>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
@@ -110,32 +111,43 @@ export default function BroadcastsRoute() {
   })
 
   return (
-    <Layout className="flex justify-center">
-      <div className="max-w-2xl space-y-8 px-4 py-4 sm:px-8">
+    <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
+      <section className="max-w-md space-y-8">
         <header className="space-y-4">
-          <h1 className="flex items-center justify-center gap-2 text-4xl text-brand">
-            <span>Broadcasts</span>
+          <h1 className="text-4xl text-brand">
+            <Link to="/broadcasts" className="hover-opacity">
+              Broadcasts
+            </Link>
           </h1>
           <p className="text-muted-foreground">
-            Broadcasts are a small announcements or requests for everyone that
-            you need a mentor or offering a mentorship service.
+            Use broadcasts to posts some announcements or requests for everyone,
+            that you need help or offer a service.
           </p>
-          <SearchForm action="/broadcasts" placeholder="Search broadcasts" />
         </header>
 
         {userData?.id && (
-          <section id="create-broadcast">
+          <section
+            id="create-broadcast"
+            className="space-y-4 rounded bg-stone-900 p-4"
+          >
+            <header>
+              <h3>New Broadcast</h3>
+              <p className="text-sm text-muted-foreground">
+                Quickly create new broadcast to ask for help or offer a service
+              </p>
+            </header>
+
             <Form {...form.props} replace method="PUT" className="space-y-6">
               <fieldset
                 disabled={isSubmitting}
-                className="space-y-2 disabled:opacity-80"
+                className="space-y-4 disabled:opacity-80"
               >
                 <FormField>
                   <FormLabel htmlFor={title.id}>Title</FormLabel>
                   <Input
                     {...conform.input(title)}
                     type="text"
-                    placeholder="Title of the request or offer"
+                    placeholder="Ex: Need mentor to help learning JavaScript"
                   />
                   {title.error && (
                     <Alert variant="destructive" id={title.errorId}>
@@ -149,7 +161,7 @@ export default function BroadcastsRoute() {
                   <Input
                     {...conform.input(description)}
                     type="text"
-                    placeholder="Informative description about it"
+                    placeholder="Ex: Want to build a job-ready and portfolio-worthy project"
                   />
                   {description.error && (
                     <Alert variant="destructive" id={description.errorId}>
@@ -159,11 +171,11 @@ export default function BroadcastsRoute() {
                 </FormField>
 
                 <FormField>
-                  <FormLabel htmlFor={body.id}>Your Bio</FormLabel>
+                  <FormLabel htmlFor={body.id}>Message body</FormLabel>
                   <Textarea
                     {...conform.input(body)}
-                    placeholder="Tell more complete information about it..."
-                    className="min-h-[100px]"
+                    placeholder="Ex: Here are some more details about the mentorship request or service to offer..."
+                    className="min-h-[300px]"
                   />
                   {body.error && (
                     <Alert variant="destructive" id={body.errorId}>
@@ -173,16 +185,30 @@ export default function BroadcastsRoute() {
                 </FormField>
 
                 <Button type="submit" name="intent" disabled={isSubmitting}>
-                  Send Broadcast from {userData.nick}
+                  Send Broadcast
                 </Button>
               </fieldset>
             </Form>
           </section>
         )}
+      </section>
 
+      <section className="w-full max-w-3xl space-y-4">
+        <SearchForm
+          action="/broadcasts"
+          placeholder="Search broadcasts with keyword..."
+        />
+
+        {count <= 0 && (
+          <p className="text-muted-foreground">
+            No broadcast found with keyword "{query}"
+          </p>
+        )}
         {count > 0 && (
           <section className="space-y-2">
-            {!query && <p>{count} broadcasts</p>}
+            {!query && (
+              <p className="text-muted-foreground">{count} broadcasts</p>
+            )}
             {query && (
               <p className="text-muted-foreground">
                 Found {formatPluralItems("broadcast", count)} with keyword "
@@ -195,7 +221,7 @@ export default function BroadcastsRoute() {
                 return (
                   <li key={broadcast.id} className="w-full">
                     <Link to={`/broadcasts/${broadcast.slug}`}>
-                      <Card className="hover-opacity max-w-2xl space-y-2">
+                      <Card className="hover-opacity space-y-2">
                         <CardHeader className="space-y-2 p-4">
                           <div>
                             <CardTitle className="text-2xl">
@@ -255,9 +281,7 @@ export default function BroadcastsRoute() {
             </ul>
           </section>
         )}
-
-        <Debug>{broadcasts}</Debug>
-      </div>
+      </section>
     </Layout>
   )
 }
@@ -272,7 +296,7 @@ export async function action({ request }: ActionArgs) {
     return json(submission, { status: 400 })
   }
 
-  // Do something
+  log(submission.value)
 
   return json(submission)
 }
