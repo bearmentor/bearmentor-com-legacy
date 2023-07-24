@@ -14,12 +14,12 @@ export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
     return [
       {
         title: formatTitle(
-          `Sorry, this page isn't available or "${params.username}" is not found`,
+          `Sorry, "${params.username}" is not found or this page isn't available`,
         ),
       },
       {
         name: "description",
-        content: `The link you followed may be broken, or the page may have been removed.`,
+        content: `The link you followed may be broken, or the page may have been removed. Please refresh or back to the home page.`,
       },
     ]
   }
