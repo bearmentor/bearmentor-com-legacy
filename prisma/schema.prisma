@@ -104,8 +104,8 @@ model UserProfile {
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId String
 
-  headline String? @default("My headline title")
-  bio      String? @default("This is my bio description.") @db.Text
+  headline String?
+  bio      String? @db.Text
   links    Json?
 
   modeName  String?  @default("Default")

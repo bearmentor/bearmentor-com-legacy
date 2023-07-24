@@ -157,6 +157,9 @@ Also read:
 - [Prisma with PlanetScale](https://prisma.io/docs/guides/database/planetscale)
 - [PlanetScale with Prisma](https://planetscale.com/docs/prisma/prisma-quickstart)
 
+If prefer using Docker and Docker Compose for local development,
+[follow this guide](docs/database/README.md).
+
 #### Schema to Push
 
 Sync between Prisma schema and the database directly, by making schema changes
