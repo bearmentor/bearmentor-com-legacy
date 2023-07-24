@@ -1,21 +1,37 @@
+;
+
 /**
  * Debug
  *
  * Preformatted code component to show debugging information with JSON stringify
  */
 
-import { useState } from "react"
-import { Cross2Icon } from "@radix-ui/react-icons"
+import { useState } from "react";
+import { Cross2Icon } from "@radix-ui/react-icons";
 
-import { cn } from "~/libs"
-import { stringify } from "~/utils"
-import { useRootLoaderData } from "~/hooks"
-import {
-  buttonVariants,
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "~/components"
+
+
+import { cn } from "~/libs";
+import { stringify } from "~/utils";
+import { useRootLoaderData } from "~/hooks";
+import { buttonVariants, Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components";
+
+
+
+
+
+;
+
+
+
+
+
+
+
+
+
+
+
 
 export function Debug({
   name = "unknown",
