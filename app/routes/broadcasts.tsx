@@ -12,7 +12,7 @@ import { parse } from "@conform-to/zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createCacheHeaders } from "~/utils"
+import { createCacheHeaders, formatPluralItems } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Alert,
@@ -67,6 +67,16 @@ export async function loader({ request }: LoaderArgs) {
         { title: { contains: query } },
         { description: { contains: query } },
         { body: { contains: query } },
+        {
+          user: {
+            OR: [
+              {
+                name: { contains: query },
+                username: { contains: query },
+              },
+            ],
+          },
+        },
       ],
     },
     include: {
@@ -113,7 +123,7 @@ export default function BroadcastsRoute() {
           <SearchForm action="/broadcasts" placeholder="Search broadcasts" />
         </header>
 
-        {userData?.nick && (
+        {userData?.id && (
           <section id="create-broadcast">
             <Form {...form.props} replace method="PUT" className="space-y-6">
               <fieldset
@@ -175,7 +185,8 @@ export default function BroadcastsRoute() {
             {!query && <p>{count} broadcasts</p>}
             {query && (
               <p className="text-muted-foreground">
-                Found {count} broadcasts with keyword "{query}"
+                Found {count} {formatPluralItems("broadcast", count)} with
+                keyword "{query}"
               </p>
             )}
 

@@ -2,7 +2,7 @@ import { json, type LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { formatTitle } from "~/utils"
+import { formatPluralItems, formatTitle } from "~/utils"
 import { AvatarAuto, Layout, SearchForm } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -94,7 +94,8 @@ export default function Route() {
         <section className="space-y-2">
           <h2 className="text-emerald-700">Users</h2>
           <p className="text-muted-foreground">
-            Found {count} users with keyword "{query}"
+            Found {count} {formatPluralItems("user", count)} with keyword "
+            {query}"
           </p>
 
           <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">

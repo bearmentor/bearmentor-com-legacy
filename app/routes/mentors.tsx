@@ -2,7 +2,7 @@ import { json, type LoaderArgs } from "@remix-run/node"
 import { Link, useLoaderData, type V2_MetaFunction } from "@remix-run/react"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatTitle } from "~/utils"
+import { createCacheHeaders, formatPluralItems, formatTitle } from "~/utils"
 import { Layout, SearchForm, UserCard } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
@@ -83,12 +83,17 @@ export default function Route() {
         <SearchForm action="/mentors" placeholder="Search for mentors" />
       </header>
 
-      {mentors.length > 0 && (
+      {count > 0 && (
         <section className="space-y-2">
-          {count && !query && <p>All {count} mentors</p>}
-          {count && query && (
+          {!query && (
+            <p>
+              {count} {formatPluralItems("mentor", count)}
+            </p>
+          )}
+          {query && (
             <p className="text-muted-foreground">
-              Found {count} mentors with keyword "{query}"
+              Found {count} {formatPluralItems("mentor", count)} with keyword "
+              {query}"
             </p>
           )}
 

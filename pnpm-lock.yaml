@@ -95,6 +95,9 @@ dependencies:
   nprogress:
     specifier: 0.2.0
     version: 0.2.0
+  pluralize:
+    specifier: 8.0.0
+    version: 8.0.0
   react:
     specifier: ^18.2.0
     version: 18.2.0
@@ -157,6 +160,9 @@ devDependencies:
   '@types/nprogress':
     specifier: 0.2.0
     version: 0.2.0
+  '@types/pluralize':
+    specifier: 0.0.30
+    version: 0.0.30
   '@types/react':
     specifier: ^18.2.15
     version: 18.2.15
@@ -3377,6 +3383,10 @@ packages:
 
   /@types/nprogress@0.2.0:
     resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
+    dev: true
+
+  /@types/pluralize@0.0.30:
+    resolution: {integrity: sha512-kVww6xZrW/db5BR9OqiT71J9huRdQ+z/r+LbDuT7/EK50mCmj5FoaIARnVv0rvjUS/YpDox0cDU9lpQT011VBA==}
     dev: true
 
   /@types/prop-types@15.7.5:
@@ -8639,6 +8649,11 @@ packages:
       mlly: 1.4.0
       pathe: 1.1.1
     dev: true
+
+  /pluralize@8.0.0:
+    resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
+    engines: {node: '>=4'}
+    dev: false
 
   /postcss-discard-duplicates@5.1.0(postcss@8.4.27):
     resolution: {integrity: sha512-zmX3IoSI2aoenxHV6C7plngHWWhUOV3sP1T8y2ifzxzbtnuhk1EdPwm0S1bIUNaJ2eNbWeGLEwzw8huPD67aQw==}
