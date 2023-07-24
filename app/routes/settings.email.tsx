@@ -102,6 +102,7 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
           variant="secondary"
           value="update-user-email"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Email
         </Button>

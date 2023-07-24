@@ -39,7 +39,7 @@ const modeName = z.string().min(1, "Profile mode name is required")
 
 const headline = z.string().max(50, "Headline limited to 50 characters")
 
-const bio = z.string().max(280, "Bio limited to 280 characters").optional()
+const bio = z.string().max(1000, "Bio limited to 1000 characters").optional()
 
 const link = z.object({
   value: z.string().url({ message: "Please enter a valid URL." }),

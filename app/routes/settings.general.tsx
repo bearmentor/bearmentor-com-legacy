@@ -122,6 +122,7 @@ export function UserUsernameForm({
           variant="secondary"
           value="update-user-username"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Username
         </Button>
@@ -176,6 +177,7 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
           variant="secondary"
           value="update-user-name"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Name
         </Button>
@@ -227,6 +229,7 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
           variant="secondary"
           value="update-user-nick"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Nick
         </Button>

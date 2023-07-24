@@ -128,7 +128,7 @@ export default function Route() {
 
         <div className="space-y-4">
           <h3>{user.profiles[0]?.headline}</h3>
-          <p className="prose dark:prose-invert whitespace-pre">
+          <p className="prose dark:prose-invert whitespace-pre-wrap">
             {user.profiles[0]?.bio}
           </p>
         </div>

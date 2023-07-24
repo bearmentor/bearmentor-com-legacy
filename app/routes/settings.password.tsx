@@ -75,7 +75,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
     <Form {...form.props} replace method="PUT" className="space-y-6">
       <fieldset
         disabled={isSubmitting}
-        className="space-y-6 disabled:opacity-80"
+        className="space-y-4 disabled:opacity-80"
       >
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
@@ -118,6 +118,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
           variant="secondary"
           value="update-user-password"
           disabled={isSubmitting}
+          size="sm"
         >
           Save New Password
         </Button>

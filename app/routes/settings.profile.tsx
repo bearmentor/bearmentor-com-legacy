@@ -130,6 +130,7 @@ export function UserProfileModeNameForm({
           variant="secondary"
           value="update-user-profile-modename"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Mode Name
         </Button>
@@ -189,6 +190,7 @@ export function UserProfileHeadlineForm({
           variant="secondary"
           value="update-user-profile-headline"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Headline
         </Button>
@@ -247,6 +249,7 @@ export function UserProfileBioForm({
           variant="secondary"
           value="update-user-bio"
           disabled={isSubmitting}
+          size="sm"
         >
           Save Bio
         </Button>

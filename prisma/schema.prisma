@@ -102,7 +102,7 @@ model UserProfile {
   userId String
 
   headline String? @default("My headline title")
-  bio      String? @default("This is my bio description.")
+  bio      String? @default("This is my bio description.") @db.Text
   links    Json?
 
   modeName  String?  @default("Default")
@@ -121,8 +121,8 @@ model UserLocation {
   userId String
 
   label   String
-  address String?
-  mapsURL String? // https://goo.gl/maps/1xABCDEF123456
+  address String? @db.Text
+  mapsURL String? @db.Text // https://goo.gl/maps/1xABCDEF123456
 
   countryCode String?
   province    String?
@@ -136,8 +136,8 @@ model UserLocation {
   districtId    String?
   subDistrictId String?
 
-  street        String?
-  streetDetails String?
+  street        String? @db.Text
+  streetDetails String? @db.Text
   postalCode    String?
 
   latitude  Decimal? // -90 to 90, Example: -5.1234567
@@ -150,12 +150,12 @@ model UserLocation {
 }
 
 model UserAvatarImage {
-  id     String @id @default(cuid())
+  id String @id @default(cuid())
+
+  url String @db.Text
+
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId String
-
-  url      String
-  filePath String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -164,12 +164,12 @@ model UserAvatarImage {
 }
 
 model UserCoverImage {
-  id     String @id @default(cuid())
+  id String @id @default(cuid())
+
+  url String @db.Text
+
   user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   userId String
-
-  url      String
-  filePath String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -220,14 +220,15 @@ model Content {
 }
 
 model ContentImage {
-  id        String  @id @default(cuid())
+  id String @id @default(cuid())
+
+  url String
+
+  user   User   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String
+
   content   Content @relation(fields: [contentId], references: [id], onUpdate: Cascade, onDelete: Cascade)
   contentId String
-  user      User    @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
-  userId    String
-
-  url      String
-  filePath String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

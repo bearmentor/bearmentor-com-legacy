@@ -25,6 +25,7 @@ import NProgress from "nprogress"
 import { authenticator } from "~/services/auth.server"
 import { createCacheHeaders } from "~/utils"
 
+import { Layout } from "./components"
 import styles from "./globals.css"
 
 export const links: LinksFunction = () => [
@@ -112,5 +113,21 @@ export default function App() {
         {nodeEnv !== "development" && <Analytics />}
       </body>
     </html>
+  )
+}
+
+export function ErrorBoundary({ error }: { error: Error }) {
+  return (
+    <Layout>
+      <header>
+        <h1>Sorry, there's an error</h1>
+        <p>{error.message}</p>
+      </header>
+
+      <section>
+        <p>The stack trace is:</p>
+        <pre>{error.stack}</pre>
+      </section>
+    </Layout>
   )
 }
