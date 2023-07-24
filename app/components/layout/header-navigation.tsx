@@ -66,7 +66,7 @@ export function HeaderNavigation() {
       )}
     >
       <nav className="w-full max-w-md md:max-w-3xl">
-        <TooltipProvider>
+        <TooltipProvider delayDuration={500}>
           <ul className="flex justify-between gap-4 p-2 lg:flex-col lg:gap-2">
             <NavigationList navItems={navPublicItems} />
             {!userSession && (

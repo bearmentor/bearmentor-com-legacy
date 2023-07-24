@@ -87,10 +87,10 @@ export default function Route() {
   const isOwner = userSession?.id === user.id
 
   return (
-    <Layout>
+    <Layout className="flex flex-col items-center">
       <section className="flex justify-center sm:px-2">
         <img
-          className="h-32 rounded-b-lg object-cover sm:h-48 md:h-60"
+          className="h-32 object-cover sm:h-48 sm:rounded-b-lg md:h-60"
           alt="User Cover"
           src={defaultCoverImageURL}
           height={240}
@@ -98,7 +98,7 @@ export default function Route() {
         />
       </section>
 
-      <section className="max-w-3xl space-y-8 px-4 sm:container sm:px-8">
+      <section className="w-full max-w-3xl space-y-8 px-4 sm:px-8">
         <header className="-mt-16 flex flex-wrap items-end justify-between">
           <div>
             <AvatarAuto

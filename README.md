@@ -247,14 +247,22 @@ pnpm db:gen
 # prisma generate
 ```
 
+### Checking Dependencies
+
+To keep the dependencies fresh, use [taze](https://github.com/antfu/taze).
+
+```sh
+pnpm dlx taze
+```
+
 ## Deployment
 
 This repo has been setup to autodeploy to Vercel automatically on Git push.
 
 > The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of
-> the box Vercel functionality and will be removed in Remix v2.  
-> No more using the Vercel template & can just use the Remix template instead.
-> Will be changed after the upgrade to v2.
+> the box Vercel functionality and will be removed in Remix v2. No more using
+> the Vercel template & can just use the Remix template instead. Will be changed
+> after the upgrade to v2.
 
 After having run the `create-remix` command and selected "Vercel" as a
 deployment target, [import the Git repository](https://vercel.com/new) into

@@ -450,7 +450,7 @@ export const dataUsers: DataUser[] = [
   {
     name: "Irsyad A. Panjaitan",
     username: "irsyadadl",
-    tags: ["MENTOR", "DEVELOPER"],
+    tags: ["COLLABORATOR", "MENTOR", "DEVELOPER"],
   },
   {
     name: "Sahbana Lubis",
