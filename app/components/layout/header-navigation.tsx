@@ -117,7 +117,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 to={navItem.to}
                 className={({ isActive }) => {
                   return cn(
-                    "flex items-center justify-center gap-2 rounded p-2 font-bold ",
+                    "flex max-w-lg items-center justify-center gap-2 rounded p-2 font-bold",
                     isActive ||
                       (navItem.to === "/profile" &&
                         checkIfActiveUsername(location, userData))
@@ -137,10 +137,6 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 ) : (
                   navItem.icon
                 )}
-
-                <span className="hidden md:block lg:hidden">
-                  {navItem.text}
-                </span>
               </NavLink>
             </TooltipAuto>
           </li>
