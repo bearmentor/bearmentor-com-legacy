@@ -1,5 +1,5 @@
-import { NavLink, useLocation } from "@remix-run/react"
 import type { Location } from "@remix-run/react"
+import { NavLink, useLocation } from "@remix-run/react"
 import {
   IconBackpack,
   IconDashboard,
