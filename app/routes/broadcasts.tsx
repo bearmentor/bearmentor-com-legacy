@@ -185,8 +185,8 @@ export default function BroadcastsRoute() {
             {!query && <p>{count} broadcasts</p>}
             {query && (
               <p className="text-muted-foreground">
-                Found {count} {formatPluralItems("broadcast", count)} with
-                keyword "{query}"
+                Found {formatPluralItems("broadcast", count)} with keyword "
+                {query}"
               </p>
             )}
 

@@ -85,15 +85,10 @@ export default function Route() {
 
       {count > 0 && (
         <section className="space-y-2">
-          {!query && (
-            <p>
-              {count} {formatPluralItems("mentee", count)}
-            </p>
-          )}
+          {!query && <p>{formatPluralItems("mentee", count)}</p>}
           {query && (
             <p className="text-muted-foreground">
-              Found {count} {formatPluralItems("mentee", count)} with keyword "
-              {query}"
+              Found {formatPluralItems("mentee", count)} with keyword "{query}"
             </p>
           )}
 
