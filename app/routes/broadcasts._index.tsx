@@ -179,7 +179,7 @@ export default function BroadcastsRoute() {
                 </FormField>
 
                 <FormField>
-                  <FormLabel htmlFor={body.id}>Message body</FormLabel>
+                  <FormLabel htmlFor={body.id}>Details</FormLabel>
                   <Textarea
                     {...conform.input(body)}
                     placeholder="Ex: Here are some more details about the mentorship request or service to offer..."

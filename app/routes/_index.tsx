@@ -5,6 +5,7 @@ import arrayShuffle from "array-shuffle"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
+import { useRootLoaderData } from "~/hooks"
 import { Anchor, AvatarAuto, Button, Layout, UserCard } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
@@ -52,6 +53,8 @@ export default function Index() {
 }
 
 export function LandingHero() {
+  const { userSession } = useRootLoaderData()
+
   return (
     <article className="w-full max-w-3xl space-y-8 pb-10 pt-20">
       <section className="flex gap-8">
@@ -67,14 +70,26 @@ export function LandingHero() {
             The mentoring platform for people and organization. Get live
             technical help, various learning materials, and gain your income.
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <Button size="lg" asChild>
-              <Link to="/mentors">Discover Mentors</Link>
-            </Button>
-            <Button size="lg" variant="secondary" asChild>
-              <Link to="/login">Login to Continue</Link>
-            </Button>
-          </div>
+          {!userSession && (
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" asChild>
+                <Link to="/mentors">Discover Mentors</Link>
+              </Button>
+              <Button size="lg" asChild variant="secondary">
+                <Link to="/login">Login to Continue</Link>
+              </Button>
+            </div>
+          )}
+          {userSession && (
+            <div className="flex flex-wrap justify-center gap-4">
+              <Button size="lg" asChild>
+                <Link to="/broadcasts">Broadcast Help or Service</Link>
+              </Button>
+              <Button size="lg" asChild variant="secondary">
+                <Link to="/mentors">Discover Mentors</Link>
+              </Button>
+            </div>
+          )}
         </div>
         <div className="hidden lg:flex">
           <img
