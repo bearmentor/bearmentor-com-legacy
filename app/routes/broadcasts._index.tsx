@@ -112,7 +112,7 @@ export default function BroadcastsRoute() {
 
   return (
     <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap">
-      <section className="w-full space-y-8 sm:max-w-sm">
+      <section id="broadcasts-action" className="w-full space-y-8 sm:max-w-sm">
         <header className="space-y-4">
           <h1 className="text-4xl text-brand">
             <Link to="/broadcasts" className="hover-opacity">
@@ -139,7 +139,7 @@ export default function BroadcastsRoute() {
             className="space-y-4 rounded bg-stone-900 p-4"
           >
             <header>
-              <h3>New Broadcast</h3>
+              <h3>Quick Broadcast</h3>
               <p className="text-sm text-muted-foreground">
                 Quickly create new broadcast to ask or offer
               </p>
@@ -183,7 +183,7 @@ export default function BroadcastsRoute() {
                   <Textarea
                     {...conform.input(body)}
                     placeholder="Ex: Here are some more details about the mentorship request or service to offer..."
-                    className="min-h-[300px]"
+                    className="min-h-[200px]"
                   />
                   {body.error && (
                     <Alert variant="destructive" id={body.errorId}>
@@ -193,7 +193,7 @@ export default function BroadcastsRoute() {
                 </FormField>
 
                 <Button type="submit" name="intent" disabled={isSubmitting}>
-                  Send Broadcast
+                  Send
                 </Button>
               </fieldset>
             </Form>
@@ -201,30 +201,28 @@ export default function BroadcastsRoute() {
         )}
       </section>
 
-      <section className="w-full max-w-3xl space-y-4">
+      <section id="broadcasts" className="w-full max-w-3xl space-y-4">
         <SearchForm
           action="/broadcasts"
           placeholder="Search broadcasts with keyword..."
         />
-
-        {count <= 0 && (
+        {!query && count > 0 && (
+          <p className="text-muted-foreground">{count} broadcasts</p>
+        )}
+        {query && count <= 0 && (
           <p className="text-muted-foreground">
             No broadcast found with keyword "{query}"
           </p>
         )}
-        {count > 0 && (
-          <section className="space-y-2">
-            {!query && (
-              <p className="text-muted-foreground">{count} broadcasts</p>
-            )}
-            {query && (
-              <p className="text-muted-foreground">
-                Found {formatPluralItems("broadcast", count)} with keyword "
-                {query}"
-              </p>
-            )}
+        {query && count > 0 && (
+          <p className="text-muted-foreground">
+            Found {formatPluralItems("broadcast", count)} with keyword "{query}"
+          </p>
+        )}
 
-            <ul className="space-y-2 sm:space-y-4">
+        {count > 0 && (
+          <section>
+            <ul className="space-y-4">
               {broadcasts.map(broadcast => {
                 return (
                   <li key={broadcast.id} className="w-full">
