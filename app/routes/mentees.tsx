@@ -76,6 +76,10 @@ export default function Route() {
           <img src="/images/bear-smile.png" alt="Bear" className="h-10" />
           <span>Mentees</span>
         </h1>
+        <p className="text-muted-foreground">
+          Mentee is a person who is mentored, advised, trained, counseled, or
+          taught by a mentor. Like a student or trainee.
+        </p>
         <SearchForm action="/mentees" placeholder="Search for mentees" />
       </header>
 

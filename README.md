@@ -157,6 +157,8 @@ Also read:
 - [Prisma with PlanetScale](https://prisma.io/docs/guides/database/planetscale)
 - [PlanetScale with Prisma](https://planetscale.com/docs/prisma/prisma-quickstart)
 
+#### Schema to Push
+
 Sync between Prisma schema and the database directly, by making schema changes
 with `prisma db push`, which can be done regularly while updating the models:
 
@@ -168,6 +170,32 @@ pnpm db:push
 Even with local development without PlanetScale, this is still okay when
 [prototyping the schema](https://prisma.io/docs/concepts/components/prisma-migrate/db-push).
 After a success push, then it will automatically run `prisma generate`.
+
+#### Data for Credentials
+
+Create [`users-credentials.json`] in [`app/data`](./app/data/) folder with the
+format below. You can focus on certain users who want to be able to login in
+development, so it doesn't have to be everyone. For example, only create for
+`admin`, `test`, or `yourname` which also available in
+[`app/data/users.ts`](./app/data/users.ts)
+
+```json
+[
+  {
+    "username": "username",
+    "email": "user1@example.com",
+    "password": "set_the_password_1"
+  },
+  {
+    "username": "username2",
+    "email": "user2@example.com",
+    "password": "set_the_password_2"
+  }
+  // ...
+]
+```
+
+#### Data for Seed
 
 Then seed the initial data when needed:
 

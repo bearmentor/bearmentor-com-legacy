@@ -76,6 +76,10 @@ export default function Route() {
           <img src="/images/bear-sunglasses.png" alt="Bear" className="h-10" />
           <span>Mentors</span>
         </h1>
+        <p className="text-muted-foreground">
+          Mentor is a person who can guide, advise, train, or teach a mentee or
+          several mentees. Like a teacher or trainer.
+        </p>
         <SearchForm action="/mentors" placeholder="Search for mentors" />
       </header>
 
