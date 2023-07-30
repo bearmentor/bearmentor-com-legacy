@@ -58,9 +58,9 @@ export const dataUsers: DataUser[] = [
           headline: "Software Engineering Mentor",
           bio: `Helping you to learn and build something for good on the web. Especially software, since 2010.
 
-  Topic: Modern career, professional life, interface and experience design, web development, software engineering, human-computer interaction, also project and product management
-  
-  Technical: UI, UX, Figma, Git, GitHub, GitLab, Markdown, HTML, CSS, Tailwind CSS, JavaScript, TypeScript, Node.js, React, Remix, Next.js, Vite, Redux, Express, NestJS, Vitest, Playwright, REST API, GraphQL, Pothos GraphQL Schema, Prisma ORM, Sequelize ORM, Mongoose ORM, TypeORM, PostgreSQL, MySQL/MariaDB, MongoDB, Redis, Vercel, Netlify, Render, Heroku, Railway.app, Fly.io, Digital Ocean, Linode, Google Cloud Platform (GCP), Amazon Web Services (AWS), and other modern stacks.`,
+Topic: Modern career, professional life, interface and experience design, web development, software engineering, human-computer interaction, also project and product management
+
+Technical: UI, UX, Figma, Git, GitHub, GitLab, Markdown, HTML, CSS, Tailwind CSS, JavaScript, TypeScript, Node.js, React, Remix, Next.js, Vite, Redux, Express, NestJS, Vitest, Playwright, REST API, GraphQL, Pothos GraphQL Schema, Prisma ORM, Sequelize ORM, Mongoose ORM, TypeORM, PostgreSQL, MySQL/MariaDB, MongoDB, Redis, Vercel, Netlify, Render, Heroku, Railway.app, Fly.io, Digital Ocean, Linode, Google Cloud Platform (GCP), Amazon Web Services (AWS), and other modern stacks.`,
         },
         {
           modeName: "Developer",
@@ -442,6 +442,11 @@ export const dataUsers: DataUser[] = [
     tags: ["MENTEE", "DEVELOPER"],
   },
   {
+    name: "Mutia Anggraini",
+    username: "mutia",
+    tags: ["MENTEE", "DEVELOPER"],
+  },
+  {
     name: "Ahyana Rizky Pratama",
     username: "ahyanarizky",
     tags: ["MENTEE", "DEVELOPER"],
@@ -477,8 +482,8 @@ export const dataUsers: DataUser[] = [
     tags: ["MENTEE", "DEVELOPER"],
   },
   {
-    name: "Mutia Anggraini",
-    username: "mutia",
+    name: "Aldo Alfredo Bangun",
+    username: "aldobangun",
     tags: ["MENTEE", "DEVELOPER"],
   },
 ]

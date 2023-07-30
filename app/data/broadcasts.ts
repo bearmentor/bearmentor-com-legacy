@@ -8,13 +8,13 @@ export type DataBroadcast = Pick<Broadcast, "title" | "description"> & {
 export const dataBroadcasts: DataBroadcast[] = [
   {
     username: "haidar",
-    title: "Example Broadcast",
-    description: "A short description",
-    body: `Welcome to broadcasts!
+    title: "Welcome to broadcasts!",
+    description: "How to find a mentor or mentee for you",
+    body: `With Broadcast, we can send an announcement or info about something we need or offer some help with mentorship.
 
-Here we can send an announcement or info about something we need or offer some help. Enjoy, and let me know if there's something.
+I'm also opening up some mentorship help for web development. Especially in full stack (frontend and backend) web application development with JavaScript, TypeScript, Node.js, and more. Just see my profile.
 
-I'm also opening up some mentorship help for web development. Especially in full stack (frontend and backend) web application development with JavaScript, TypeScript, Node.js, and more. Just see my profile.`,
+Enjoy, and let me know if there's something.`,
   },
   {
     username: "maya",

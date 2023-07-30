@@ -128,7 +128,7 @@ export default function BroadcastsRoute() {
         {!userData?.id && (
           <section>
             <Button asChild>
-              <Link to="/login">Create New Broadcast</Link>
+              <Link to="/login">Login to Broadcast</Link>
             </Button>
           </section>
         )}

@@ -70,13 +70,13 @@ async function seedUsers() {
   await prisma.userCoverImage.deleteMany()
   console.info("🟡 Deleted existing user cover images...")
 
-  // Get existing roles
+  // Get existing roles for ids
   const roles = await prisma.userRole.findMany()
   const ADMIN = roles.find(role => role.symbol === "ADMIN")
   const NORMAL = roles.find(role => role.symbol === "NORMAL")
   if (!ADMIN || !NORMAL) return null
 
-  // Get existing tags
+  // Get existing tags for ids
   const tags = await prisma.userTag.findMany()
   const COLLABORATOR = tags.find(tag => tag.symbol === "COLLABORATOR")
   const MENTOR = tags.find(tag => tag.symbol === "MENTOR")
@@ -121,6 +121,13 @@ async function seedUsers() {
       tags: { connect: tags },
       role: { connect: { id: isCollaborator ? ADMIN.id : NORMAL.id } },
       avatars: { create: { url: createAvatarImageURL(user.username) } },
+      profiles: user.profiles || {
+        create: {
+          modeName: `Default ${user.nick || user.name}`,
+          headline: `The headline of ${user.nick || user.name}`,
+          bio: `The bio of ${user.nick || user.name} for longer description.`,
+        },
+      },
     }
   })
 
@@ -159,14 +166,14 @@ async function seedBroadcasts() {
   console.info("🟡 Deleted existing broadcasts...")
 
   for (const broadcast of dataBroadcasts) {
-    const user = await prisma.user.findFirst({
+    const user = await prisma.user.findUnique({
       where: { username: broadcast.username },
     })
     if (!user) return null
 
     const newBroadcast = {
       userId: user.id,
-      slug: createBroadcastSlug(broadcast.title),
+      slug: createBroadcastSlug(broadcast.title, user.username),
       title: broadcast.title,
       description: broadcast?.description,
       body: broadcast?.body,
