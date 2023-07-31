@@ -80,7 +80,9 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
               autoFocus={password.initialError?.[""] ? true : undefined}
               required
             />
-            <p className="text-surface-500 text-xs">At least 10 characters</p>
+            <p id={password.descriptionId} className="text-surface-500 text-xs">
+              At least 10 characters
+            </p>
             {!password.error && actionData?.error.password && (
               <Alert variant="destructive">{actionData.error.password}</Alert>
             )}

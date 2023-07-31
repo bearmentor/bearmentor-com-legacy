@@ -10,10 +10,10 @@ export const settingsNavItems = [
   { title: "Profile", to: "/settings/profile" },
   { title: "Email", to: "/settings/email" },
   { title: "Password", to: "/settings/password" },
-  { title: "Account", to: "/settings/account" },
-  { title: "Appearance", to: "/settings/appearance" },
-  { title: "Notifications", to: "/settings/notifications" },
-  { title: "Display", to: "/settings/display" },
+  { title: "Danger", to: "/settings/danger" },
+  // { title: "Account", to: "/settings/account" },
+  // { title: "Appearance", to: "/settings/appearance" },
+  // { title: "Notifications", to: "/settings/notifications" },
 ]
 
 export const loader = async ({ request }: LoaderArgs) => {
