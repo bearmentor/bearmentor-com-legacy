@@ -9,13 +9,15 @@ const username = z
   .max(20, "Username limited to 20 characters")
 
 const name = z
+  .string({ required_error: "Full name is required" })
+  .max(50, "Full name limited to 50 characters")
+
+const nick = z.string().max(50, "Nick name limited to 50 characters")
+
+const email = z
   .string()
-  .min(1, "Full Name is required")
-  .max(50, "Full Name limited to 50 characters")
-
-const nick = z.string().max(50, "Nick Name limited to 50 characters")
-
-const email = z.string().min(1, "Email is required").email("Email is invalid")
+  .min(1, "Email is required")
+  .email("This is not an email")
 
 /**
  * TODO: Improve password check
@@ -23,9 +25,9 @@ const email = z.string().min(1, "Email is required").email("Email is invalid")
  * - Shouldn't match the email
  */
 const password = z
-  .string()
-  .min(8, "Password require at least 8 characters")
-  .max(100, "Password max length limited to 100 characters")
+  .string({ required_error: "Password is required" })
+  .min(10, "Password at least 10 characters")
+  .max(100, "Password max of 100 characters")
 
 const confirmPassword = z.string()
 

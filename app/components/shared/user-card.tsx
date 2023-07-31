@@ -46,7 +46,7 @@ export function UserCard({ user }: Props) {
             <ul className="flex flex-wrap gap-1 sm:gap-2">
               {user.tags.map(tag => {
                 return (
-                  <li key={tag.id}>
+                  <li key={`${tag.id}-${tag.symbol}`}>
                     <Badge size="sm" variant="secondary">
                       {tag.name}
                     </Badge>

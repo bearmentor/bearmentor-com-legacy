@@ -184,7 +184,13 @@ export const mutation = {
     email: User["email"]
     password: string // from the form field, but it is not the hash
   }) {
-    if (!email) return { error: { email: `Email is required` } }
+    if (!email)
+      return {
+        error: {
+          email: `Email is required`,
+          password: "",
+        },
+      }
 
     const user = await prisma.user.findUnique({
       where: { email },
@@ -193,20 +199,31 @@ export const mutation = {
 
     if (!user) {
       return {
-        error: { email: `Email ${email} is not registered yet`, password: "" },
+        error: {
+          email: `Email ${email} is not found or registered yet, check again or create an account`,
+          password: "",
+        },
       }
     }
     if (!user.password) {
-      return { error: { email: "User account has no password", password: "" } }
+      return {
+        error: {
+          email: `User ${email} has no password`,
+          password: "",
+        },
+      }
     }
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password.hash)
     if (!isPasswordCorrect) {
-      return { error: { email: "", password: "Password is incorrect" } }
+      return {
+        error: {
+          email: "",
+          password: "Password is incorrect, check again",
+        },
+      }
     }
 
-    // To make sure we only have the essential data in the session
-    // Without any other sensitive information
     return { user, error: null }
   },
 

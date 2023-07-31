@@ -116,6 +116,9 @@ dependencies:
   remix-utils:
     specifier: 6.6.0
     version: 6.6.0(@remix-run/react@1.19.1)(@remix-run/server-runtime@1.19.1)(react@18.2.0)(typescript@5.1.6)(zod@3.21.4)
+  sleep-promise:
+    specifier: 9.1.0
+    version: 9.1.0
   tailwind-merge:
     specifier: 1.14.0
     version: 1.14.0
@@ -9710,6 +9713,10 @@ packages:
     resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
     engines: {node: '>=12'}
     dev: true
+
+  /sleep-promise@9.1.0:
+    resolution: {integrity: sha512-UHYzVpz9Xn8b+jikYSD6bqvf754xL2uBUzDFwiU6NcdZeifPr6UfgU43xpkPu67VMS88+TI2PSI7Eohgqf2fKA==}
+    dev: false
 
   /slice-ansi@4.0.0:
     resolution: {integrity: sha512-qMCMfhY040cVHT43K9BFygqYbUPFZKHOg7K73mtTWJRb8pyP3fzf4Ixd5SzdEJQ6MRUg/WBnOLxghZtKKurENQ==}

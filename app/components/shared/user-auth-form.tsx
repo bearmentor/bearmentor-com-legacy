@@ -1,51 +1,111 @@
-import { Form, useNavigation } from "@remix-run/react"
+import { useId } from "react"
+import { Form, useActionData, useNavigation } from "@remix-run/react"
+import { conform, useForm } from "@conform-to/react"
+import { getFieldsetConstraint, parse } from "@conform-to/zod"
 import { GitHubLogoIcon, ReloadIcon, ValueIcon } from "@radix-ui/react-icons"
+import type { z } from "zod"
 
+import type { action as loginAction } from "~/routes/login"
 import type { AuthStrategy } from "~/services/auth.server"
-import { cn } from "~/libs"
-import { useScreenLarge } from "~/hooks"
-import { Button, Input, InputPassword, Label } from "~/components"
+import { useRedirectTo } from "~/hooks"
+import {
+  Alert,
+  Button,
+  ButtonLoading,
+  Debug,
+  Input,
+  InputPassword,
+  Label,
+} from "~/components"
+import { schemaUserLogin } from "~/schemas"
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-  const isScreenLarge = useScreenLarge()
+export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
+  const { redirectTo } = useRedirectTo()
+  const actionData = useActionData<typeof loginAction>()
   const navigation = useNavigation()
   const isLoading = navigation.state === "loading"
 
+  const id = useId()
+  const [form, { email, password }] = useForm<z.infer<typeof schemaUserLogin>>({
+    id,
+    shouldValidate: "onSubmit",
+    lastSubmission: actionData,
+    constraint: getFieldsetConstraint(schemaUserLogin),
+    onValidate({ formData }) {
+      return parse(formData, { schema: schemaUserLogin })
+    },
+  })
+
   return (
-    <div className={cn("grid gap-6", className)} {...props}>
-      <Form method="POST" action={`/auth/form`}>
-        <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
+    <section className="space-y-6" {...props}>
+      <Form id="user-auth-form" method="POST" {...form.props}>
+        <div className="flex flex-col gap-4">
+          <div className="space-y-2">
+            <Label htmlFor={email.id}>Email</Label>
             <Input
-              id="email"
+              {...conform.input(email, { type: "email", description: true })}
+              id={email.id}
               name="email"
-              type="email"
               placeholder="yourname@example.com"
-              autoCapitalize="none"
               autoComplete="email"
+              autoCapitalize="none"
               autoCorrect="off"
-              autoFocus={isScreenLarge || false}
               disabled={isLoading}
+              autoFocus={email.initialError?.[""] ? true : undefined}
+              required
             />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <InputPassword
-              id="password"
-              name="password"
-              type="password"
-              autoComplete="password"
-              disabled={isLoading}
-            />
+            {actionData?.error.email && (
+              <Alert variant="destructive">{actionData.error.email}</Alert>
+            )}
+            {email.errors && email.errors?.length > 0 && (
+              <ul>
+                {email.errors?.map((error, index) => (
+                  <li key={index}>
+                    <Alert variant="destructive">{error}</Alert>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
-          <Button disabled={isLoading}>
-            {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-            <span>Login</span>
-          </Button>
+          <div className="space-y-2">
+            <Label htmlFor={password.id}>Password</Label>
+            <InputPassword
+              {...conform.input(email, { type: "password", description: true })}
+              id={password.id}
+              name="password"
+              placeholder="Enter password"
+              autoComplete="current-password"
+              disabled={isLoading}
+              autoFocus={password.initialError?.[""] ? true : undefined}
+              required
+            />
+            <p className="text-surface-500 text-xs">At least 10 characters</p>
+            {!password.error && actionData?.error.password && (
+              <Alert variant="destructive">{actionData.error.password}</Alert>
+            )}
+            {password.errors && password.errors?.length > 0 && (
+              <ul>
+                {password.errors?.map((error, index) => (
+                  <li key={index}>
+                    <Alert variant="destructive">{error}</Alert>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <Input type="hidden" name="redirectTo" value={redirectTo} />
+
+          <ButtonLoading
+            type="submit"
+            loadingText="Logging in..."
+            isLoading={isLoading}
+          >
+            Login
+          </ButtonLoading>
+
+          <Debug>{{ focus: password.initialError?.[""] }}</Debug>
         </div>
       </Form>
 
@@ -74,7 +134,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
           disabled
         />
       </div>
-    </div>
+    </section>
   )
 }
 

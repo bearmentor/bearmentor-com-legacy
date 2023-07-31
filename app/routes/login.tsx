@@ -1,9 +1,16 @@
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import { json } from "@remix-run/node"
 import { Link, type V2_MetaFunction } from "@remix-run/react"
+import { parse } from "@conform-to/zod"
+import { badRequest } from "remix-utils"
 
+// eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { authenticator } from "~/services/auth.server"
-import { formatTitle } from "~/utils"
+import { formatTitle, sleep } from "~/utils"
+import { useRedirectTo } from "~/hooks"
 import { Layout, UserAuthForm } from "~/components"
+import { model } from "~/models"
+import { schemaUserLogin } from "~/schemas"
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -16,32 +23,35 @@ export const meta: V2_MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderArgs) => {
-  return await authenticator.isAuthenticated(request, {
+  return authenticator.isAuthenticated(request, {
     successRedirect: "/dashboard",
   })
 }
 
+/**
+ * Form is inside UserAuthForm for complete form UI and UX
+ */
 export default function Route() {
+  const { searchParams } = useRedirectTo()
+
   return (
     <Layout hasFooter={false}>
       <div className="container relative grid h-screen flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-        <section className="lg:p-8">
-          <div className="mx-auto flex w-full max-w-sm flex-col space-y-8">
-            <div className="flex flex-col space-y-2">
-              <h2>Login</h2>
-              <p className="text-muted-foreground">
-                New to Bearmentor?{" "}
-                <Link
-                  to={`/register`}
-                  className="hover-opacity font-bold text-brand"
-                >
-                  Create an account
-                </Link>
-              </p>
-            </div>
+        <section className="mx-auto flex w-full max-w-md flex-col space-y-8 lg:p-8">
+          <section className="flex flex-col space-y-2">
+            <h2>Login</h2>
+            <p className="text-muted-foreground">
+              New to Bearmentor?{" "}
+              <Link
+                to={{ pathname: "/register", search: searchParams.toString() }}
+                className="hover-opacity font-bold text-brand"
+              >
+                Create an account
+              </Link>
+            </p>
+          </section>
 
-            <UserAuthForm />
-          </div>
+          <UserAuthForm />
         </section>
 
         <section className="relative hidden h-full flex-col bg-stone-900 p-10 text-white lg:flex lg:items-end">
@@ -65,4 +75,25 @@ export default function Route() {
       </div>
     </Layout>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  await sleep(300)
+
+  const clonedRequest = request.clone()
+  const formData = await clonedRequest.formData()
+
+  const submission = parse(formData, { schema: schemaUserLogin })
+  if (!submission.value || submission.intent !== "submit") {
+    return badRequest(submission)
+  }
+
+  const result = await model.user.mutation.login(submission.value)
+  if (result.error) {
+    return json({ ...submission, error: result.error })
+  }
+
+  return authenticator.authenticate("form", request, {
+    successRedirect: "/dashboard",
+  })
 }

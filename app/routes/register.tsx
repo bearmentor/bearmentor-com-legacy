@@ -24,7 +24,7 @@ const schema = z.object({
 })
 
 export async function loader({ request }: LoaderArgs) {
-  return await authenticator.isAuthenticated(request, {
+  return authenticator.isAuthenticated(request, {
     successRedirect: "/dashboard",
   })
 }

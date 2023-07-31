@@ -12,7 +12,7 @@ import { parse } from "@conform-to/zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems, log } from "~/utils"
+import { createCacheHeaders, formatPluralItems } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Alert,
@@ -301,8 +301,6 @@ export async function action({ request }: ActionArgs) {
   if (!submission.value || submission.intent !== "submit") {
     return json(submission, { status: 400 })
   }
-
-  log(submission.value)
 
   return json(submission)
 }

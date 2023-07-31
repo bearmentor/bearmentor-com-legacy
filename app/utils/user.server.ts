@@ -21,7 +21,7 @@ export async function requireUserSession(
   // Get user data from database
   const userData = await model.user.query.getForSession({ id: userSession.id })
   if (!userData) {
-    return await authenticator.logout(request, { redirectTo: "/login" })
+    return authenticator.logout(request, { redirectTo: "/login" })
   }
   invariant(userData, "User is not available")
 

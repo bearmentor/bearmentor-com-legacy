@@ -1,4 +1,5 @@
 import * as React from "react"
+import { ReloadIcon } from "@radix-ui/react-icons"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -56,4 +57,50 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
-export { Button, buttonVariants }
+export interface ButtonLoadingProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof buttonVariants> {
+  isLoading?: boolean
+  loadingText?: React.ReactNode
+  isDisabledWhenLoading?: boolean
+}
+
+const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
+  (
+    {
+      type = "button",
+      variant = "default",
+      size = "default",
+      className,
+      children,
+      isLoading = false,
+      loadingText = "",
+      isDisabledWhenLoading = true,
+      name,
+      value,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <button
+        type={type}
+        ref={ref}
+        disabled={isDisabledWhenLoading ? isLoading : isDisabledWhenLoading}
+        className={cn(
+          buttonVariants({ variant, size, className }),
+          "flex gap-2",
+        )}
+        name={name}
+        value={value}
+        {...props}
+      >
+        {isLoading && <ReloadIcon className="h-4 w-4 animate-spin" />}
+        {isLoading ? loadingText : children}
+      </button>
+    )
+  },
+)
+ButtonLoading.displayName = "ButtonLoading"
+
+export { Button, ButtonLoading, buttonVariants }

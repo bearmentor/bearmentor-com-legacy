@@ -27,6 +27,7 @@ module.exports = {
     "",
     "^types$",
     "^~/types",
+    "^~/routes",
     "^~/configs",
     "^~/services",
     "^~/libs",
