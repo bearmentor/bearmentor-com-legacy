@@ -64,14 +64,6 @@ export const query = {
         email: true,
         role: { select: { symbol: true, name: true } },
         avatars: { select: { url: true } },
-        tags: { select: { symbol: true, name: true } },
-        profiles: {
-          select: {
-            id: true,
-            headline: true,
-            bio: true,
-          },
-        },
       },
     })
   },
@@ -80,7 +72,9 @@ export const query = {
     return prisma.user.findUnique({
       where: { id },
       include: {
-        role: true,
+        role: { select: { symbol: true, name: true } },
+        tags: { select: { id: true, symbol: true, name: true } },
+        avatars: { select: { id: true, url: true } },
         profiles: true,
       },
     })

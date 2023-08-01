@@ -60,11 +60,11 @@ function AvatarAuto({
   return (
     <Avatar className={className}>
       <AvatarImage
-        src={user.avatars[0]?.url || createAvatarImageURL(user.username)}
-        alt={user.username}
+        src={user?.avatars[0]?.url || createAvatarImageURL(user?.username)}
+        alt={user?.username}
       />
       <AvatarFallback className="text-2xl">
-        {getNameInitials(user.name)}
+        {getNameInitials(user?.name)}
       </AvatarFallback>
     </Avatar>
   )

@@ -1,7 +1,5 @@
 // Remix way to protect routes. Can only be used server-side
-
 import type { UserRole } from "@prisma/client"
-import invariant from "tiny-invariant"
 
 import type { UserData } from "~/services"
 import { authenticator } from "~/services"
@@ -16,14 +14,14 @@ export async function requireUserSession(
   const userSession = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
-  invariant(userSession.id, "User Session ID is not available")
+  if (!userSession.id) return null
 
   // Get user data from database
   const userData = await model.user.query.getForSession({ id: userSession.id })
   if (!userData) {
     return authenticator.logout(request, { redirectTo: "/login" })
   }
-  invariant(userData, "User is not available")
+  if (!userData) return null
 
   // Check role if expectedRoleSymbols exist
   const userIsAllowed = expectedRoleSymbols

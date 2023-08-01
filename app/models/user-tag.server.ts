@@ -1,4 +1,4 @@
-import type { UserRole } from "@prisma/client"
+import type { UserTag } from "@prisma/client"
 
 import { prisma } from "~/libs"
 
@@ -13,17 +13,17 @@ export const fields = {
 
 export const query = {
   count() {
-    return prisma.userRole.count()
+    return prisma.userTag.count()
   },
 
   getAll() {
-    return prisma.userRole.findMany({
+    return prisma.userTag.findMany({
       select: fields.public,
     })
   },
 
-  getBySymbol({ symbol }: { symbol: UserRole["symbol"] }) {
-    return prisma.userRole.findFirst({
+  getBySymbol({ symbol }: { symbol: UserTag["symbol"] }) {
+    return prisma.userTag.findFirst({
       where: { symbol },
     })
   },

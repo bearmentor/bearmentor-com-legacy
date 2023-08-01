@@ -23,7 +23,7 @@ const email = z
   .email("This is not an email")
 
 /**
- * TODO: Improve password check
+ * Can improve password check
  * - Not only numbers
  * - Shouldn't match the email
  */
@@ -31,29 +31,26 @@ const password = z
   .string({ required_error: "Password is required" })
   .min(10, "Password at least 10 characters")
   .max(100, "Password max of 100 characters")
-
 const confirmPassword = z.string()
 
 const remember = z.boolean().optional()
 
 const inviteBy = z.string().optional()
-
 const inviteCode = z.string().optional()
 
 const roleSymbol = z.string().min(1, "Role is required")
 
+const tag = z.object({ symbol: z.string() })
+const tags = z.array(tag).optional()
+
 const modeName = z.string().min(1, "Profile mode name is required")
-
 const headline = z.string().max(50, "Headline limited to 50 characters")
-
 const bio = z.string().max(1000, "Bio limited to 1000 characters").optional()
-
 const link = z.object({
   value: z.string().url({ message: "Please enter a valid URL." }),
   text: z.string().optional(),
   sequence: z.number().int().optional(),
 })
-
 const links = z.array(link).optional()
 
 export const schemaUserRegister = z.object({
@@ -64,6 +61,11 @@ export const schemaUserRegister = z.object({
   remember,
   inviteBy,
   inviteCode,
+})
+
+export const schemaUserWelcome = z.object({
+  id,
+  tags,
 })
 
 export const schemaUserLogin = z.object({

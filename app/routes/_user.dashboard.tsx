@@ -10,7 +10,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   return null
 }
 
-export default function DashboardRoute() {
+export default function Route() {
   const { userData } = useRootLoaderData()
 
   if (!userData) {
@@ -23,7 +23,7 @@ export default function DashboardRoute() {
         <div>
           <span>Welcome,</span>
           <Link to="/dashboard">
-            <h1 className="hover-opacity text-brand">{userData?.name}</h1>
+            <h1 className="hover-opacity text-brand">{userData.name}</h1>
           </Link>
           <p className="text-muted-foreground">This is your dashboard.</p>
         </div>

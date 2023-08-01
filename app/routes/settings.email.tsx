@@ -27,9 +27,7 @@ import { schemaUserUpdateEmail } from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) {
-    return redirect("/logout")
-  }
+  if (!userSession?.id) return redirect("/logout")
 
   const user = await prisma.user.findFirst({
     where: { id: userSession.id },
