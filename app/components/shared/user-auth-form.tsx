@@ -53,9 +53,6 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
               autoFocus={email.initialError?.[""] ? true : undefined}
               required
             />
-            {actionData?.error.email && (
-              <Alert variant="destructive">{actionData.error.email}</Alert>
-            )}
             {email.errors && email.errors?.length > 0 && (
               <ul>
                 {email.errors?.map((error, index) => (
@@ -82,9 +79,6 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
             <p id={password.descriptionId} className="text-surface-500 text-xs">
               At least 10 characters
             </p>
-            {!password.error && actionData?.error.password && (
-              <Alert variant="destructive">{actionData.error.password}</Alert>
-            )}
             {password.errors && password.errors?.length > 0 && (
               <ul>
                 {password.errors?.map((error, index) => (
