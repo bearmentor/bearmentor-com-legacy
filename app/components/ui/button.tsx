@@ -25,7 +25,7 @@ const buttonVariants = cva(
       size: {
         default: "h-9 px-4 py-2 text-base",
         xs: "h-6 rounded px-2 text-xs",
-        sm: "h-8 rounded px-3 text-xs",
+        sm: "h-8 rounded px-3 text-sm",
         lg: "h-10 rounded px-8 text-lg",
         icon: "h-9 w-9",
       },
@@ -86,13 +86,13 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
       <button
         type={type}
         ref={ref}
+        name={name}
+        value={value}
         disabled={isDisabledWhenLoading ? isLoading : isDisabledWhenLoading}
         className={cn(
           buttonVariants({ variant, size, className }),
           "flex gap-2",
         )}
-        name={name}
-        value={value}
         {...props}
       >
         {isLoading && <ReloadIcon className="h-4 w-4 animate-spin" />}

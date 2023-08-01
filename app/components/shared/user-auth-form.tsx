@@ -5,14 +5,13 @@ import { getFieldsetConstraint, parse } from "@conform-to/zod"
 import { GitHubLogoIcon, ReloadIcon, ValueIcon } from "@radix-ui/react-icons"
 import type { z } from "zod"
 
-import type { action as loginAction } from "~/routes/login"
+import type { action as loginAction } from "~/routes/_auth.login"
 import type { AuthStrategy } from "~/services/auth.server"
 import { useRedirectTo } from "~/hooks"
 import {
   Alert,
   Button,
   ButtonLoading,
-  Debug,
   Input,
   InputPassword,
   Label,
@@ -106,8 +105,6 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
           >
             Login
           </ButtonLoading>
-
-          <Debug>{{ focus: password.initialError?.[""] }}</Debug>
         </div>
       </Form>
 

@@ -7,7 +7,7 @@ import invariant from "tiny-invariant"
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { AvatarAuto, Button, Debug, Layout } from "~/components"
+import { AvatarAuto, Button, Debug, Layout, NotFound } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
@@ -56,30 +56,17 @@ export default function Route() {
   if (!user) {
     return (
       <Layout className="px-4 sm:px-8">
-        <section className="flex flex-col items-center justify-center pt-4">
-          <Link to="/" className="hover-opacity">
-            <img src="/favicon.png" alt="Bear" className="h-12" />
-          </Link>
-          <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">
-            <img
-              src="/images/bear-fox.png"
-              alt="Not Found Illustration"
-              className="h-40 object-contain"
-            />
-            <h2>
-              This page isn't available or{" "}
-              <span className="text-red-500">"{params.username}"</span> is not
-              found
-            </h2>
-            <p className="text-muted-foreground">
-              The link you followed may be broken, or the page may have been
-              removed.
-            </p>
-            <Button asChild>
-              <Link to="/">Back to Home</Link>
-            </Button>
-          </div>
-        </section>
+        <NotFound>
+          <h2>
+            This page isn't available or{" "}
+            <span className="text-red-500">"{params.username}"</span> is not
+            found
+          </h2>
+          <p className="text-muted-foreground">
+            The link you followed may be broken, or the page may have been
+            removed.
+          </p>
+        </NotFound>
       </Layout>
     )
   }

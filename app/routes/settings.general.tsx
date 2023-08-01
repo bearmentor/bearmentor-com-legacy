@@ -179,7 +179,7 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
           disabled={isSubmitting}
           size="sm"
         >
-          Save Name
+          Save Full Name
         </Button>
       </fieldset>
     </Form>

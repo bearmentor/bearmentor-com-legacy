@@ -1,4 +1,4 @@
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
@@ -35,7 +35,7 @@ export default function Route() {
 
       <div className="flex max-w-4xl flex-col gap-8 sm:-mx-4 sm:flex-row">
         {/* Maximum width is less than xs */}
-        <aside className="w-full sm:block sm:max-w-[240px]">
+        <aside className="w-full overflow-visible sm:block sm:max-w-[240px]">
           <SidebarNav items={settingsNavItems} />
         </aside>
 
@@ -77,4 +77,9 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       ))}
     </nav>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  return null
 }
