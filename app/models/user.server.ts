@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs"
 import invariant from "tiny-invariant"
 import type { z } from "zod"
 
-import { prisma } from "~/libs"
+import { createAvatarImageURL, prisma } from "~/libs"
 import { dataUsersUnallowed } from "~/data"
 import type {
   schemaUserUpdateEmail,
@@ -113,25 +113,38 @@ export const query = {
 
 export const mutation = {
   async register({
+    email,
     name,
     username,
-    email,
     password,
+    inviteBy,
+    inviteCode,
   }: Pick<User, "name" | "username" | "email"> & {
     password: string // unencrypted password at first
+    inviteBy?: string | undefined
+    inviteCode?: string | undefined
   }) {
+    if (!email) return { error: { email: `Email is required` } }
+    const userEmail = await prisma.user.findUnique({
+      where: { email: email.trim() },
+      include: { password: true },
+    })
+    if (userEmail) return { error: { email: `Email ${email} is already used` } }
+
     const nameIsUnallowed = dataUsersUnallowed.find(
-      username => name.toLowerCase() === username,
+      text => name.toLowerCase() === text,
     )
     if (nameIsUnallowed) {
-      return { error: { name: `Name ${name} is not allowed` } }
+      return { error: { name: `Name ${name} is not allowed to register` } }
     }
 
     const usernameIsUnallowed = dataUsersUnallowed.find(
-      username => username.toLowerCase() === username,
+      text => username.toLowerCase() === text,
     )
     if (usernameIsUnallowed) {
-      return { error: { username: `Username ${username} is not allowed` } }
+      return {
+        error: { username: `Username ${username} is not allowed to register` },
+      }
     }
 
     const userUsername = await prisma.user.findUnique({
@@ -140,13 +153,6 @@ export const mutation = {
     if (userUsername) {
       return { error: { username: `Username ${username} is already taken` } }
     }
-
-    if (!email) return { error: { email: `Email is required` } }
-    const userEmail = await prisma.user.findUnique({
-      where: { email: email.trim() },
-      include: { password: true },
-    })
-    if (userEmail) return { error: { email: `Email ${email} is already used` } }
 
     const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -162,19 +168,19 @@ export const mutation = {
         email: email.trim(),
         password: { create: { hash: hashedPassword } },
         role: { connect: { id: defaultUserRole.id } },
+        avatars: { create: { url: createAvatarImageURL(username) } },
         profiles: {
           create: {
-            headline: "I am new here",
-            bio: "This is my profile bio.",
+            modeName: `Default ${name}`,
+            headline: `The headline of ${name}`,
+            bio: `The bio of ${name} for longer description.`,
           },
         },
+        // TODO: Link invitedBy other user
       },
     })
 
-    return {
-      user,
-      error: null,
-    }
+    return { user, error: null }
   },
 
   async login({

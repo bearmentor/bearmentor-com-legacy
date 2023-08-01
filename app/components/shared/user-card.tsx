@@ -22,14 +22,7 @@ export function UserCard({ user }: Props) {
   return (
     <Card className="hover-opacity max-w-2xl">
       <CardHeader className="flex gap-4">
-        {user?.avatars[0]?.url && (
-          <AvatarAuto
-            className="h-24 w-24"
-            src={user.avatars[0]?.url}
-            alt={user.username}
-            fallback={user.username[0].toUpperCase()}
-          />
-        )}
+        <AvatarAuto className="h-24 w-24" user={user} />
 
         <div className="flex flex-col justify-between">
           <div>
@@ -40,9 +33,9 @@ export function UserCard({ user }: Props) {
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div>
-          {user.tags?.length > 0 && (
+      {user.tags?.length > 0 && (
+        <CardContent>
+          <div>
             <ul className="flex flex-wrap gap-1 sm:gap-2">
               {user.tags.map(tag => {
                 return (
@@ -54,9 +47,9 @@ export function UserCard({ user }: Props) {
                 )
               })}
             </ul>
-          )}
-        </div>
-      </CardContent>
+          </div>
+        </CardContent>
+      )}
     </Card>
   )
 }

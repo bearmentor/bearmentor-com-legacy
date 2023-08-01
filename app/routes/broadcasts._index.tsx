@@ -241,9 +241,7 @@ export default function BroadcastsRoute() {
                           <div className="flex items-center gap-2">
                             <AvatarAuto
                               className="h-10 w-10"
-                              src={broadcast.user.avatars[0]?.url}
-                              alt={broadcast.user.username}
-                              fallback={broadcast.user.username[0].toUpperCase()}
+                              user={broadcast.user}
                             />
                             <div className="space-y-0">
                               <h6>{broadcast.user.name}</h6>

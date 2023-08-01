@@ -90,9 +90,7 @@ export default function Route() {
           <div>
             <AvatarAuto
               className="mb-4 h-32 w-32 outline outline-4 outline-background"
-              src={user.avatars[0]?.url}
-              alt={user.username}
-              fallback={user.username[0].toUpperCase()}
+              user={user}
             />
             <h1 className="text-4xl">{user.name}</h1>
             <h2 className="text-2xl text-muted-foreground">@{user.username}</h2>

@@ -13,7 +13,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <input
         className={cn(
-          "flex h-9 w-full rounded border-2 border-input bg-background px-3 py-1 text-base shadow transition-colors file:border-0 file:bg-transparent file:text-base file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          "flex h-9 w-full rounded border-2 border-input bg-background px-3 py-1 text-base shadow transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50",
+          "autofill:shadow-fill-background autofill:text-fill-foreground",
+          "file:border-0 file:bg-transparent file:text-sm file:font-medium",
           className,
         )}
         ref={ref}
@@ -49,7 +51,7 @@ function InputPassword({
         type="button"
         variant="secondary"
         onClick={handleClick}
-        className="absolute inset-y-0 right-0 my-1.5 me-1.5 flex gap-2"
+        className="absolute inset-y-0 right-0 my-1.5 me-1.5 flex w-20 gap-2"
       >
         {isShown ? (
           <EyeClosedIcon className="h-4 w-4" />

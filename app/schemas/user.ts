@@ -2,6 +2,8 @@ import { z } from "zod"
 
 const id = z.string().min(1, "Existing id is required")
 
+const redirectTo = z.string().optional()
+
 const username = z
   .string()
   .regex(/^[a-zA-Z0-9._]+$/, "Only alphabet, number, dot, underscore allowed")
@@ -9,7 +11,8 @@ const username = z
   .max(20, "Username limited to 20 characters")
 
 const name = z
-  .string({ required_error: "Full name is required" })
+  .string()
+  .min(1, "Full name is required")
   .max(50, "Full name limited to 50 characters")
 
 const nick = z.string().max(50, "Nick name limited to 50 characters")
@@ -33,7 +36,9 @@ const confirmPassword = z.string()
 
 const remember = z.boolean().optional()
 
-const redirectTo = z.string().optional()
+const inviteBy = z.string().optional()
+
+const inviteCode = z.string().optional()
 
 const roleSymbol = z.string().min(1, "Role is required")
 
@@ -57,6 +62,8 @@ export const schemaUserRegister = z.object({
   email,
   password,
   remember,
+  inviteBy,
+  inviteCode,
 })
 
 export const schemaUserLogin = z.object({

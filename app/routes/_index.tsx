@@ -156,12 +156,7 @@ export function LandingMentees() {
                 to={`/${user.username}`}
                 className="hover-opacity flex gap-2 py-1"
               >
-                <AvatarAuto
-                  className="h-14 w-14"
-                  src={user.avatars[0]?.url}
-                  alt={user.username}
-                  fallback={user.username[0].toUpperCase()}
-                />
+                <AvatarAuto className="h-14 w-14" user={user} />
                 <div>
                   <h3 className="text-base">{user.name}</h3>
                   <p className="text-sm text-muted-foreground">

@@ -2,23 +2,14 @@ import { useId } from "react"
 import { Form, useActionData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { getFieldsetConstraint, parse } from "@conform-to/zod"
-import { GitHubLogoIcon, ReloadIcon, ValueIcon } from "@radix-ui/react-icons"
 import type { z } from "zod"
 
 import type { action as loginAction } from "~/routes/_auth.login"
-import type { AuthStrategy } from "~/services/auth.server"
 import { useRedirectTo } from "~/hooks"
-import {
-  Alert,
-  Button,
-  ButtonLoading,
-  Input,
-  InputPassword,
-  Label,
-} from "~/components"
+import { Alert, ButtonLoading, Input, InputPassword, Label } from "~/components"
 import { schemaUserLogin } from "~/schemas"
 
-export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
+export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
   const { redirectTo } = useRedirectTo()
   const actionData = useActionData<typeof loginAction>()
   const navigation = useNavigation()
@@ -50,7 +41,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
               autoCapitalize="none"
               autoCorrect="off"
               disabled={isSubmitting}
-              autoFocus={email.initialError?.[""] ? true : undefined}
+              autoFocus={email.error ? true : undefined}
               required
             />
             {email.errors && email.errors?.length > 0 && (
@@ -73,7 +64,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
               placeholder="Enter password"
               autoComplete="current-password"
               disabled={isSubmitting}
-              autoFocus={password.initialError?.[""] ? true : undefined}
+              autoFocus={password.error ? true : undefined}
               required
             />
             <p id={password.descriptionId} className="text-surface-500 text-xs">
@@ -90,7 +81,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
             )}
           </div>
 
-          <Input type="hidden" name="redirectTo" value={redirectTo} />
+          <Input type="hidden" name="redirectTo" defaultValue={redirectTo} />
 
           <ButtonLoading
             type="submit"
@@ -101,62 +92,6 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
           </ButtonLoading>
         </div>
       </Form>
-
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or later continue with
-          </span>
-        </div>
-      </div>
-
-      <div className="flex gap-2">
-        <SocialAuthButton
-          provider="github"
-          label="GitHub"
-          icon={<GitHubLogoIcon className="mr-2 h-4 w-4" />}
-          disabled
-        />
-        <SocialAuthButton
-          provider="google"
-          label="Google"
-          icon={<ValueIcon className="mr-2 h-4 w-4" />}
-          disabled
-        />
-      </div>
     </section>
-  )
-}
-
-export const SocialAuthButton = ({
-  provider,
-  label,
-  icon,
-  disabled,
-}: {
-  provider: AuthStrategy
-  label: string
-  icon?: React.ReactNode
-  disabled?: boolean
-}) => {
-  const navigation = useNavigation()
-  const isSubmitting = navigation.state === "submitting"
-
-  return (
-    <Form method="POST" action={`/auth/${provider}`} className="w-full">
-      <Button
-        type="submit"
-        variant="outline"
-        disabled={disabled || isSubmitting}
-        className="w-full"
-      >
-        {isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-        {!isSubmitting && icon}
-        <span>{label}</span>
-      </Button>
-    </Form>
   )
 }
