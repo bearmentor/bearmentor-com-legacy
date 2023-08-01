@@ -12,9 +12,9 @@ import {
 } from "@radix-ui/react-icons"
 
 import type { UserData } from "~/services/auth.server"
-import { cn, createAvatarImageURL } from "~/utils"
+import { cn } from "~/utils"
 import { useRootLoaderData, useScreenLarge } from "~/hooks"
-import { TooltipAuto, TooltipProvider } from "~/components"
+import { AvatarAuto, TooltipAuto, TooltipProvider } from "~/components"
 
 type NavItem = {
   to: string
@@ -127,15 +127,9 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 }}
               >
                 {navItem.to === "/profile" && userData ? (
-                  <img
+                  <AvatarAuto
                     className="icon rounded lg:w-full"
-                    src={
-                      userData?.avatars[0]?.url ||
-                      createAvatarImageURL(userData?.username)
-                    }
-                    alt={userData?.username}
-                    width={24}
-                    height={24}
+                    user={userData}
                   />
                 ) : (
                   navItem.icon

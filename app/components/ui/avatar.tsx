@@ -66,7 +66,7 @@ function AvatarAuto({
         alt={user?.username}
       />
       {hasFallback && (
-        <AvatarFallback className="text-2xl">
+        <AvatarFallback className="text-2xl" delayMs={1000}>
           {getNameInitials(user?.name)}
         </AvatarFallback>
       )}
