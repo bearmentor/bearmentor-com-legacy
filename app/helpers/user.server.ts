@@ -1,8 +1,9 @@
 // Remix way to protect routes. Can only be used server-side
 import type { UserRole } from "@prisma/client"
+import invariant from "tiny-invariant"
 
-import type { UserData } from "~/services"
-import { authenticator } from "~/services"
+import type { UserData } from "~/services/auth.server"
+import { authenticator } from "~/services/auth.server"
 import { model } from "~/models"
 
 // https://remix.run/docs/en/main/pages/faq#md-how-can-i-have-a-parent-route-loader-validate-the-user-and-protect-all-child-routes
@@ -14,14 +15,14 @@ export async function requireUserSession(
   const userSession = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
-  if (!userSession.id) return null
+  invariant(userSession.id, "User Session ID is not available")
 
   // Get user data from database
   const userData = await model.user.query.getForSession({ id: userSession.id })
   if (!userData) {
     return authenticator.logout(request, { redirectTo: "/login" })
   }
-  if (!userData) return null
+  invariant(userData, "User is not available")
 
   // Check role if expectedRoleSymbols exist
   const userIsAllowed = expectedRoleSymbols

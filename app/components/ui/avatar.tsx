@@ -49,6 +49,7 @@ AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 function AvatarAuto({
   className,
   user,
+  hasFallback = true,
 }: {
   className?: string
   user: {
@@ -56,6 +57,7 @@ function AvatarAuto({
     username: string
     avatars: { url: string }[]
   }
+  hasFallback?: boolean
 }) {
   return (
     <Avatar className={className}>
@@ -63,9 +65,11 @@ function AvatarAuto({
         src={user?.avatars[0]?.url || createAvatarImageURL(user?.username)}
         alt={user?.username}
       />
-      <AvatarFallback className="text-2xl">
-        {getNameInitials(user?.name)}
-      </AvatarFallback>
+      {hasFallback && (
+        <AvatarFallback className="text-2xl">
+          {getNameInitials(user?.name)}
+        </AvatarFallback>
+      )}
     </Avatar>
   )
 }

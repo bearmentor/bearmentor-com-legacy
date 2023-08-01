@@ -4,7 +4,7 @@ import { useMatches } from "@remix-run/react"
 import type { UserData, UserSession } from "~/services"
 
 export type RootLoaderData = {
-  nodeEnv: string
+  nodeEnv: string | "development" | "production"
   userSession: UserSession | undefined
   userData: UserData | undefined
 }

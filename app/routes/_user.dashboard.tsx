@@ -1,19 +1,26 @@
-import { type LoaderArgs } from "@remix-run/node"
-import { Link } from "@remix-run/react"
+import { json, redirect, type LoaderArgs } from "@remix-run/node"
+import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
-import { useRootLoaderData } from "~/hooks"
-import { Button, Layout, UserCard } from "~/components"
+import { Button, Debug, Layout, UserCard } from "~/components"
+import { model } from "~/models"
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
-  return null
+  const userSession = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  })
+  if (!userSession?.id) return redirect("/logout")
+
+  const user = await model.user.query.getById({ id: userSession.id })
+  if (!user) return redirect("/logout")
+
+  return json({ user })
 }
 
 export default function Route() {
-  const { userData } = useRootLoaderData()
+  const { user } = useLoaderData<typeof loader>()
 
-  if (!userData) {
+  if (!user) {
     return <p>Sorry something went wrong</p>
   }
 
@@ -23,7 +30,7 @@ export default function Route() {
         <div>
           <span>Welcome,</span>
           <Link to="/dashboard">
-            <h1 className="hover-opacity text-brand">{userData.name}</h1>
+            <h1 className="hover-opacity text-brand">{user.name}</h1>
           </Link>
           <p className="text-muted-foreground">This is your dashboard.</p>
         </div>
@@ -43,10 +50,12 @@ export default function Route() {
 
       <section className="space-y-2">
         <h4>Your profile card:</h4>
-        <Link to={`/${userData.username}`} className="block">
-          <UserCard user={userData as any} />
+        <Link to={`/${user.username}`} className="block">
+          <UserCard user={user as any} />
         </Link>
       </section>
+
+      <Debug>{{ user }}</Debug>
     </Layout>
   )
 }

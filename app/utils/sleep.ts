@@ -1,5 +1,5 @@
 import sleep from "sleep-promise"
 
-const sleepAsync = sleep
-
-export { sleepAsync }
+export async function delay(ms = 500) {
+  await sleep(ms)
+}

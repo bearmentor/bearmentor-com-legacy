@@ -12,6 +12,7 @@ import type {
   schemaUserUpdateName,
   schemaUserUpdateNick,
   schemaUserUpdateUsername,
+  schemaUserWelcome,
 } from "~/schemas"
 
 export type { User } from "@prisma/client"
@@ -311,5 +312,21 @@ export const mutation = {
       }
       return { error: { username: "Email failed to update" } }
     }
+  },
+
+  async updateTags({ id, tags }: z.infer<typeof schemaUserWelcome>) {
+    // const user = await prisma.user.findFirst({
+    //   where: { id },
+    //   include: { tags: { select: { id: true } } },
+    // })
+    // if (!user) return null
+
+    // const tagsToRemove = user.tags.filter((t) => !tags.includes(t.id));
+
+    return prisma.user.update({
+      where: { id },
+      data: { tags: { set: tags } },
+      include: { tags: { select: { id: true } } },
+    })
   },
 }
