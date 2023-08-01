@@ -1,8 +1,8 @@
 import { defineConfig } from "taze"
 
 export default defineConfig({
-  exclude: ["prettier", "nanoid"],
   write: true,
   install: true,
+  exclude: ["prettier", "nanoid"],
   packageMode: { "/remix/": "latest" },
 })
