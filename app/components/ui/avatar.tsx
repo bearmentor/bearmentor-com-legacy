@@ -1,7 +1,7 @@
 import * as React from "react"
 import * as AvatarPrimitive from "@radix-ui/react-avatar"
 
-import { cn, createAvatarImageURL } from "~/libs"
+import { cn, createAvatarImageURL, getNameInitials } from "~/utils"
 
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
@@ -63,7 +63,9 @@ function AvatarAuto({
         src={user.avatars[0]?.url || createAvatarImageURL(user.username)}
         alt={user.username}
       />
-      <AvatarFallback className="text-2xl">{user.name}</AvatarFallback>
+      <AvatarFallback className="text-2xl">
+        {getNameInitials(user.name)}
+      </AvatarFallback>
     </Avatar>
   )
 }

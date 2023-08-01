@@ -12,7 +12,7 @@ import type { User } from "@prisma/client"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { prisma } from "~/libs"
 import {
   Alert,

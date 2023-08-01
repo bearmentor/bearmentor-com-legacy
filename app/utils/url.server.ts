@@ -13,6 +13,7 @@ export function getAllSearchQuery({ request }: Pick<LoaderArgs, "request">) {
   const q = url.searchParams.get("q") || ""
   return { q }
 }
+
 // Use in action
 export function getDomainUrl(request: Request) {
   const host =

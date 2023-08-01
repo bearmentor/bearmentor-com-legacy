@@ -23,7 +23,7 @@ import sansFontStyles from "@fontsource/pt-sans/index.css"
 import { Analytics } from "@vercel/analytics/react"
 import NProgress from "nprogress"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { createCacheHeaders } from "~/utils"
 import { model } from "~/models"
 

@@ -5,7 +5,7 @@ import { parse } from "@conform-to/zod"
 import { badRequest } from "remix-utils"
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { formatTitle } from "~/utils"
 import { useRedirectTo } from "~/hooks"
 import { Layout, UserAuthLoginForm } from "~/components"

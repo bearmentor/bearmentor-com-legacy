@@ -11,8 +11,8 @@ import {
   RocketIcon,
 } from "@radix-ui/react-icons"
 
-import type { UserData } from "~/services/auth.server"
-import { cn } from "~/libs"
+import type { UserData } from "~/services"
+import { cn } from "~/utils"
 import { useRootLoaderData, useScreenLarge } from "~/hooks"
 import { AvatarAuto, TooltipAuto, TooltipProvider } from "~/components"
 

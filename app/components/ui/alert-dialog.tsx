@@ -3,7 +3,7 @@ import { Form } from "@remix-run/react"
 import type { HTMLFormMethod } from "@remix-run/router"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
-import { cn } from "~/libs"
+import { cn } from "~/utils"
 import { buttonVariants } from "~/components"
 
 const AlertDialog = AlertDialogPrimitive.Root

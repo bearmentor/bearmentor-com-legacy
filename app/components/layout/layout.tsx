@@ -1,4 +1,4 @@
-import { cn } from "~/libs"
+import { cn } from "~/utils"
 import { Footer, HeaderNavigation } from "~/components"
 
 interface Props {

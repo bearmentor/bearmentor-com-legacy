@@ -1,9 +1,8 @@
 import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
-import { authenticator } from "~/services/auth.server"
-import { cn } from "~/libs"
-import { formatTitle } from "~/utils"
+import { authenticator } from "~/services"
+import { cn, formatTitle } from "~/utils"
 import { buttonVariants, Layout } from "~/components"
 
 export const meta: V2_MetaFunction = () => {

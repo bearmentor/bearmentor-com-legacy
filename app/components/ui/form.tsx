@@ -1,7 +1,7 @@
 import * as React from "react"
 import type * as LabelPrimitive from "@radix-ui/react-label"
 
-import { cn } from "~/libs"
+import { cn } from "~/utils"
 import { Label } from "~/components"
 
 const FormField = React.forwardRef<

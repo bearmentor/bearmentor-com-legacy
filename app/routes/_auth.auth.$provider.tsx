@@ -1,8 +1,8 @@
 import { redirect } from "@remix-run/node"
 import type { ActionArgs } from "@remix-run/node"
 
-import { authenticator } from "~/services/auth.server"
-import type { AuthStrategy } from "~/services/auth.server"
+import { authenticator } from "~/services"
+import type { AuthStrategy } from "~/services"
 import { getRedirectTo } from "~/utils"
 
 export const loader = () => redirect("/login")

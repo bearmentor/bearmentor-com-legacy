@@ -2,7 +2,7 @@
 import { AuthorizationError } from "remix-auth"
 import { FormStrategy } from "remix-auth-form"
 
-import type { UserSession } from "~/services/auth.server"
+import type { UserSession } from "~/services"
 import { prisma } from "~/libs"
 
 export const formStrategy = new FormStrategy<UserSession>(

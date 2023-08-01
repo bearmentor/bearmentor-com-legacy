@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import bcrypt from "bcryptjs"
 
-import { createAvatarImageURL, prisma } from "~/libs"
+import { prisma } from "~/libs"
 import { createBroadcastSlug } from "~/helpers"
-import { log } from "~/utils"
+import { createAvatarImageURL, log } from "~/utils"
 import { dataBroadcasts, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 // Check README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"

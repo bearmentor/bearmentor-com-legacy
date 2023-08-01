@@ -4,7 +4,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 import { parse } from "@conform-to/zod"
 import { badRequest } from "remix-utils"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { checkAuthInvite } from "~/helpers"
 import { formatTitle } from "~/utils"
 import { useRedirectTo } from "~/hooks"

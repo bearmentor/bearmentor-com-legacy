@@ -10,7 +10,7 @@ import {
 import { conform, useForm } from "@conform-to/react"
 import { parse } from "@conform-to/zod"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { prisma } from "~/libs"
 import { createCacheHeaders, formatPluralItems } from "~/utils"
 import { useRootLoaderData } from "~/hooks"

@@ -1,7 +1,7 @@
 import { Form, useNavigation } from "@remix-run/react"
 import { ReloadIcon } from "@radix-ui/react-icons"
 
-import type { AuthStrategy } from "~/services/auth.server"
+import type { AuthStrategy } from "~/services"
 import { Button } from "~/components"
 
 export const UserAuthSocialButton = ({

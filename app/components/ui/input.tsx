@@ -2,7 +2,7 @@ import * as React from "react"
 import { useState } from "react"
 import { EyeClosedIcon, EyeOpenIcon } from "@radix-ui/react-icons"
 
-import { cn } from "~/libs"
+import { cn } from "~/utils"
 import { Button } from "~/components"
 
 export interface InputProps

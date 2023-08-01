@@ -1,7 +1,7 @@
 import { type LoaderArgs } from "@remix-run/node"
 import { Link } from "@remix-run/react"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { useRootLoaderData } from "~/hooks"
 import { Button, Layout, UserCard } from "~/components"
 

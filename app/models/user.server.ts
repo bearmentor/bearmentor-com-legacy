@@ -4,7 +4,8 @@ import bcrypt from "bcryptjs"
 import invariant from "tiny-invariant"
 import type { z } from "zod"
 
-import { createAvatarImageURL, prisma } from "~/libs"
+import { prisma } from "~/libs"
+import { createAvatarImageURL } from "~/utils"
 import { dataUsersUnallowed } from "~/data"
 import type {
   schemaUserUpdateEmail,

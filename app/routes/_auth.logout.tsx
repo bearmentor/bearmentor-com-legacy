@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { getRedirectTo } from "~/utils"
 
 export const loader = async ({ request }: LoaderArgs) => {
