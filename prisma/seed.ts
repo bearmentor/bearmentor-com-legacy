@@ -2,7 +2,8 @@
 import bcrypt from "bcryptjs"
 
 import { createAvatarImageURL, prisma } from "~/libs"
-import { createBroadcastSlug, log } from "~/utils"
+import { createBroadcastSlug } from "~/helpers"
+import { log } from "~/utils"
 import { dataBroadcasts, dataUserRoles, dataUsers, dataUserTags } from "~/data"
 // Check README.md for the guide to setup the credentials
 import dataUsersCredentials from "~/data/users-credentials.json"

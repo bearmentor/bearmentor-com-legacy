@@ -15,7 +15,6 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
-import { wait } from "~/utils"
 import {
   Alert,
   Button,

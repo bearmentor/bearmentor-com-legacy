@@ -31,6 +31,7 @@ module.exports = {
     "^~/configs",
     "^~/services",
     "^~/libs",
+    "^~/helpers",
     "^~/utils",
     "^~/hooks",
     "^~/components",

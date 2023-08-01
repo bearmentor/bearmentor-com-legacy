@@ -1,9 +1,20 @@
-import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
 import { authenticator } from "~/services/auth.server"
 import { cn } from "~/libs"
+import { formatTitle } from "~/utils"
 import { buttonVariants, Layout } from "~/components"
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: formatTitle("User Settings") },
+    {
+      name: "description",
+      content: "Setup your 🐻 Bearmentor user account.",
+    },
+  ]
+}
 
 export const settingsNavItems = [
   { title: "General", to: "/settings/general" },
