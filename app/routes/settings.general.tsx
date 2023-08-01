@@ -18,6 +18,7 @@ import { prisma } from "~/libs"
 import {
   Alert,
   Button,
+  ButtonLoading,
   FormDescription,
   FormField,
   FormLabel,
@@ -32,20 +33,8 @@ import {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) {
-    return redirect("/logout")
-  }
-
-  const user = await prisma.user.findFirst({
-    where: { id: userSession.id },
-    select: {
-      id: true,
-      username: true,
-      name: true,
-      nick: true,
-    },
-  })
-
+  if (!userSession?.id) return redirect("/logout")
+  const user = await prisma.user.findUnique({ where: { id: userSession.id } })
   return json({ user })
 }
 
@@ -58,7 +47,7 @@ export default function Route() {
         <h2>General</h2>
         <p className="text-muted-foreground">Your general information.</p>
         <Button asChild size="xs">
-          <Link to="/profile">Go to your profile</Link>
+          <Link to="/profile">Go to your profile @{user?.username}</Link>
         </Button>
       </header>
 
@@ -79,13 +68,14 @@ export function UserUsernameForm({
   const actionData = useActionData<typeof action>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
-  const schema = schemaUserUpdateUsername
 
-  const [form, { id, username }] = useForm<z.infer<typeof schema>>({
+  const [form, { id, username }] = useForm<
+    z.infer<typeof schemaUserUpdateUsername>
+  >({
     shouldValidate: "onSubmit",
     lastSubmission: actionData,
     onValidate({ formData }) {
-      return parseZod(formData, { schema })
+      return parseZod(formData, { schema: schemaUserUpdateUsername })
     },
   })
 
@@ -107,7 +97,9 @@ export function UserUsernameForm({
           />
           <FormDescription>
             Your public username as @username and your URL namespace within
-            Bearmentor
+            Bearmentor like{" "}
+            <code className="text-xs">bearmentor.com/yourname</code>. Please use
+            20 characters at maximum.
           </FormDescription>
           {username.error && (
             <Alert variant="destructive" id={username.errorId}>
@@ -116,16 +108,17 @@ export function UserUsernameForm({
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
           variant="secondary"
           value="update-user-username"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving New Username..."
         >
           Save Username
-        </Button>
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
@@ -161,8 +154,8 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
             placeholder="Your Full Name"
           />
           <FormDescription>
-            Please enter your full name, or a display name you are comfortable
-            with, can be real name or a pseudonym
+            Your full name or a display name you are comfortable with. It can be
+            real name or a pseudonym
           </FormDescription>
           {name.error && (
             <Alert variant="destructive" id={name.errorId}>

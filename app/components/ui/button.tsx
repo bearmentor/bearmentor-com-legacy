@@ -57,9 +57,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
+// https://reactrouter.com/en/6.14.2/hooks/use-navigation
 export interface ButtonLoadingProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
+  isSubmitting?: boolean
+  submittingText?: React.ReactNode
   isLoading?: boolean
   loadingText?: React.ReactNode
   isDisabledWhenLoading?: boolean
@@ -68,16 +71,18 @@ export interface ButtonLoadingProps
 const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
   (
     {
-      type = "button",
+      type = "submit",
       variant = "default",
       size = "default",
       className,
-      children,
+      name,
+      value,
+      isSubmitting = false,
+      submittingText = "",
       isLoading = false,
       loadingText = "",
       isDisabledWhenLoading = true,
-      name,
-      value,
+      children,
       ...props
     },
     ref,
@@ -95,8 +100,15 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
         )}
         {...props}
       >
-        {isLoading && <ReloadIcon className="h-4 w-4 animate-spin" />}
-        {isLoading ? loadingText : children}
+        {(isSubmitting || isLoading) && (
+          <ReloadIcon className="h-4 w-4 animate-spin" />
+        )}
+
+        {isSubmitting && !isLoading // while submitting
+          ? submittingText
+          : isLoading && !isSubmitting // while loading
+          ? loadingText
+          : children}
       </button>
     )
   },

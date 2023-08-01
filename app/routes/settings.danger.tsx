@@ -38,8 +38,8 @@ export default function Route() {
             <AlertDialogAutoForm
               method="DELETE"
               title={`Confirm to Delete "${userData.name}"`}
-              description={`Your account with the full name ${userData.name} and username
-                "@${userData.username}" will be deleted`}
+              description={`Your account with the full name "${userData.name}" and username
+                "@${userData.username}" will be permanently deleted and cannot be restored.`}
               trigger={
                 <Button
                   type="submit"
@@ -58,9 +58,9 @@ export default function Route() {
                   variant="destructive"
                   isLoading={isSubmitting}
                   disabled={isSubmitting}
-                  loadingText="Deleting Account..."
+                  loadingText={`Deleting @${userData.username}...`}
                 >
-                  Delete Personal Account
+                  Delete @{userData.username}
                 </ButtonLoading>
               }
             >

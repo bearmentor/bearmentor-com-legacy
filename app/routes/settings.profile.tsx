@@ -15,6 +15,7 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services/auth.server"
 import { prisma } from "~/libs"
+import { wait } from "~/utils"
 import {
   Alert,
   Button,
@@ -33,18 +34,11 @@ import {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) {
-    return redirect("/logout")
-  }
-
-  const user = await prisma.user.findFirst({
+  if (!userSession?.id) return redirect("/logout")
+  const user = await prisma.user.findUnique({
     where: { id: userSession.id },
-    select: {
-      id: true,
-      profiles: true,
-    },
+    include: { profiles: true },
   })
-
   return json({ user })
 }
 
@@ -60,11 +54,11 @@ export default function Route() {
           profiles.
         </p>
         <Button asChild size="xs">
-          <Link to="/profile">Go to your profile</Link>
+          <Link to="/profile">Go to your profile @{user?.username}</Link>
         </Button>
       </header>
 
-      <ul className="space-y-10">
+      <ul className="space-y-10 divide-y-2">
         {user?.profiles.map(userProfile => {
           return (
             <li key={userProfile.id} className="space-y-6">
@@ -259,7 +253,7 @@ export function UserProfileBioForm({
 }
 
 export async function action({ request }: ActionArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  await new Promise(res => setTimeout(res, 3000))
 
   const formData = await request.formData()
   const parsed = parse(formData)

@@ -22,7 +22,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
   const { redirectTo } = useRedirectTo()
   const actionData = useActionData<typeof loginAction>()
   const navigation = useNavigation()
-  const isLoading = navigation.state === "loading"
+  const isSubmitting = navigation.state === "submitting"
 
   const id = useId()
   const [form, { email, password }] = useForm<z.infer<typeof schemaUserLogin>>({
@@ -49,7 +49,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
               autoComplete="email"
               autoCapitalize="none"
               autoCorrect="off"
-              disabled={isLoading}
+              disabled={isSubmitting}
               autoFocus={email.initialError?.[""] ? true : undefined}
               required
             />
@@ -75,7 +75,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
               name="password"
               placeholder="Enter password"
               autoComplete="current-password"
-              disabled={isLoading}
+              disabled={isSubmitting}
               autoFocus={password.initialError?.[""] ? true : undefined}
               required
             />
@@ -101,7 +101,7 @@ export function UserAuthForm(props: React.HTMLAttributes<HTMLElement>) {
           <ButtonLoading
             type="submit"
             loadingText="Logging in..."
-            isLoading={isLoading}
+            isLoading={isSubmitting}
           >
             Login
           </ButtonLoading>
@@ -149,18 +149,18 @@ export const SocialAuthButton = ({
   disabled?: boolean
 }) => {
   const navigation = useNavigation()
-  const isLoading = navigation.state === "loading"
+  const isSubmitting = navigation.state === "submitting"
 
   return (
     <Form method="POST" action={`/auth/${provider}`} className="w-full">
       <Button
         type="submit"
         variant="outline"
-        disabled={disabled || isLoading}
+        disabled={disabled || isSubmitting}
         className="w-full"
       >
-        {isLoading && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-        {!isLoading && icon}
+        {isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
+        {!isSubmitting && icon}
         <span>{label}</span>
       </Button>
     </Form>
