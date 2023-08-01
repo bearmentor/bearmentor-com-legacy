@@ -29,7 +29,9 @@ export function UserCard({ user }: Props) {
             <CardTitle className="text-2xl">{user.name}</CardTitle>
             <p className="text-muted-foreground">@{user.username}</p>
           </div>
-          <CardDescription>{user.profiles[0]?.headline}</CardDescription>
+          {user?.profiles?.length > 0 && (
+            <CardDescription>{user.profiles[0].headline}</CardDescription>
+          )}
         </div>
       </CardHeader>
 
