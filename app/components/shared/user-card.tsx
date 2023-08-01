@@ -37,19 +37,17 @@ export function UserCard({ user }: Props) {
 
       {user.tags?.length > 0 && (
         <CardContent>
-          <div>
-            <ul className="flex flex-wrap gap-1 sm:gap-2">
-              {user.tags.map(tag => {
-                return (
-                  <li key={`${tag.id}-${tag.symbol}`}>
-                    <Badge size="sm" variant="secondary">
-                      {tag.name}
-                    </Badge>
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
+          <ul className="flex flex-wrap gap-1 sm:gap-2">
+            {user.tags.map(tag => {
+              return (
+                <li key={`${tag.id}-${tag.symbol}`}>
+                  <Badge size="sm" variant="secondary">
+                    {tag.name}
+                  </Badge>
+                </li>
+              )
+            })}
+          </ul>
         </CardContent>
       )}
     </Card>

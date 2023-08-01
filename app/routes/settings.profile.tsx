@@ -57,7 +57,7 @@ export default function Route() {
         </Button>
       </header>
 
-      <ul className="space-y-10 divide-y-2">
+      <ul className="space-y-10">
         {user?.profiles.map(userProfile => {
           return (
             <li key={userProfile.id} className="space-y-6">

@@ -4,10 +4,17 @@ import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
-import { prisma } from "~/libs"
 import { createCacheHeaders, formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { AvatarAuto, Button, Debug, Layout, NotFound } from "~/components"
+import {
+  AvatarAuto,
+  Badge,
+  Button,
+  Debug,
+  Layout,
+  NotFound,
+} from "~/components"
+import { model } from "~/models"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
@@ -33,17 +40,12 @@ export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.username, "username not found")
 
-  const user = await prisma.user.findUnique({
-    where: { username: params.username },
-    include: {
-      avatars: { select: { url: true } },
-      role: true,
-      profiles: true,
-    },
+  const user = await model.user.query.getByUsername({
+    username: params.username,
   })
   if (!user) return notFound({ user: null })
 
-  return json({ user }, { headers: createCacheHeaders(request, 60) })
+  return json({ user }, { headers: createCacheHeaders(request, 3) })
 }
 
 export default function Route() {
@@ -99,26 +101,34 @@ export default function Route() {
           {isOwner && (
             <section className="flex flex-wrap gap-1">
               <Button asChild variant="secondary" size="xs">
-                <Link to="/settings">Settings</Link>
-              </Button>
-              <Button asChild variant="secondary" size="xs">
                 <Link to="/settings/profile">Edit Profile</Link>
-              </Button>
-              <Button asChild type="submit" variant="destructive" size="xs">
-                <Link to="/logout">Logout</Link>
               </Button>
             </section>
           )}
         </header>
 
-        <div className="space-y-4">
+        <section>
+          {user.tags?.length > 0 && (
+            <ul className="flex flex-wrap gap-1 sm:gap-2">
+              {user.tags.map(tag => {
+                return (
+                  <li key={`${tag.id}-${tag.symbol}`}>
+                    <Badge>{tag.name}</Badge>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </section>
+
+        <section className="space-y-4">
           <h3>{user.profiles[0]?.headline}</h3>
           <p className="prose dark:prose-invert whitespace-pre-wrap">
             {user.profiles[0]?.bio}
           </p>
-        </div>
+        </section>
 
-        <Debug name="user">{{ params, userSession, user }}</Debug>
+        <Debug>{{ params, userSession, user }}</Debug>
       </section>
     </Layout>
   )
