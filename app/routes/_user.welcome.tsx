@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { json, redirect } from "@remix-run/node"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import {
@@ -16,11 +17,11 @@ import {
   Alert,
   ButtonLoading,
   Card,
+  Debug,
   FormDescription,
   FormField,
   FormFieldSet,
   FormLabel,
-  Label,
   Layout,
 } from "~/components"
 import { model } from "~/models"
@@ -44,6 +45,19 @@ export default function Route() {
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
+  const initialTags = user.tags.map(tag => ({ id: tag.id }))
+  const [selectedTags, setSelectedTags] = useState(initialTags)
+  const excludedSymbols = ["COLLABORATOR", "UNKNOWN"]
+
+  const toggleSelectTag = (id: string) => {
+    setSelectedTags(prevSelectedTags => {
+      const isSelected = prevSelectedTags.some(tag => tag.id === id)
+      return isSelected
+        ? prevSelectedTags.filter(tag => tag.id !== id)
+        : [...prevSelectedTags, { id }]
+    })
+  }
+
   const [form, { id, tags }] = useForm({
     lastSubmission,
     onValidate({ formData }) {
@@ -65,26 +79,38 @@ export default function Route() {
           <input hidden {...conform.input(id)} defaultValue={user.id} />
 
           <FormField>
-            <FormLabel className="text-lg">Tags</FormLabel>
-            <p>Select all relevant tags or categories that applies to you.</p>
+            <FormLabel className="text-lg">Your Tags</FormLabel>
+            <FormDescription className="max-w-lg">
+              <span>
+                Select all relevant tags or categories that applies to you.
+              </span>
+              <span>
+                This will help to customize your experience and determine wether
+                you need to be mentored, or want to mentor.
+              </span>
+            </FormDescription>
 
             <ul className="grid grid-cols-2 gap-2 py-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-              {userTags.map(tag => {
-                const isSelected = user.tags.find(t => t.id === tag.id)
-
-                return (
-                  <li key={tag.id}>
-                    <Card
-                      className={cn(
-                        "flex cursor-pointer items-center justify-center p-1 hover:opacity-80",
-                        isSelected && "border-brand",
-                      )}
-                    >
-                      <span>{tag.name}</span>
-                    </Card>
-                  </li>
-                )
-              })}
+              {userTags
+                .filter(tag => !excludedSymbols.includes(tag.symbol))
+                .map((userTag, index) => {
+                  const isSelected = selectedTags.find(
+                    tag => tag.id === userTag.id,
+                  )
+                  return (
+                    <li key={userTag.id}>
+                      <Card
+                        className={cn(
+                          "flex cursor-pointer items-center justify-center p-1 hover:opacity-80",
+                          isSelected && "border-brand",
+                        )}
+                        onClick={() => toggleSelectTag(userTag.id)}
+                      >
+                        <span className="select-none">{userTag.name}</span>
+                      </Card>
+                    </li>
+                  )
+                })}
             </ul>
 
             {tags.error && (
@@ -103,6 +129,8 @@ export default function Route() {
           </ButtonLoading>
         </FormFieldSet>
       </Form>
+
+      <Debug>{{ selectedTags }}</Debug>
     </Layout>
   )
 }

@@ -40,7 +40,7 @@ const inviteCode = z.string().optional()
 
 const roleSymbol = z.string().min(1, "Role is required")
 
-const tag = z.object({ symbol: z.string() })
+const tag = z.object({ id, symbol: z.string() })
 const tags = z.array(tag).optional()
 
 const modeName = z.string().min(1, "Profile mode name is required")
