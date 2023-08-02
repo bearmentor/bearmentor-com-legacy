@@ -24,7 +24,8 @@
     "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
     "prebuild": "prisma db push",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@ariakit/react": "0.2.14",
