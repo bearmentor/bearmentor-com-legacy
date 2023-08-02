@@ -1,5 +1,5 @@
 import { Form, useSearchParams } from "@remix-run/react"
-import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
+import { IconSearch } from "@tabler/icons-react"
 
 import { Input, Label } from "~/components"
 
@@ -17,7 +17,7 @@ export function SearchForm({
 
   return (
     <Form method="GET" action={action} className="w-full">
-      <fieldset className="relative flex items-center gap-1">
+      <fieldset className="group relative flex items-center gap-1">
         <Label htmlFor="search" className="sr-only">
           Search
         </Label>
@@ -31,7 +31,7 @@ export function SearchForm({
           className="block h-12 w-full px-3 py-2 ps-12 text-xl"
         />
         <span className="pointer-events-none absolute flex ps-3">
-          <MagnifyingGlassIcon className="h-6 w-6 text-muted-foreground" />
+          <IconSearch className="h-6 w-6 text-muted-foreground group-focus-within:text-brand" />
         </span>
       </fieldset>
     </Form>
