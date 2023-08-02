@@ -1,11 +1,9 @@
 import type { Prisma } from "@prisma/client"
 import { Authenticator } from "remix-auth"
 
-import { AuthStrategies } from "~/services/auth_strategies"
+import { AuthStrategies, formStrategy } from "~/services"
 import { sessionStorage } from "~/services/session.server"
 import type { model } from "~/models"
-
-import { formStrategy } from "./auth_strategies/form.strategy"
 
 export interface UserSession {
   // Add your own user properties here or extend with a type from your database

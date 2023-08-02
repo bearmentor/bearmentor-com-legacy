@@ -1,5 +1,4 @@
 // Remix way to protect routes. Can only be used server-side
-
 import type { UserRole } from "@prisma/client"
 import invariant from "tiny-invariant"
 

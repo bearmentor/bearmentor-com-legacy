@@ -1,19 +1,29 @@
-import type { LoaderArgs } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
-import { authenticator } from "~/services/auth.server"
-import { cn } from "~/libs"
+import { authenticator } from "~/services"
+import { cn, formatTitle } from "~/utils"
 import { buttonVariants, Layout } from "~/components"
+
+export const meta: V2_MetaFunction = () => {
+  return [
+    { title: formatTitle("User Settings") },
+    {
+      name: "description",
+      content: "Setup your 🐻 Bearmentor user account.",
+    },
+  ]
+}
 
 export const settingsNavItems = [
   { title: "General", to: "/settings/general" },
   { title: "Profile", to: "/settings/profile" },
   { title: "Email", to: "/settings/email" },
   { title: "Password", to: "/settings/password" },
-  { title: "Account", to: "/settings/account" },
-  { title: "Appearance", to: "/settings/appearance" },
-  { title: "Notifications", to: "/settings/notifications" },
-  { title: "Display", to: "/settings/display" },
+  { title: "Danger", to: "/settings/danger" },
+  // { title: "Account", to: "/settings/account" },
+  // { title: "Appearance", to: "/settings/appearance" },
+  // { title: "Notifications", to: "/settings/notifications" },
 ]
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -35,7 +45,7 @@ export default function Route() {
 
       <div className="flex max-w-4xl flex-col gap-8 sm:-mx-4 sm:flex-row">
         {/* Maximum width is less than xs */}
-        <aside className="w-full sm:block sm:max-w-[240px]">
+        <aside className="w-full overflow-visible sm:block sm:max-w-[240px]">
           <SidebarNav items={settingsNavItems} />
         </aside>
 
@@ -77,4 +87,9 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       ))}
     </nav>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  return null
 }

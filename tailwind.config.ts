@@ -78,5 +78,10 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("tailwindcss-autofill"),
+    require("tailwindcss-shadow-fill"),
+    require("tailwindcss-text-fill"),
+  ],
 }

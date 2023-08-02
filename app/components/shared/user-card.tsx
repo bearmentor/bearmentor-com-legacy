@@ -22,14 +22,7 @@ export function UserCard({ user }: Props) {
   return (
     <Card className="hover-opacity max-w-2xl">
       <CardHeader className="flex gap-4">
-        {user?.avatars[0]?.url && (
-          <AvatarAuto
-            className="h-24 w-24"
-            src={user.avatars[0]?.url}
-            alt={user.username}
-            fallback={user.username[0].toUpperCase()}
-          />
-        )}
+        <AvatarAuto className="h-24 w-24" user={user} />
 
         <div className="flex flex-col justify-between">
           <div>
@@ -38,27 +31,27 @@ export function UserCard({ user }: Props) {
             </CardTitle>
             <p className="text-muted-foreground">@{user.username}</p>
           </div>
-          <CardDescription>{user.profiles[0]?.headline}</CardDescription>
+          {user?.profiles?.length > 0 && (
+            <CardDescription>{user.profiles[0].headline}</CardDescription>
+          )}
         </div>
       </CardHeader>
 
-      <CardContent>
-        <div>
-          {user.tags?.length > 0 && (
-            <ul className="flex flex-wrap gap-1 sm:gap-2">
-              {user.tags.map(tag => {
-                return (
-                  <li key={`${tag.id}-${tag.symbol}`}>
-                    <Badge size="sm" variant="secondary">
-                      {tag.name}
-                    </Badge>
-                  </li>
-                )
-              })}
-            </ul>
-          )}
-        </div>
-      </CardContent>
+      {user.tags?.length > 0 && (
+        <CardContent>
+          <ul className="flex flex-wrap gap-1 sm:gap-2">
+            {user.tags.map(tag => {
+              return (
+                <li key={`${tag.id}-${tag.symbol}`}>
+                  <Badge size="sm" variant="secondary">
+                    {tag.name}
+                  </Badge>
+                </li>
+              )
+            })}
+          </ul>
+        </CardContent>
+      )}
     </Card>
   )
 }

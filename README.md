@@ -117,8 +117,8 @@ Especially (in alphabetical order):
 
 ### Dependencies
 
-Use [pnpm](https://pnpm.io) to improve productivity, so make sure
-[pnpm is installed](https://pnpm.io/installation#using-npm):
+Use [pnpm](https://pnpm.io) to improve productivity and replace npm, so make
+sure [pnpm is installed](https://pnpm.io/installation#using-npm):
 
 ```sh
 npm i -g pnpm

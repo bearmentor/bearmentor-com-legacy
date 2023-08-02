@@ -4,6 +4,7 @@ import { prisma } from "~/libs"
 
 export const fields = {
   public: {
+    id: true,
     symbol: true,
     name: true,
     description: true,

@@ -1,6 +1,6 @@
 import { Link } from "@remix-run/react"
 
-import { cn } from "~/libs"
+import { cn } from "~/utils"
 import { Anchor } from "~/components"
 
 const footerNavItems = [

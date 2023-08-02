@@ -1,8 +1,8 @@
 import * as React from "react"
 import type * as LabelPrimitive from "@radix-ui/react-label"
 
-import { cn } from "~/libs"
-import { Label } from "~/components"
+import { cn } from "~/utils"
+import { Label, labelVariants } from "~/components"
 
 const FormField = React.forwardRef<
   HTMLDivElement,
@@ -16,7 +16,9 @@ const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
 >(({ className, ...props }, ref) => {
-  return <Label ref={ref} className={cn("text-base", className)} {...props} />
+  return (
+    <Label ref={ref} className={cn(labelVariants(), className)} {...props} />
+  )
 })
 FormLabel.displayName = "FormLabel"
 
@@ -27,7 +29,7 @@ const FormDescription = React.forwardRef<
   return (
     <p
       ref={ref}
-      className={cn("text-[0.8rem] text-muted-foreground", className)}
+      className={cn("text-sm text-muted-foreground", className)}
       {...props}
     />
   )
@@ -50,4 +52,20 @@ const FormMessage = React.forwardRef<
 })
 FormMessage.displayName = "FormMessage"
 
-export { FormField, FormLabel, FormDescription, FormMessage }
+const FormFieldSet = React.forwardRef<
+  HTMLFieldSetElement,
+  React.FieldsetHTMLAttributes<HTMLFieldSetElement>
+>(({ className, children, ...props }, ref) => {
+  return (
+    <fieldset
+      ref={ref}
+      className={cn("space-y-4 disabled:opacity-80", className)}
+      {...props}
+    >
+      {children}
+    </fieldset>
+  )
+})
+FormFieldSet.displayName = "FormFieldSet"
+
+export { FormField, FormLabel, FormDescription, FormMessage, FormFieldSet }

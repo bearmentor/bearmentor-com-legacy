@@ -3,7 +3,7 @@ import { ReloadIcon } from "@radix-ui/react-icons"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "~/libs"
+import { cn } from "~/utils"
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -25,7 +25,7 @@ const buttonVariants = cva(
       size: {
         default: "h-9 px-4 py-2 text-base",
         xs: "h-6 rounded px-2 text-xs",
-        sm: "h-8 rounded px-3 text-xs",
+        sm: "h-8 rounded px-3 text-sm",
         lg: "h-10 rounded px-8 text-lg",
         icon: "h-9 w-9",
       },
@@ -57,9 +57,12 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 )
 Button.displayName = "Button"
 
+// https://reactrouter.com/en/6.14.2/hooks/use-navigation
 export interface ButtonLoadingProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
+  isSubmitting?: boolean
+  submittingText?: React.ReactNode
   isLoading?: boolean
   loadingText?: React.ReactNode
   isDisabledWhenLoading?: boolean
@@ -68,16 +71,18 @@ export interface ButtonLoadingProps
 const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
   (
     {
-      type = "button",
+      type = "submit",
       variant = "default",
       size = "default",
       className,
-      children,
+      name,
+      value,
+      isSubmitting = false,
+      submittingText = "",
       isLoading = false,
       loadingText = "",
       isDisabledWhenLoading = true,
-      name,
-      value,
+      children,
       ...props
     },
     ref,
@@ -86,17 +91,28 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
       <button
         type={type}
         ref={ref}
-        disabled={isDisabledWhenLoading ? isLoading : isDisabledWhenLoading}
+        name={name}
+        value={value}
+        disabled={
+          isDisabledWhenLoading
+            ? isSubmitting || isLoading
+            : isDisabledWhenLoading
+        }
         className={cn(
           buttonVariants({ variant, size, className }),
           "flex gap-2",
         )}
-        name={name}
-        value={value}
         {...props}
       >
-        {isLoading && <ReloadIcon className="h-4 w-4 animate-spin" />}
-        {isLoading ? loadingText : children}
+        {(isSubmitting || isLoading) && (
+          <ReloadIcon className="h-4 w-4 animate-spin" />
+        )}
+
+        {isSubmitting && !isLoading // while submitting
+          ? submittingText
+          : isLoading && !isSubmitting // while loading
+          ? loadingText
+          : children}
       </button>
     )
   },

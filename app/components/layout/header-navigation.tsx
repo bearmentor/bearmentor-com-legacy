@@ -12,7 +12,7 @@ import {
 } from "@radix-ui/react-icons"
 
 import type { UserData } from "~/services/auth.server"
-import { cn } from "~/libs"
+import { cn, createAvatarImageURL } from "~/utils"
 import { useRootLoaderData, useScreenLarge } from "~/hooks"
 import { TooltipAuto, TooltipProvider } from "~/components"
 
@@ -129,7 +129,10 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 {navItem.to === "/profile" && userData ? (
                   <img
                     className="icon rounded lg:w-full"
-                    src={userData?.avatars[0]?.url}
+                    src={
+                      userData?.avatars[0]?.url ||
+                      createAvatarImageURL(userData?.username)
+                    }
                     alt={userData?.username}
                     width={24}
                     height={24}

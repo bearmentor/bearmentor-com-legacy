@@ -4,10 +4,17 @@ import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
-import { prisma } from "~/libs"
 import { createCacheHeaders, formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
-import { AvatarAuto, Button, Debug, Layout } from "~/components"
+import {
+  AvatarAuto,
+  Badge,
+  Button,
+  Debug,
+  Layout,
+  NotFound,
+} from "~/components"
+import { model } from "~/models"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
@@ -33,17 +40,12 @@ export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.username, "username not found")
 
-  const user = await prisma.user.findUnique({
-    where: { username: params.username },
-    include: {
-      avatars: { select: { url: true } },
-      role: true,
-      profiles: true,
-    },
+  const user = await model.user.query.getByUsername({
+    username: params.username,
   })
   if (!user) return notFound({ user: null })
 
-  return json({ user }, { headers: createCacheHeaders(request, 60) })
+  return json({ user }, { headers: createCacheHeaders(request, 3) })
 }
 
 export default function Route() {
@@ -56,30 +58,17 @@ export default function Route() {
   if (!user) {
     return (
       <Layout className="px-4 sm:px-8">
-        <section className="flex flex-col items-center justify-center pt-4">
-          <Link to="/" className="hover-opacity">
-            <img src="/favicon.png" alt="Bear" className="h-12" />
-          </Link>
-          <div className="flex max-w-md flex-col justify-center space-y-4 pt-24 text-center">
-            <img
-              src="/images/bear-fox.png"
-              alt="Not Found Illustration"
-              className="h-40 object-contain"
-            />
-            <h2>
-              This page isn't available or{" "}
-              <span className="text-red-500">"{params.username}"</span> is not
-              found
-            </h2>
-            <p className="text-muted-foreground">
-              The link you followed may be broken, or the page may have been
-              removed.
-            </p>
-            <Button asChild>
-              <Link to="/">Back to Home</Link>
-            </Button>
-          </div>
-        </section>
+        <NotFound>
+          <h2>
+            This page isn't available or{" "}
+            <span className="text-red-500">"{params.username}"</span> is not
+            found
+          </h2>
+          <p className="text-muted-foreground">
+            The link you followed may be broken, or the page may have been
+            removed.
+          </p>
+        </NotFound>
       </Layout>
     )
   }
@@ -103,9 +92,7 @@ export default function Route() {
           <div>
             <AvatarAuto
               className="mb-4 h-32 w-32 outline outline-4 outline-background"
-              src={user.avatars[0]?.url}
-              alt={user.username}
-              fallback={user.username[0].toUpperCase()}
+              user={user}
             />
             <h1 className="text-4xl">{user.name}</h1>
             <h2 className="text-2xl text-muted-foreground">@{user.username}</h2>
@@ -114,26 +101,34 @@ export default function Route() {
           {isOwner && (
             <section className="flex flex-wrap gap-1">
               <Button asChild variant="secondary" size="xs">
-                <Link to="/settings">Settings</Link>
-              </Button>
-              <Button asChild variant="secondary" size="xs">
                 <Link to="/settings/profile">Edit Profile</Link>
-              </Button>
-              <Button asChild type="submit" variant="destructive" size="xs">
-                <Link to="/logout">Logout</Link>
               </Button>
             </section>
           )}
         </header>
 
-        <div className="space-y-4">
+        <section>
+          {user.tags?.length > 0 && (
+            <ul className="flex flex-wrap gap-1 sm:gap-2">
+              {user.tags.map(tag => {
+                return (
+                  <li key={`${tag.id}-${tag.symbol}`}>
+                    <Badge>{tag.name}</Badge>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
+        </section>
+
+        <section className="space-y-4">
           <h3>{user.profiles[0]?.headline}</h3>
           <p className="prose dark:prose-invert whitespace-pre-wrap">
             {user.profiles[0]?.bio}
           </p>
-        </div>
+        </section>
 
-        <Debug name="user">{{ params, userSession, user }}</Debug>
+        <Debug>{{ params, userSession, user }}</Debug>
       </section>
     </Layout>
   )

@@ -12,13 +12,14 @@ import type { User } from "@prisma/client"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { prisma } from "~/libs"
 import {
   Alert,
   Button,
   FormDescription,
   FormField,
+  FormFieldSet,
   FormLabel,
   InputPassword,
 } from "~/components"
@@ -27,9 +28,7 @@ import { schemaUserUpdatePassword } from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) {
-    return redirect("/logout")
-  }
+  if (!userSession?.id) return redirect("/logout")
 
   const user = await prisma.user.findFirst({
     where: { id: userSession.id },
@@ -73,10 +72,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
-      <fieldset
-        disabled={isSubmitting}
-        className="space-y-4 disabled:opacity-80"
-      >
+      <FormFieldSet disabled={isSubmitting}>
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
@@ -122,7 +118,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
         >
           Save New Password
         </Button>
-      </fieldset>
+      </FormFieldSet>
     </Form>
   )
 }

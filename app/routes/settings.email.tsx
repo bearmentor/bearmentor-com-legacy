@@ -12,7 +12,7 @@ import type { User } from "@prisma/client"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 import { prisma } from "~/libs"
 import {
   Alert,
@@ -27,9 +27,7 @@ import { schemaUserUpdateEmail } from "~/schemas"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) {
-    return redirect("/logout")
-  }
+  if (!userSession?.id) return redirect("/logout")
 
   const user = await prisma.user.findFirst({
     where: { id: userSession.id },
