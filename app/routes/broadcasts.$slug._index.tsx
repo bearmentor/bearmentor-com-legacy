@@ -13,7 +13,6 @@ import {
   Badge,
   Button,
   ButtonLoading,
-  Input,
   Layout,
   NotFound,
 } from "~/components"
@@ -87,7 +86,7 @@ export default function BroadcastsRoute() {
           {isOwner && (
             <section className="flex gap-2">
               <Form method="DELETE">
-                <Input type="hidden" name="id" defaultValue={broadcast.id} />
+                <input hidden name="id" defaultValue={broadcast.id} />
                 <ButtonLoading variant="destructive" size="xs">
                   Delete
                 </ButtonLoading>
@@ -140,11 +139,19 @@ export default function BroadcastsRoute() {
           </div>
         )}
 
-        {!isOwner && (
-          <section>
+        <section>
+          {!userSession?.id && (
+            <Button asChild>
+              <Link to={`/login?redirectTo=/broadcasts/${broadcast.slug}`}>
+                Login to Contact
+              </Link>
+            </Button>
+          )}
+
+          {userSession?.id && !isOwner && (
             <Button>Contact {user.nick || user.name}</Button>
-          </section>
-        )}
+          )}
+        </section>
       </div>
     </Layout>
   )

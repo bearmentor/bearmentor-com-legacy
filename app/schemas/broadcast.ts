@@ -14,8 +14,8 @@ const description = z
 
 const body = z
   .string()
-  .min(1, "Broadcast body is required")
-  .max(1000, "Broadcast body message limited to 1000 characters")
+  .min(1, "Details are required")
+  .max(10_000, "Details are limited to 10,000 characters")
 
 const link = z.object({
   url: z.string().url({ message: "Please enter a valid URL." }),
@@ -41,4 +41,12 @@ export const schemaBroadcastQuick = z.object({
 
 export const schemaBroadcastDelete = z.object({
   id,
+})
+
+export const schemaBroadcastUpdate = z.object({
+  userId: id,
+  id,
+  title,
+  description,
+  body,
 })

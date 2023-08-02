@@ -60,6 +60,21 @@ export const loader = async ({ request }: LoaderArgs) => {
       },
       orderBy: [{ username: "asc" }],
     }),
+
+    prisma.broadcast.findMany({
+      where: {
+        OR: [
+          { title: { contains: query } },
+          { description: { contains: query } },
+          { body: { contains: query } },
+        ],
+      },
+      include: {
+        images: true,
+        user: true,
+      },
+      orderBy: [{ title: "asc" }],
+    }),
   ])
 
   const usersCount = users.length
@@ -83,6 +98,12 @@ export default function Route() {
         </p>
         <SearchForm />
       </header>
+
+      {!query && (
+        <section>
+          <p>Enter your search keyword above</p>
+        </section>
+      )}
 
       {count <= 0 && query && (
         <section>

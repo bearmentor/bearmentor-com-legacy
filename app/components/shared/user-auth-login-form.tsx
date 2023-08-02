@@ -81,7 +81,7 @@ export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
             )}
           </div>
 
-          <Input type="hidden" name="redirectTo" defaultValue={redirectTo} />
+          <input hidden name="redirectTo" defaultValue={redirectTo} />
 
           <ButtonLoading
             type="submit"

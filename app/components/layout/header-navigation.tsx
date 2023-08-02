@@ -117,7 +117,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 to={navItem.to}
                 className={({ isActive }) => {
                   return cn(
-                    "flex max-w-lg items-center justify-center gap-2 rounded p-2 font-bold",
+                    "flex aspect-square items-center justify-center gap-2 rounded p-2 font-bold",
                     isActive ||
                       (navItem.to === "/profile" &&
                         checkIfActiveUsername(location, userData))
@@ -128,7 +128,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
               >
                 {navItem.to === "/profile" && userData ? (
                   <img
-                    className="icon rounded lg:w-full"
+                    className="icon aspect-square rounded"
                     src={
                       userData?.avatars[0]?.url ||
                       createAvatarImageURL(userData?.username)

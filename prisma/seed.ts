@@ -174,7 +174,7 @@ async function seedBroadcasts() {
 
     const newBroadcast = {
       userId: user.id,
-      slug: createBroadcastSlug(broadcast.title, user.username),
+      slug: createBroadcastSlug(broadcast.title),
       title: broadcast.title,
       description: broadcast?.description,
       body: broadcast?.body,
