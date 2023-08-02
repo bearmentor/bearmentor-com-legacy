@@ -1,12 +1,24 @@
-import { json } from "@remix-run/node"
-import type { LoaderArgs } from "@remix-run/node"
-import { Link, useLoaderData } from "@remix-run/react"
-import { notFound } from "remix-utils"
+import { json, redirect } from "@remix-run/node"
+import type { ActionArgs, LoaderArgs } from "@remix-run/node"
+import { Form, Link, useLoaderData, useParams } from "@remix-run/react"
+import { parse } from "@conform-to/zod"
+import { badRequest, notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
 import { createCacheHeaders } from "~/utils"
-import { AvatarAuto, Badge, Button, Layout } from "~/components"
+import { useRootLoaderData } from "~/hooks"
+import {
+  AvatarAuto,
+  Badge,
+  Button,
+  ButtonLoading,
+  Input,
+  Layout,
+  NotFound,
+} from "~/components"
+import { model } from "~/models"
+import { schemaBroadcastDelete } from "~/schemas"
 
 export async function loader({ request, params }: LoaderArgs) {
   invariant(params.slug, "Broadcast slug not found")
@@ -32,28 +44,64 @@ export async function loader({ request, params }: LoaderArgs) {
 }
 
 export default function BroadcastsRoute() {
+  const params = useParams()
+  const { userSession } = useRootLoaderData()
   const { broadcast } = useLoaderData<typeof loader>()
 
   if (!broadcast) {
-    return null
+    return (
+      <Layout className="px-4 sm:px-8">
+        <NotFound>
+          <h2>
+            This broadcast{" "}
+            <span className="text-red-500">"{params.username}"</span> is not
+            found
+          </h2>
+          <p className="text-muted-foreground">
+            The broadcast may be broken or have been removed.
+          </p>
+        </NotFound>
+      </Layout>
+    )
   }
 
+  const isOwner = userSession?.id === broadcast.userId
+  const user = broadcast.user
+
   return (
-    <Layout className="flex justify-center pt-10">
-      <div className="w-full max-w-xl space-y-6">
-        <header className="space-y-2">
-          <h1 className="flex">
-            <Link
-              to={`/broadcasts/${broadcast.slug}`}
-              className="hover-opacity"
-            >
-              {broadcast.title}
-            </Link>
-          </h1>
-          <p>{broadcast.description}</p>
+    <Layout className="flex justify-center p-4 sm:p-8">
+      <div className="mb-40 w-full max-w-xl space-y-6">
+        <header className="gap-2 space-y-4">
+          <section className="space-y-2">
+            <h1 className="flex">
+              <Link
+                to={`/broadcasts/${broadcast.slug}`}
+                className="hover-opacity"
+              >
+                {broadcast.title}
+              </Link>
+            </h1>
+            <p>{broadcast.description}</p>
+          </section>
+
+          {isOwner && (
+            <section className="flex gap-2">
+              <Form method="DELETE">
+                <Input type="hidden" name="id" defaultValue={broadcast.id} />
+                <ButtonLoading variant="destructive" size="xs">
+                  Delete
+                </ButtonLoading>
+              </Form>
+              <Button asChild size="xs" variant="secondary">
+                <Link to={`/${user.username}/broadcasts/${broadcast.id}/edit`}>
+                  Edit
+                </Link>
+              </Button>
+            </section>
+          )}
         </header>
 
-        <div>
+        <section className="flex">
           <Link
             to={`/${broadcast.user.username}`}
             className="hover-opacity flex items-center gap-2"
@@ -66,7 +114,7 @@ export default function BroadcastsRoute() {
               </p>
             </div>
           </Link>
-        </div>
+        </section>
 
         {broadcast.body && (
           <div className="space-y-4">
@@ -92,10 +140,23 @@ export default function BroadcastsRoute() {
           </div>
         )}
 
-        <div>
-          <Button>Contact {broadcast.user.nick}</Button>
-        </div>
+        {!isOwner && (
+          <section>
+            <Button>Contact {user.nick || user.name}</Button>
+          </section>
+        )}
       </div>
     </Layout>
   )
+}
+
+export const action = async ({ request }: ActionArgs) => {
+  const formData = await request.formData()
+  const submission = parse(formData, { schema: schemaBroadcastDelete })
+  if (!submission.value || submission.intent !== "submit") {
+    return badRequest(submission)
+  }
+  const isDeleted = await model.broadcast.mutation.deleteById(submission.value)
+  if (!isDeleted) return null
+  return redirect(`/broadcasts`)
 }

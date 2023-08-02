@@ -8,5 +8,6 @@ module.exports = {
   rules: {
     "react/self-closing-comp": ["warn", { component: true, html: true }],
     "@typescript-eslint/no-unused-vars": ["warn"],
+    "require-await": ["warn"],
   },
 }

@@ -37,7 +37,7 @@ const AvatarFallback = React.forwardRef<
   <AvatarPrimitive.Fallback
     ref={ref}
     className={cn(
-      "select-none",
+      "select-none bg-background",
       "flex h-full w-full items-center justify-center rounded bg-muted",
       className,
     )}
@@ -66,7 +66,7 @@ function AvatarAuto({
         alt={user?.username}
       />
       {hasFallback && (
-        <AvatarFallback className="text-2xl" delayMs={1000}>
+        <AvatarFallback className="text-lg">
           {getNameInitials(user?.name)}
         </AvatarFallback>
       )}

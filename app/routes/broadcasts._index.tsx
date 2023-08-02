@@ -1,37 +1,27 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
-import { json } from "@remix-run/node"
-import {
-  Form,
-  Link,
-  useActionData,
-  useLoaderData,
-  useNavigation,
-} from "@remix-run/react"
-import { conform, useForm } from "@conform-to/react"
+import { json, redirect } from "@remix-run/node"
+import { Link, useLoaderData } from "@remix-run/react"
 import { parse } from "@conform-to/zod"
+import { badRequest } from "remix-utils"
 
-import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-import { createCacheHeaders, formatPluralItems } from "~/utils"
+import { delay, formatPluralItems } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
-  Alert,
   AvatarAuto,
   Badge,
+  BroadcastQuickForm,
   Button,
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-  FormField,
-  FormLabel,
-  Input,
   Layout,
   SearchForm,
-  Textarea,
 } from "~/components"
-import { schemaBroadcast } from "~/schemas"
+import { model } from "~/models"
+import { schemaBroadcastQuick } from "~/schemas"
 
 export async function loader({ request }: LoaderArgs) {
   const url = new URL(request.url)
@@ -39,7 +29,7 @@ export async function loader({ request }: LoaderArgs) {
 
   if (!query) {
     const broadcasts = await prisma.broadcast.findMany({
-      orderBy: { updatedAt: "asc" },
+      orderBy: { createdAt: "desc" },
       include: {
         tags: true,
         user: {
@@ -53,10 +43,7 @@ export async function loader({ request }: LoaderArgs) {
       },
     })
 
-    return json(
-      { query, count: broadcasts.length, broadcasts },
-      { headers: createCacheHeaders(request, 60) },
-    )
+    return json({ query, count: broadcasts.length, broadcasts })
   }
 
   const broadcasts = await prisma.broadcast.findMany({
@@ -94,21 +81,9 @@ export async function loader({ request }: LoaderArgs) {
   return json({ query, count: broadcasts.length, broadcasts })
 }
 
-export default function BroadcastsRoute() {
-  const { userData } = useRootLoaderData()
-
+export default function Route() {
+  const { userSession } = useRootLoaderData()
   const { query, count, broadcasts } = useLoaderData<typeof loader>()
-
-  const lastSubmission = useActionData<typeof action>()
-  const navigation = useNavigation()
-  const isSubmitting = navigation.state === "submitting"
-
-  const [form, { title, description, body }] = useForm({
-    lastSubmission,
-    onValidate({ formData }) {
-      return parse(formData, { schema: schemaBroadcast })
-    },
-  })
 
   return (
     <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap sm:px-8">
@@ -125,87 +100,20 @@ export default function BroadcastsRoute() {
           </p>
         </header>
 
-        {!userData?.id && (
+        {!userSession?.id && (
           <section>
             <Button asChild>
-              <Link to="/login">Login to Broadcast</Link>
+              <Link to="/login?redirectTo=/broadcasts">Login to Broadcast</Link>
             </Button>
           </section>
         )}
 
-        {userData?.id && (
-          <section
-            id="create-broadcast"
-            className="space-y-4 rounded bg-stone-900 p-4"
-          >
-            <header>
-              <h3>Quick Broadcast</h3>
-              <p className="text-sm text-muted-foreground">
-                Quickly create new broadcast to ask or offer
-              </p>
-            </header>
-
-            <Form {...form.props} replace method="PUT" className="space-y-6">
-              <fieldset
-                disabled={isSubmitting}
-                className="space-y-4 disabled:opacity-80"
-              >
-                <FormField>
-                  <FormLabel htmlFor={title.id}>Title</FormLabel>
-                  <Input
-                    {...conform.input(title)}
-                    type="text"
-                    placeholder="Ex: Need mentor to help learning JavaScript"
-                  />
-                  {title.error && (
-                    <Alert variant="destructive" id={title.errorId}>
-                      {title.error}
-                    </Alert>
-                  )}
-                </FormField>
-
-                <FormField>
-                  <FormLabel htmlFor={description.id}>Description</FormLabel>
-                  <Input
-                    {...conform.input(description)}
-                    type="text"
-                    placeholder="Ex: Want to build a job-ready and portfolio-worthy project"
-                  />
-                  {description.error && (
-                    <Alert variant="destructive" id={description.errorId}>
-                      {description.error}
-                    </Alert>
-                  )}
-                </FormField>
-
-                <FormField>
-                  <FormLabel htmlFor={body.id}>Details</FormLabel>
-                  <Textarea
-                    {...conform.input(body)}
-                    placeholder="Ex: Here are some more details about the mentorship request or service to offer..."
-                    className="min-h-[200px]"
-                  />
-                  {body.error && (
-                    <Alert variant="destructive" id={body.errorId}>
-                      {body.error}
-                    </Alert>
-                  )}
-                </FormField>
-
-                <Button type="submit" name="intent" disabled={isSubmitting}>
-                  Send
-                </Button>
-              </fieldset>
-            </Form>
-          </section>
-        )}
+        {userSession?.id && <BroadcastQuickForm />}
       </section>
 
-      <section id="broadcasts" className="w-full max-w-3xl space-y-4">
-        <SearchForm
-          action="/broadcasts"
-          placeholder="Search broadcasts with keyword..."
-        />
+      <section id="broadcasts-list" className="w-full max-w-3xl space-y-4">
+        <SearchForm action="/broadcasts" placeholder="Search broadcasts..." />
+
         {!query && count > 0 && (
           <p className="text-muted-foreground">{count} broadcasts</p>
         )}
@@ -291,14 +199,12 @@ export default function BroadcastsRoute() {
 }
 
 export async function action({ request }: ActionArgs) {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
-
+  await delay()
   const formData = await request.formData()
-  const submission = parse(formData, { schema: schemaBroadcast })
-
+  const submission = parse(formData, { schema: schemaBroadcastQuick })
   if (!submission.value || submission.intent !== "submit") {
-    return json(submission, { status: 400 })
+    return badRequest(submission)
   }
-
-  return json(submission)
+  const broadcast = await model.broadcast.mutation.createQuick(submission.value)
+  return redirect(`/broadcasts/${broadcast.slug}`)
 }

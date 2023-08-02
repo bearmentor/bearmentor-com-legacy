@@ -10,7 +10,7 @@ export const loader = () => redirect("/login")
 /**
  * To trigger Auth Action, it must be from a Form submission
  */
-export const action = async ({ request, params }: ActionArgs) => {
+export const action = ({ request, params }: ActionArgs) => {
   const provider = params.provider as AuthStrategy
   if (!provider) return redirect("/login")
 

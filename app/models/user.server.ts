@@ -316,15 +316,7 @@ export const mutation = {
     }
   },
 
-  async updateTags({ id, tags }: z.infer<typeof schemaUserWelcome>) {
-    // const user = await prisma.user.findFirst({
-    //   where: { id },
-    //   include: { tags: { select: { id: true } } },
-    // })
-    // if (!user) return null
-
-    // const tagsToRemove = user.tags.filter((t) => !tags.includes(t.id));
-
+  updateTags({ id, tags }: z.infer<typeof schemaUserWelcome>) {
     return prisma.user.update({
       where: { id },
       data: { tags: { set: tags } },

@@ -1,7 +1,6 @@
 import { Form, useSearchParams } from "@remix-run/react"
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons"
 
-import { useScreenLarge } from "~/hooks"
 import { Input, Label } from "~/components"
 
 interface Props {
@@ -13,7 +12,6 @@ export function SearchForm({
   action = "/search",
   placeholder = "Search",
 }: Props) {
-  const isScreenLarge = useScreenLarge()
   const [searchParams] = useSearchParams()
   const query = searchParams.get("q") || ""
 
@@ -30,7 +28,6 @@ export function SearchForm({
           placeholder={placeholder}
           defaultValue={query}
           autoComplete="off"
-          autoFocus={isScreenLarge || false}
           className="block h-12 w-full px-3 py-2 ps-12 text-xl"
         />
         <span className="pointer-events-none absolute flex ps-3">

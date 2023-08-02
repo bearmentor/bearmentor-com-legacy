@@ -42,7 +42,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
     return json(
       { query, count: mentees.length, mentees },
-      { headers: createCacheHeaders(request, 3600) },
+      { headers: createCacheHeaders(request, 60) },
     )
   }
 

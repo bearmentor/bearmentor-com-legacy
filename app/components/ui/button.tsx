@@ -93,7 +93,11 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
         ref={ref}
         name={name}
         value={value}
-        disabled={isDisabledWhenLoading ? isLoading : isDisabledWhenLoading}
+        disabled={
+          isDisabledWhenLoading
+            ? isSubmitting || isLoading
+            : isDisabledWhenLoading
+        }
         className={cn(
           buttonVariants({ variant, size, className }),
           "flex gap-2",

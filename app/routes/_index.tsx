@@ -37,7 +37,7 @@ export async function loader({ request }: LoaderArgs) {
 
   return json(
     { mentors: arrayShuffle(mentors), mentees: arrayShuffle(mentees) },
-    { headers: createCacheHeaders(request, 60) },
+    { headers: createCacheHeaders(request, 10) },
   )
 }
 

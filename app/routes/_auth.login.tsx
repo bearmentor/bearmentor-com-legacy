@@ -6,7 +6,7 @@ import { badRequest } from "remix-utils"
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { authenticator } from "~/services"
-import { formatTitle } from "~/utils"
+import { formatTitle, getRedirectTo } from "~/utils"
 import { useRedirectTo } from "~/hooks"
 import { Layout, UserAuthLoginForm } from "~/components"
 import { model } from "~/models"
@@ -22,7 +22,7 @@ export const meta: V2_MetaFunction = () => {
   ]
 }
 
-export const loader = async ({ request }: LoaderArgs) => {
+export const loader = ({ request }: LoaderArgs) => {
   return authenticator.isAuthenticated(request, {
     successRedirect: "/dashboard",
   })
@@ -92,6 +92,6 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   return authenticator.authenticate("form", request, {
-    successRedirect: "/dashboard",
+    successRedirect: getRedirectTo(request) || "/dashboard",
   })
 }
