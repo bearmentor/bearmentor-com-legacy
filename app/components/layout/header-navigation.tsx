@@ -5,6 +5,7 @@ import {
   IconDashboard,
   IconHome2,
   IconLogin,
+  IconRocket,
   IconSearch,
   IconUserCircle,
   IconUsers,
@@ -26,7 +27,7 @@ const navPublicItems: NavItem[] = [
   {
     to: "/broadcasts",
     text: "Broadcasts",
-    icon: <IconHome2 className="icon" />,
+    icon: <IconRocket className="icon" />,
   },
   {
     to: "/search",
