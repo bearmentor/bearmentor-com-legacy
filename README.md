@@ -57,6 +57,7 @@ term growth.
 4. [Tailwind CSS](https://tailwindcss.com): Styling
 5. [Radix UI](https://radix-ui.com): Interactive components
    - [shadcn UI](https://ui.shadcn.com): Styled interactive components
+   - [Tabler Icons](https://tabler-icons.io): Icon set
 6. [Prisma](https://prisma.io): Database ORM
 7. [PlanetScale](https://planetscale.com): MySQL-compatible serverless database
    platform

@@ -2,8 +2,8 @@
 import type { UserRole } from "@prisma/client"
 import invariant from "tiny-invariant"
 
-import type { UserData } from "~/services/auth.server"
-import { authenticator } from "~/services/auth.server"
+import type { UserData } from "~/services"
+import { authenticator } from "~/services"
 import { model } from "~/models"
 
 // https://remix.run/docs/en/main/pages/faq#md-how-can-i-have-a-parent-route-loader-validate-the-user-and-protect-all-child-routes

@@ -2,16 +2,16 @@ import type { Location } from "@remix-run/react"
 import { NavLink, useLocation } from "@remix-run/react"
 import {
   IconBackpack,
+  IconBroadcast,
   IconDashboard,
   IconHome2,
   IconLogin,
-  IconRocket,
   IconSearch,
   IconUserCircle,
   IconUsers,
 } from "@tabler/icons-react"
 
-import type { UserData } from "~/services/auth.server"
+import type { UserData } from "~/services"
 import { cn, createAvatarImageURL } from "~/utils"
 import { useRootLoaderData, useScreenLarge } from "~/hooks"
 import { TooltipAuto, TooltipProvider } from "~/components"
@@ -27,7 +27,7 @@ const navPublicItems: NavItem[] = [
   {
     to: "/broadcasts",
     text: "Broadcasts",
-    icon: <IconRocket className="icon" />,
+    icon: <IconBroadcast className="icon" />,
   },
   {
     to: "/search",
