@@ -13,13 +13,10 @@ test.describe("Bearmentor Home page E2E Test", () => {
   })
 
   test("user should be able to see Available Mentors", async () => {
-    const availableMentors =
-      await homePage.availableMentorsList.allTextContents()
-    expect(availableMentors).toBeTruthy()
+    await expect(homePage.availableMentorsSection).toBeVisible()
   })
 
   test("user should be able to see Featured Mentees", async () => {
-    const featuredMentees = await homePage.featuredMenteesList.allTextContents()
-    expect(featuredMentees).toBeTruthy()
+    await expect(homePage.featuredMenteesSection).toBeVisible()
   })
 })

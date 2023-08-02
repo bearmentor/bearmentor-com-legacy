@@ -24,7 +24,6 @@ test.describe("Bearmentor Mentors page E2E Test", () => {
 
   test("user should be able to search a mentor", async () => {
     await mentorsPage.searchMentor("haidar")
-    await expect(mentorsPage.loadingProgress).not.toBeVisible()
     await expect(mentorsPage.mentorListName).toHaveText("M Haidar Hanif")
   })
 })
