@@ -40,16 +40,25 @@ export default function Route() {
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
-  const initialTags = user.tags.map(tag => ({ id: tag.id }))
-  const [selectedTags, setSelectedTags] = useState(initialTags)
   const excludedSymbols = ["COLLABORATOR", "UNKNOWN"]
+  const maxSelectedTags = 5
 
+  // FIXME: There's an issue when we are back to this route, this won't work
+  const [selectedTags, setSelectedTags] = useState(
+    user.tags.map(tag => ({ id: tag.id })).slice(0, maxSelectedTags),
+  )
+
+  const isMaxTagsSelected = selectedTags.length >= maxSelectedTags
+
+  // Toggle select tags into selectedTags array
+  // with limit of maxSelectedTags
   const toggleSelectTag = (id: string) => {
     setSelectedTags(prevSelectedTags => {
       const isSelected = prevSelectedTags.some(tag => tag.id === id)
-      return isSelected
-        ? prevSelectedTags.filter(tag => tag.id !== id) // remove if already
+      const newSelectedTags = isSelected
+        ? prevSelectedTags.filter(tag => tag.id !== id) // remove if already selected
         : [...prevSelectedTags, { id }] // add if not selected
+      return newSelectedTags.slice(0, maxSelectedTags)
     })
   }
 
@@ -60,18 +69,20 @@ export default function Route() {
         <p className="text-muted-foreground">
           Let's setup your account to get ready.
         </p>
+        <Debug>{{ selectedTags }}</Debug>
       </header>
 
-      <Form replace method="PUT" className="space-y-6">
-        <FormFieldSet disabled={isSubmitting}>
+      <Form method="PUT" className="space-y-6">
+        <FormFieldSet disabled={selectedTags.length < 1 || isSubmitting}>
           <input hidden name="id" defaultValue={user.id} />
 
           <FormField>
-            <FormLabel className="text-lg">Your Tags</FormLabel>
-            <FormDescription className="max-w-lg">
-              Select all relevant tags or categories that applies to you. This
-              will help to customize your experience and determine wether you
-              need to be mentored, or want to mentor.
+            <FormLabel className="text-lg">Who are you?</FormLabel>
+            <FormDescription className="max-w-3xl text-base">
+              Select <b>minimum of 1</b> and <b>maximum of 5</b> relevant tags
+              or categories that applies to you. This will help to customize
+              your experience and determine wether you need to be mentored, want
+              to mentor, or neither.
             </FormDescription>
 
             <input hidden name="tags" defaultValue={stringify(selectedTags)} />
@@ -83,14 +94,22 @@ export default function Route() {
                   const isSelected = selectedTags.find(
                     tag => tag.id === userTag.id,
                   )
+
+                  const isDisabled = isMaxTagsSelected && !isSelected
+
+                  // For flexibility, the toggle is using Card not Button
                   return (
                     <li key={userTag.id}>
                       <Card
                         className={cn(
-                          "flex cursor-pointer items-center justify-center p-1 hover:opacity-80",
+                          "flex select-none items-center justify-center p-1",
                           isSelected && "border-brand",
+                          !isDisabled && "cursor-pointer hover:opacity-80",
+                          isDisabled && "opacity-50",
                         )}
-                        onClick={() => toggleSelectTag(userTag.id)}
+                        onClick={() =>
+                          !isDisabled && toggleSelectTag(userTag.id)
+                        }
                       >
                         <span className="select-none">{userTag.name}</span>
                       </Card>
@@ -105,12 +124,10 @@ export default function Route() {
             isSubmitting={isSubmitting}
             submittingText="Saving Tags..."
           >
-            Save Tags
+            Save Tags and Continue
           </ButtonLoading>
         </FormFieldSet>
       </Form>
-
-      <Debug>{{ selectedTags }}</Debug>
     </Layout>
   )
 }

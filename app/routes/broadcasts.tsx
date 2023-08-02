@@ -9,6 +9,5 @@ export default function RouteComponent() {
 
 export const action = async ({ request }: ActionArgs) => {
   await authenticator.isAuthenticated(request)
-
   return null
 }
