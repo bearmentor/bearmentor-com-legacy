@@ -3,7 +3,7 @@ import { Outlet } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 
-export default function RouteComponent() {
+export default function Route() {
   return <Outlet />
 }
 

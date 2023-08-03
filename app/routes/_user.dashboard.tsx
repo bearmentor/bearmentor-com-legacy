@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-import { formatDateTime } from "~/utils/datetime"
+import { formatDateTime, getGreetingByTime } from "~/utils"
 import { Button, Card, Debug, Layout, UserCard } from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -38,10 +38,8 @@ export default function Route() {
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header className="flex flex-wrap justify-between">
         <div>
-          <span>Welcome,</span>
-          <Link to="/dashboard">
-            <h1 className="hover-opacity text-brand">{user.name}</h1>
-          </Link>
+          <span>{getGreetingByTime()},</span>
+          <h1 className="text-brand">{user.name}</h1>
           <p className="text-muted-foreground">This is your dashboard.</p>
           <Debug>{{ user }}</Debug>
         </div>

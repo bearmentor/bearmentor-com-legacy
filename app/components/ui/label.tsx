@@ -6,6 +6,17 @@ import { cn } from "~/utils"
 
 const labelVariants = cva(
   "text-base font-bold font-brand leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+  {
+    variants: {
+      variant: {
+        default: "",
+        disabled: "opacity-50",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  },
 )
 
 const Label = React.forwardRef<

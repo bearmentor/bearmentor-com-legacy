@@ -65,11 +65,14 @@ export default function Route() {
   return (
     <Layout className="space-y-8 px-4 py-4 sm:px-8">
       <header>
-        <h1>Welcome, {user.name}</h1>
-        <p className="text-muted-foreground">
-          Let's setup your account to get ready.
-        </p>
-        <Debug>{{ selectedTags }}</Debug>
+        <div>
+          <span>Welcome,</span>
+          <h1 className="text-brand">{user.name}</h1>
+          <p className="text-muted-foreground">
+            Let's setup your account to get ready.
+          </p>
+          <Debug>{{ selectedTags }}</Debug>
+        </div>
       </header>
 
       <Form method="PUT" className="space-y-6">

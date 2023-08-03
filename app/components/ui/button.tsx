@@ -91,29 +91,22 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
     },
     ref,
   ) => {
+    const isActive = isDisabledWhenLoading
+      ? isSubmitting || isLoading
+      : isDisabledWhenLoading
+
     return (
       <button
+        className={cn(buttonVariants({ variant, size, className }), "flex")}
         type={type}
         ref={ref}
         name={name}
         value={value}
-        disabled={
-          isDisabledWhenLoading
-            ? isSubmitting || isLoading
-            : isDisabledWhenLoading
-        }
-        className={cn(buttonVariants({ variant, size, className }), "flex")}
+        disabled={isActive}
         {...props}
       >
-        {(isSubmitting || isLoading) && (
-          <IconLoader2 className="h-4 w-4 animate-spin" />
-        )}
-
-        {isSubmitting && !isLoading // while submitting
-          ? submittingText
-          : isLoading && !isSubmitting // while loading
-          ? loadingText
-          : children}
+        {isActive && <IconLoader2 className="h-4 w-4 animate-spin" />}
+        {isSubmitting ? submittingText : isLoading ? loadingText : children}
       </button>
     )
   },

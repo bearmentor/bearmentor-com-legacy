@@ -23,9 +23,10 @@ export const UserAuthSocialButton = ({
         type="submit"
         variant="outline"
         disabled={disabled || isSubmitting}
-        className="w-full"
+        className="flex w-full items-center gap-2"
       >
-        {label}
+        {icon}
+        <span>{label}</span>
       </ButtonLoading>
     </Form>
   )

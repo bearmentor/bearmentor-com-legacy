@@ -51,3 +51,23 @@ export function convertDaysToSeconds(days: number) {
   // seconds * minutes * hours * days
   return 60 * 60 * 24 * days
 }
+
+/**
+ * Greeter
+ */
+
+export function getGreetingByTime() {
+  const currentTime = new Date()
+  const currentHour = currentTime.getHours()
+
+  const greeting =
+    currentHour >= 5 && currentHour < 12
+      ? "Good morning"
+      : currentHour >= 12 && currentHour < 17
+      ? "Good afternoon"
+      : currentHour >= 17 && currentHour < 21
+      ? "Good evening"
+      : "Good night"
+
+  return greeting
+}
