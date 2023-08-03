@@ -15,6 +15,7 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
+import { delay } from "~/utils"
 import {
   Alert,
   Button,
@@ -89,18 +90,17 @@ export function UserUsernameForm({
 
         <FormField>
           <FormLabel htmlFor={username.id}>Your Username</FormLabel>
+          <FormDescription>
+            Public @username and your URL namespace within Bearmentor like{" "}
+            <code className="text-xs">bearmentor.com/yourname</code>. Please use
+            20 characters at maximum.
+          </FormDescription>
           <Input
             {...conform.input(username)}
             type="text"
             defaultValue={user.username}
             placeholder="yourname"
           />
-          <FormDescription>
-            Your public username as @username and your URL namespace within
-            Bearmentor like{" "}
-            <code className="text-xs">bearmentor.com/yourname</code>. Please use
-            20 characters at maximum.
-          </FormDescription>
           {username.error && (
             <Alert variant="destructive" id={username.errorId}>
               {username.error}
@@ -115,7 +115,7 @@ export function UserUsernameForm({
           size="sm"
           disabled={isSubmitting}
           isSubmitting={isSubmitting}
-          submittingText="Saving New Username..."
+          submittingText="Saving Username..."
         >
           Save Username
         </ButtonLoading>
@@ -147,16 +147,16 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
 
         <FormField>
           <FormLabel htmlFor={name.id}>Your Full Name</FormLabel>
+          <FormDescription>
+            Display name you are comfortable with. It can be real name or a
+            pseudonym.
+          </FormDescription>
           <Input
             {...conform.input(name)}
             type="text"
             defaultValue={user.name}
             placeholder="Your Full Name"
           />
-          <FormDescription>
-            Your full name or a display name you are comfortable with. It can be
-            real name or a pseudonym
-          </FormDescription>
           {name.error && (
             <Alert variant="destructive" id={name.errorId}>
               {name.error}
@@ -164,16 +164,17 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
           variant="secondary"
           value="update-user-name"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving Full Name..."
         >
           Save Full Name
-        </Button>
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
@@ -202,13 +203,15 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
 
         <FormField>
           <FormLabel htmlFor={nick.id}>Your Nick Name</FormLabel>
+          <FormDescription>
+            When you are being called by someone.
+          </FormDescription>
           <Input
             {...conform.input(nick)}
             type="text"
             defaultValue={user.nick || ""}
             placeholder="Your Nick"
           />
-          <FormDescription>Your nick name when being called</FormDescription>
           {nick.error && (
             <Alert variant="destructive" id={nick.errorId}>
               {nick.error}
@@ -216,22 +219,24 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
           variant="secondary"
           value="update-user-nick"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving Nick Name..."
         >
-          Save Nick
-        </Button>
+          Save Nick Name
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
 }
 
 export async function action({ request }: ActionArgs) {
+  await delay()
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
 
   const formData = await request.formData()

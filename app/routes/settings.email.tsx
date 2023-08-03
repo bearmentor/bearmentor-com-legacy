@@ -14,9 +14,10 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
+import { delay } from "~/utils"
 import {
   Alert,
-  Button,
+  ButtonLoading,
   FormDescription,
   FormField,
   FormLabel,
@@ -77,16 +78,16 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
 
         <FormField>
           <FormLabel htmlFor={email.id}>Email</FormLabel>
+          <FormDescription>
+            Use your most active email address, to use to log in with
+            Bearmentor.
+          </FormDescription>
           <Input
             {...conform.input(email)}
             type="email"
             defaultValue={user.email || ""}
             placeholder="you@yourname.com"
           />
-          <FormDescription>
-            Please enter your most active email address, to use to log in with
-            Bearmentor.
-          </FormDescription>
           {email.error && (
             <Alert variant="destructive" id={email.errorId}>
               {email.error}
@@ -94,22 +95,24 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
           )}
         </FormField>
 
-        <Button
-          type="submit"
-          name="intent"
+        <ButtonLoading
           variant="secondary"
+          name="intent"
           value="update-user-email"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving New Email..."
         >
-          Save Email
-        </Button>
+          Save New Email
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
 }
 
 export async function action({ request }: ActionArgs) {
+  await delay()
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
 
   const formData = await request.formData()

@@ -5,7 +5,15 @@ import { authenticator } from "~/services"
 import { prisma } from "~/libs"
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { formatTimeDate, getGreetingByTime } from "~/utils"
-import { Button, Card, Debug, Layout, Time, UserCard } from "~/components"
+import {
+  Alert,
+  Button,
+  Card,
+  Debug,
+  Layout,
+  Time,
+  UserCard,
+} from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
@@ -73,12 +81,13 @@ export default function Route() {
         <h4>Your broadcasts:</h4>
 
         {user.broadcasts.length <= 0 && (
-          <div>
-            <p>You have no broadcasts.</p>
-            <Button asChild variant="secondary">
-              <Link to="/broadcasts">Create Broadcast</Link>
-            </Button>
-          </div>
+          <Alert>
+            You have no broadcasts.{" "}
+            <Link to="/broadcasts" className="link">
+              Go to Broadcasts page and create one
+            </Link>
+            .
+          </Alert>
         )}
 
         {user.broadcasts.length > 0 && (

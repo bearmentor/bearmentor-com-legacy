@@ -2,7 +2,7 @@ import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
 import { authenticator } from "~/services"
-import { cn, formatTitle } from "~/utils"
+import { cn, delay, formatTitle } from "~/utils"
 import { buttonVariants, Layout } from "~/components"
 
 export const meta: V2_MetaFunction = () => {
@@ -90,6 +90,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  await delay()
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
   return null
 }
