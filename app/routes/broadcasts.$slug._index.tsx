@@ -12,7 +12,7 @@ import { badRequest, notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, delay, formatTimeDate } from "~/utils"
+import { createCacheHeaders, delay } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   AvatarAuto,
@@ -21,6 +21,7 @@ import {
   ButtonLoading,
   Layout,
   NotFound,
+  Time,
 } from "~/components"
 import { model } from "~/models"
 import { schemaBroadcastDelete } from "~/schemas"
@@ -131,7 +132,7 @@ export default function BroadcastsRoute() {
             </Link>
           </div>
 
-          <time className="text-xs">{formatTimeDate(broadcast.updatedAt)}</time>
+          <Time>{broadcast.updatedAt}</Time>
         </section>
 
         {broadcast.body && (

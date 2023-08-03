@@ -3,8 +3,9 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { formatTimeDate, getGreetingByTime } from "~/utils"
-import { Button, Card, Debug, Layout, UserCard } from "~/components"
+import { Button, Card, Debug, Layout, Time, UserCard } from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
@@ -31,11 +32,15 @@ export default function Route() {
   const { user } = useLoaderData<typeof loader>()
 
   if (!user) {
-    return <p>Sorry something went wrong</p>
+    return (
+      <Layout withPadding>
+        <p>Sorry something went wrong</p>
+      </Layout>
+    )
   }
 
   return (
-    <Layout className="space-y-8 px-4 py-4 sm:px-8">
+    <Layout withPadding className="space-y-8">
       <header className="flex flex-wrap justify-between">
         <div>
           <span>{getGreetingByTime()},</span>
@@ -84,9 +89,7 @@ export default function Route() {
                   <Link to={`/broadcasts/${broadcast.slug}`}>
                     <Card className="hover-opacity space-y-2 p-2">
                       <h5>{broadcast.title}</h5>
-                      <time className="text-xs">
-                        {formatTimeDate(broadcast.updatedAt)}
-                      </time>
+                      <Time>{broadcast.updatedAt}</Time>
                     </Card>
                   </Link>
                 </li>

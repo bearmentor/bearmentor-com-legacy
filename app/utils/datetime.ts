@@ -9,7 +9,7 @@ dayjs.extend(updateLocale)
 
 export { dayjs }
 
-type ParamDate = string | Date | undefined
+export type ParamDate = string | Date | undefined
 
 /**
  * Simple Date
