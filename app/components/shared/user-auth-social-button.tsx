@@ -1,8 +1,7 @@
 import { Form, useNavigation } from "@remix-run/react"
-import { ReloadIcon } from "@radix-ui/react-icons"
 
 import type { AuthStrategy } from "~/services"
-import { Button } from "~/components"
+import { ButtonLoading } from "~/components"
 
 export const UserAuthSocialButton = ({
   provider,
@@ -20,16 +19,14 @@ export const UserAuthSocialButton = ({
 
   return (
     <Form method="POST" action={`/auth/${provider}`} className="w-full">
-      <Button
+      <ButtonLoading
         type="submit"
         variant="outline"
         disabled={disabled || isSubmitting}
         className="w-full"
       >
-        {isSubmitting && <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />}
-        {!isSubmitting && icon}
-        <span>{label}</span>
-      </Button>
+        {label}
+      </ButtonLoading>
     </Form>
   )
 }

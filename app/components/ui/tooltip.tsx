@@ -33,15 +33,17 @@ function TooltipAuto({
   children,
   content,
   side,
+  asChild,
 }: {
   className?: string
   children: React.ReactNode
   content: React.ReactNode
   side?: "top" | "right" | "bottom" | "left" | undefined
+  asChild?: boolean | undefined
 }) {
   return (
     <Tooltip className={className}>
-      <TooltipTrigger>{children}</TooltipTrigger>
+      <TooltipTrigger asChild={asChild}>{children}</TooltipTrigger>
       <TooltipContent side={side} sideOffset={8}>
         {content}
       </TooltipContent>

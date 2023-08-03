@@ -1,7 +1,7 @@
 import type { ActionArgs } from "@remix-run/node"
 import { Outlet } from "@remix-run/react"
 
-import { authenticator } from "~/services/auth.server"
+import { authenticator } from "~/services"
 
 export default function RouteComponent() {
   return <Outlet />

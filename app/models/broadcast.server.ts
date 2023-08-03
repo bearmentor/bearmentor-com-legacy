@@ -41,7 +41,10 @@ export const mutation = {
   },
 
   async deleteById({ id }: z.infer<typeof schemaBroadcastDelete>) {
-    return await prisma.broadcast.delete({ where: { id } })
+    return await prisma.broadcast.delete({
+      where: { id },
+      select: { id: true, slug: true },
+    })
   },
 
   updateById({ id, ...value }: z.infer<typeof schemaBroadcastUpdate>) {

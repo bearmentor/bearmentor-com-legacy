@@ -1,17 +1,17 @@
-import { NavLink, useLocation } from "@remix-run/react"
 import type { Location } from "@remix-run/react"
+import { NavLink, useLocation } from "@remix-run/react"
 import {
-  DashboardIcon,
-  Half1Icon,
-  Half2Icon,
-  HomeIcon,
-  LockOpen1Icon,
-  MagnifyingGlassIcon,
-  PersonIcon,
-  RocketIcon,
-} from "@radix-ui/react-icons"
+  IconBackpack,
+  IconBroadcast,
+  IconDashboard,
+  IconHome2,
+  IconLogin,
+  IconSearch,
+  IconUserCircle,
+  IconUsers,
+} from "@tabler/icons-react"
 
-import type { UserData } from "~/services/auth.server"
+import type { UserData } from "~/services"
 import { cn, createAvatarImageURL } from "~/utils"
 import { useRootLoaderData, useScreenLarge } from "~/hooks"
 import { TooltipAuto, TooltipProvider } from "~/components"
@@ -23,38 +23,26 @@ type NavItem = {
 }
 
 const navPublicItems: NavItem[] = [
-  {
-    to: "/",
-    text: "Home",
-    icon: <HomeIcon className="icon" />,
-  },
+  { to: "/", text: "Home", icon: <IconHome2 className="icon" /> },
   {
     to: "/broadcasts",
     text: "Broadcasts",
-    icon: <RocketIcon className="icon" />,
+    icon: <IconBroadcast className="icon" />,
   },
   {
     to: "/search",
     text: "Search",
-    icon: <MagnifyingGlassIcon className="icon" />,
+    icon: <IconSearch className="icon" />,
   },
-  {
-    to: "/mentors",
-    text: "Mentors",
-    icon: <Half2Icon className="icon" />,
-  },
-  {
-    to: "/mentees",
-    text: "Mentees",
-    icon: <Half1Icon className="icon" />,
-  },
+  { to: "/mentors", text: "Mentors", icon: <IconUsers className="icon" /> },
+  { to: "/mentees", text: "Mentees", icon: <IconBackpack className="icon" /> },
 ]
 
 const navUnauthenticatedItems: NavItem[] = [
   {
     to: "/login",
     text: "Login",
-    icon: <LockOpen1Icon className="icon" />,
+    icon: <IconLogin className="icon" />,
   },
 ]
 
@@ -62,12 +50,12 @@ const navAuthenticatedItems: NavItem[] = [
   {
     to: "/dashboard",
     text: "Dashboard",
-    icon: <DashboardIcon className="icon" />,
+    icon: <IconDashboard className="icon" />,
   },
   {
     to: "/profile",
     text: "Profile",
-    icon: <PersonIcon className="icon" />,
+    icon: <IconUserCircle className="icon" />,
   },
 ]
 
@@ -117,7 +105,7 @@ export function NavigationList({ navItems }: { navItems: NavItem[] }) {
                 to={navItem.to}
                 className={({ isActive }) => {
                   return cn(
-                    "flex aspect-square items-center justify-center gap-2 rounded p-2 font-bold",
+                    "grid place-content-center gap-2 rounded p-2 font-bold ",
                     isActive ||
                       (navItem.to === "/profile" &&
                         checkIfActiveUsername(location, userData))

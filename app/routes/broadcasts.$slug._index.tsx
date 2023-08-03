@@ -1,12 +1,18 @@
 import { json, redirect } from "@remix-run/node"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
-import { Form, Link, useLoaderData, useParams } from "@remix-run/react"
+import {
+  Form,
+  Link,
+  useLoaderData,
+  useNavigation,
+  useParams,
+} from "@remix-run/react"
 import { parse } from "@conform-to/zod"
 import { badRequest, notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders } from "~/utils"
+import { createCacheHeaders, delay } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   AvatarAuto,
@@ -39,13 +45,16 @@ export async function loader({ request, params }: LoaderArgs) {
   })
   if (!broadcast) return notFound({ broadcast: null })
 
-  return json({ broadcast }, { headers: createCacheHeaders(request, 10) })
+  return json({ broadcast }, { headers: createCacheHeaders(request, 3) })
 }
 
 export default function BroadcastsRoute() {
   const params = useParams()
   const { userSession } = useRootLoaderData()
   const { broadcast } = useLoaderData<typeof loader>()
+
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === "submitting"
 
   if (!broadcast) {
     return (
@@ -65,7 +74,6 @@ export default function BroadcastsRoute() {
   }
 
   const isOwner = userSession?.id === broadcast.userId
-  const user = broadcast.user
 
   return (
     <Layout className="flex justify-center p-4 sm:p-8">
@@ -87,12 +95,19 @@ export default function BroadcastsRoute() {
             <section className="flex gap-2">
               <Form method="DELETE">
                 <input hidden name="id" defaultValue={broadcast.id} />
-                <ButtonLoading variant="destructive" size="xs">
+                <ButtonLoading
+                  variant="destructive"
+                  size="xs"
+                  isSubmitting={isSubmitting}
+                  submittingText="Deleting..."
+                >
                   Delete
                 </ButtonLoading>
               </Form>
               <Button asChild size="xs" variant="secondary">
-                <Link to={`/${user.username}/broadcasts/${broadcast.id}/edit`}>
+                <Link
+                  to={`/${broadcast.user.username}/broadcasts/${broadcast.id}/edit`}
+                >
                   Edit
                 </Link>
               </Button>
@@ -149,7 +164,9 @@ export default function BroadcastsRoute() {
           )}
 
           {userSession?.id && !isOwner && (
-            <Button>Contact {user.nick || user.name}</Button>
+            <Button>
+              Contact {broadcast.user.nick || broadcast.user.name}
+            </Button>
           )}
         </section>
       </div>
@@ -158,6 +175,7 @@ export default function BroadcastsRoute() {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  await delay()
   const formData = await request.formData()
   const submission = parse(formData, { schema: schemaBroadcastDelete })
   if (!submission.value || submission.intent !== "submit") {

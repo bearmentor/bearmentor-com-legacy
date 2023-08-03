@@ -1,12 +1,16 @@
 import * as React from "react"
-import { ReloadIcon } from "@radix-ui/react-icons"
 import { Slot } from "@radix-ui/react-slot"
+import { IconLoader2 } from "@tabler/icons-react"
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "~/utils"
 
 const buttonVariants = cva(
-  "select-none inline-flex items-center justify-center rounded font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
+  cn(
+    "select-none inline-flex items-center justify-center rounded font-bold transition-colors disabled:pointer-events-none disabled:opacity-50",
+    "focus:border-brand focus:outline-none focus:ring focus:ring-emerald-500/20",
+    // "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+  ),
   {
     variants: {
       variant: {
@@ -23,10 +27,10 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        default: "h-9 px-4 py-2 text-base",
-        xs: "h-6 rounded px-2 text-xs",
-        sm: "h-8 rounded px-3 text-sm",
-        lg: "h-10 rounded px-8 text-lg",
+        xs: "h-6 rounded px-2 text-xs gap-0.5",
+        sm: "h-8 rounded px-3 text-sm gap-1",
+        default: "h-9 px-4 py-2 text-base gap-2",
+        lg: "h-10 rounded px-8 text-lg gap-2",
         icon: "h-9 w-9",
       },
     },
@@ -98,14 +102,11 @@ const ButtonLoading = React.forwardRef<HTMLButtonElement, ButtonLoadingProps>(
             ? isSubmitting || isLoading
             : isDisabledWhenLoading
         }
-        className={cn(
-          buttonVariants({ variant, size, className }),
-          "flex gap-2",
-        )}
+        className={cn(buttonVariants({ variant, size, className }), "flex")}
         {...props}
       >
         {(isSubmitting || isLoading) && (
-          <ReloadIcon className="h-4 w-4 animate-spin" />
+          <IconLoader2 className="h-4 w-4 animate-spin" />
         )}
 
         {isSubmitting && !isLoading // while submitting
