@@ -11,8 +11,8 @@ import type {
   schemaUserUpdateEmail,
   schemaUserUpdateName,
   schemaUserUpdateNick,
+  schemaUserUpdateTags,
   schemaUserUpdateUsername,
-  schemaUserWelcome,
 } from "~/schemas"
 
 export type { User } from "@prisma/client"
@@ -316,7 +316,7 @@ export const mutation = {
     }
   },
 
-  updateTags({ id, tags }: z.infer<typeof schemaUserWelcome>) {
+  updateTags({ id, tags }: z.infer<typeof schemaUserUpdateTags>) {
     return prisma.user.update({
       where: { id },
       data: { tags: { set: tags } },

@@ -18,6 +18,7 @@ export const meta: V2_MetaFunction = () => {
 export const settingsNavItems = [
   { title: "General", to: "/settings/general" },
   { title: "Profile", to: "/settings/profile" },
+  { title: "Tags", to: "/settings/tags" },
   { title: "Email", to: "/settings/email" },
   { title: "Password", to: "/settings/password" },
   { title: "Danger", to: "/settings/danger" },

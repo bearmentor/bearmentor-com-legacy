@@ -14,6 +14,7 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
+import { delay } from "~/utils"
 import {
   Alert,
   ButtonLoading,
@@ -25,7 +26,6 @@ import {
 } from "~/components"
 import { model } from "~/models"
 import { schemaUserUpdatePassword } from "~/schemas"
-import { delay } from "~/utils"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
@@ -111,7 +111,6 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
         </FormField>
 
         <ButtonLoading
-          variant="secondary"
           name="intent"
           value="update-user-password"
           size="sm"

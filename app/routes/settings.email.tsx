@@ -96,7 +96,6 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
         </FormField>
 
         <ButtonLoading
-          variant="secondary"
           name="intent"
           value="update-user-email"
           size="sm"

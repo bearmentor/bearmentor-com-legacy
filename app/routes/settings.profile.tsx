@@ -54,7 +54,7 @@ export default function Route() {
           Your profiles and links. In Bearmentor, you could have multiple
           profiles.
         </p>
-        <Button asChild size="xs">
+        <Button asChild size="xs" variant="secondary">
           <Link to="/profile">Go to your profile @{user?.username}</Link>
         </Button>
       </header>
@@ -120,7 +120,6 @@ export function UserProfileModeNameForm({
         </FormField>
 
         <ButtonLoading
-          variant="secondary"
           name="intent"
           value="update-user-profile-modename"
           size="sm"
@@ -181,7 +180,6 @@ export function UserProfileHeadlineForm({
         </FormField>
 
         <ButtonLoading
-          variant="secondary"
           name="intent"
           value="update-user-profile-headline"
           size="sm"
@@ -241,7 +239,6 @@ export function UserProfileBioForm({
         </FormField>
 
         <ButtonLoading
-          variant="secondary"
           name="intent"
           value="update-user-profile-bio"
           size="sm"

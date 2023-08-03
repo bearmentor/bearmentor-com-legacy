@@ -47,7 +47,7 @@ export default function Route() {
       <header>
         <h2>General</h2>
         <p className="text-muted-foreground">Your general information.</p>
-        <Button asChild size="xs">
+        <Button asChild size="xs" variant="secondary">
           <Link to="/profile">Go to your profile @{user?.username}</Link>
         </Button>
       </header>
@@ -110,7 +110,6 @@ export function UserUsernameForm({
 
         <ButtonLoading
           name="intent"
-          variant="secondary"
           value="update-user-username"
           size="sm"
           disabled={isSubmitting}
@@ -166,7 +165,6 @@ export function UserNameForm({ user }: { user: Pick<User, "id" | "name"> }) {
 
         <ButtonLoading
           name="intent"
-          variant="secondary"
           value="update-user-name"
           size="sm"
           disabled={isSubmitting}
@@ -221,7 +219,6 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
 
         <ButtonLoading
           name="intent"
-          variant="secondary"
           value="update-user-nick"
           size="sm"
           disabled={isSubmitting}
