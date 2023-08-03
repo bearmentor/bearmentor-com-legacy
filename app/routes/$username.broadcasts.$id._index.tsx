@@ -179,7 +179,6 @@ export const action = async ({ request }: ActionArgs) => {
   if (!submission.value || submission.intent !== "submit") {
     return badRequest(submission)
   }
-  const isDeleted = await model.broadcast.mutation.deleteById(submission.value)
-  if (!isDeleted) return null
-  return redirect(`/${isDeleted.user.username}`)
+  const broadcast = await model.broadcast.mutation.deleteById(submission.value)
+  return redirect(`/${broadcast.user.username}`)
 }

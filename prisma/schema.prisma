@@ -209,8 +209,10 @@ model Broadcast {
   description String? @db.Text
   body        String? @db.LongText
 
+  types  BroadcastType[]
   tags   BroadcastTag[]
   images BroadcastImage[]
+  links  Json?
 
   isPublished   Boolean   @default(false)
   isPublishedAt DateTime?
@@ -222,6 +224,34 @@ model Broadcast {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
+}
+
+model BroadcastType {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "CODE" | "FRONTEND" | "FULL_STACK"
+  name        String  @unique // "CODE" | "FRONTEND" | "Full Stack"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "The entirety of a computer system..."
+
+  broadcasts Broadcast[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model BroadcastTag {
+  id String @id @default(cuid())
+
+  symbol      String  @unique // "CODE" | "FRONTEND" | "FULL_STACK"
+  name        String  @unique // "CODE" | "FRONTEND" | "Full Stack"
+  sequence    Int?    @unique // 1 | 2 | 3 | ...
+  description String? @db.Text // "The entirety of a computer system..."
+
+  broadcasts Broadcast[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model BroadcastImage {
@@ -240,20 +270,6 @@ model BroadcastImage {
 
   @@index([userId])
   @@index([broadcastId])
-}
-
-model BroadcastTag {
-  id String @id @default(cuid())
-
-  symbol      String  @unique // "CODE" | "FRONTEND" | "FULL_STACK"
-  name        String  @unique // "CODE" | "FRONTEND" | "Full Stack"
-  sequence    Int?    @unique // 1 | 2 | 3 | ...
-  description String? @db.Text // "The entirety of a computer system..."
-
-  broadcasts Broadcast[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 // -----------------------------------------------------------------------------

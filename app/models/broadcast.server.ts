@@ -49,9 +49,17 @@ export const mutation = {
   },
 
   updateById({ id, ...value }: z.infer<typeof schemaBroadcastUpdate>) {
+    const broadcast = {
+      userId: value.userId,
+      title: value.title,
+      description: value.description,
+      body: value.body,
+    }
+
     return prisma.broadcast.update({
       where: { id },
-      data: { ...value, slug: createBroadcastSlug(value.title) },
+      data: { ...broadcast, slug: createBroadcastSlug(value.title) },
+      include: { user: { select: { username: true } } },
     })
   },
 }

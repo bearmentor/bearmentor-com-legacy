@@ -15,6 +15,7 @@ import {
 /**
  * Note: This is not using Conform as it's still challenging or unknown
  * on how to have multiple selection UX with progressive form fields
+ * and checkboxes
  */
 export function UserTagsForm() {
   const { user, userTags } = useLoaderData<typeof loaderSettingsTags>()
@@ -24,21 +25,23 @@ export function UserTagsForm() {
   const excludedSymbols = ["COLLABORATOR", "UNKNOWN"]
   const maxSelectedTags = 5
 
-  // FIXME: There's an issue when we are back to this route, this won't work
+  // FIXME: Issue after using back navigation to load this component
+  // But it still need to work with Remix action, so useEffect won't work
   const [selectedTags, setSelectedTags] = useState(
-    user.tags.map(tag => ({ id: tag.id })).slice(0, maxSelectedTags),
+    user.tags
+      .map(tag => ({ id: tag.id, name: tag.name }))
+      .slice(0, maxSelectedTags),
   )
 
   const isMaxTagsSelected = selectedTags.length >= maxSelectedTags
 
-  // Toggle select tags into selectedTags array
-  // with limit of maxSelectedTags
-  const toggleSelectTag = (id: string) => {
+  // Toggle select tags into selectedTags array with limit of maxSelectedTags
+  const toggleSelectTag = (selectedTag: { id: string; name: string }) => {
     setSelectedTags(prevSelectedTags => {
-      const isSelected = prevSelectedTags.some(tag => tag.id === id)
+      const isSelected = prevSelectedTags.some(tag => tag.id === selectedTag.id)
       const newSelectedTags = isSelected
-        ? prevSelectedTags.filter(tag => tag.id !== id) // remove if already selected
-        : [...prevSelectedTags, { id }] // add if not selected
+        ? prevSelectedTags.filter(tag => tag.id !== selectedTag.id) // remove if already selected
+        : [...prevSelectedTags, selectedTag] // add if not selected
       return newSelectedTags.slice(0, maxSelectedTags)
     })
   }
@@ -79,7 +82,7 @@ export function UserTagsForm() {
                         !isDisabled && "cursor-pointer hover:opacity-80",
                         isDisabled && "opacity-50",
                       )}
-                      onClick={() => !isDisabled && toggleSelectTag(userTag.id)}
+                      onClick={() => !isDisabled && toggleSelectTag(userTag)}
                     >
                       <span className="select-none">{userTag.name}</span>
                     </Card>
@@ -88,6 +91,13 @@ export function UserTagsForm() {
               })}
           </ul>
         </FormField>
+
+        <p className="text-sm text-muted-foreground">
+          <span>{selectedTags.length} selected</span>
+          {selectedTags.length > 0 && (
+            <span>: {selectedTags.map(t => t.name).join(", ")}</span>
+          )}
+        </p>
 
         <ButtonLoading
           size="sm"

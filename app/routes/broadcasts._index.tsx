@@ -5,7 +5,7 @@ import { parse } from "@conform-to/zod"
 import { badRequest } from "remix-utils"
 
 import { prisma } from "~/libs"
-import { delay, formatPluralItems } from "~/utils"
+import { delay, formatPluralItems, truncateText } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   AvatarAuto,
@@ -167,11 +167,9 @@ export default function Route() {
 
                         {broadcast.body && (
                           <CardContent className="space-y-4 px-4 pb-4">
-                            {broadcast.body && (
-                              <p className="prose dark:prose-invert whitespace-pre-wrap">
-                                {broadcast.body}
-                              </p>
-                            )}
+                            <p className="prose dark:prose-invert whitespace-pre-wrap">
+                              {truncateText(broadcast.body)}
+                            </p>
                           </CardContent>
                         )}
 
