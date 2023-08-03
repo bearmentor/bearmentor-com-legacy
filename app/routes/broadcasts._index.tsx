@@ -19,6 +19,7 @@ import {
   CardTitle,
   Layout,
   SearchForm,
+  Time,
 } from "~/components"
 import { model } from "~/models"
 import { schemaBroadcastQuick } from "~/schemas"
@@ -158,6 +159,8 @@ export default function Route() {
                               </p>
                             </div>
                           </div>
+
+                          <Time>{broadcast.updatedAt}</Time>
                         </CardHeader>
 
                         {broadcast.body && (

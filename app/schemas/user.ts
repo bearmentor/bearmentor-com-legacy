@@ -66,11 +66,6 @@ export const schemaUserRegister = z.object({
   inviteCode,
 })
 
-export const schemaUserWelcome = z.object({
-  id,
-  tags,
-})
-
 export const schemaUserLogin = z.object({
   email,
   password,
@@ -102,6 +97,11 @@ export const schemaUserUpdatePassword = z
       })
     }
   })
+
+export const schemaUserUpdateTags = z.object({
+  id,
+  tags,
+})
 
 export const schemaAdminUserUpdate = z.object({
   id,

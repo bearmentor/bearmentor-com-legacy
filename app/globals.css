@@ -119,6 +119,9 @@
   .hover-opacity {
     @apply transition hover:opacity-80;
   }
+  .link {
+    @apply hover-opacity text-emerald-500;
+  }
 }
 
 /* NProgress styles need to be outside of layers because using #id */

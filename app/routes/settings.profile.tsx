@@ -15,9 +15,11 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
+import { delay } from "~/utils"
 import {
   Alert,
   Button,
+  ButtonLoading,
   FormDescription,
   FormField,
   FormLabel,
@@ -52,7 +54,7 @@ export default function Route() {
           Your profiles and links. In Bearmentor, you could have multiple
           profiles.
         </p>
-        <Button asChild size="xs">
+        <Button asChild size="xs" variant="secondary">
           <Link to="/profile">Go to your profile @{user?.username}</Link>
         </Button>
       </header>
@@ -101,15 +103,15 @@ export function UserProfileModeNameForm({
 
         <FormField>
           <FormLabel htmlFor={modeName.id}>Profile Mode Name</FormLabel>
+          <FormDescription>
+            To identify from your multiple profiles
+          </FormDescription>
           <Input
             {...conform.input(modeName)}
             type="text"
             defaultValue={String(userProfile.modeName)}
             placeholder="Profile Mode Name"
           />
-          <FormDescription>
-            Mode name is used to identify from your multiple profiles
-          </FormDescription>
           {modeName.error && (
             <Alert variant="destructive" id={modeName.errorId}>
               {modeName.error}
@@ -117,16 +119,16 @@ export function UserProfileModeNameForm({
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
-          variant="secondary"
           value="update-user-profile-modename"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving Mode Name..."
         >
           Save Mode Name
-        </Button>
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
@@ -161,15 +163,15 @@ export function UserProfileHeadlineForm({
 
         <FormField>
           <FormLabel htmlFor={headline.id}>Your Headline</FormLabel>
+          <FormDescription>
+            To recognize your profile, tagline, or job position.
+          </FormDescription>
           <Input
             {...conform.input(headline)}
             type="text"
             defaultValue={userProfile.headline || ""}
             placeholder="Your Headline"
           />
-          <FormDescription>
-            Your headline to recognize your profile
-          </FormDescription>
           {headline.error && (
             <Alert variant="destructive" id={headline.errorId}>
               {headline.error}
@@ -177,16 +179,16 @@ export function UserProfileHeadlineForm({
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
-          variant="secondary"
           value="update-user-profile-headline"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving Headline..."
         >
           Save Headline
-        </Button>
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
@@ -219,16 +221,16 @@ export function UserProfileBioForm({
 
         <FormField>
           <FormLabel htmlFor={bio.id}>Your Bio</FormLabel>
+          <FormDescription>
+            To inform or explain about yourself. Can also <span>@mention</span>{" "}
+            other users and organizations to link to them.
+          </FormDescription>
           <Textarea
             {...conform.input(bio)}
             defaultValue={userProfile.bio || ""}
             placeholder="Tell us a bit about yourself..."
             className="min-h-[200px]"
           />
-          <FormDescription>
-            Your bio information about yourself. Can also <span>@mention</span>{" "}
-            other users and organizations to link to them (later).
-          </FormDescription>
           {bio.error && (
             <Alert variant="destructive" id={bio.errorId}>
               {bio.error}
@@ -236,23 +238,23 @@ export function UserProfileBioForm({
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
-          variant="secondary"
-          value="update-user-bio"
-          disabled={isSubmitting}
+          value="update-user-profile-bio"
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving Bio..."
         >
           Save Bio
-        </Button>
+        </ButtonLoading>
       </fieldset>
     </Form>
   )
 }
 
 export async function action({ request }: ActionArgs) {
-  await new Promise(res => setTimeout(res, 3000))
+  await delay()
 
   const formData = await request.formData()
   const parsed = parse(formData)
@@ -278,7 +280,7 @@ export async function action({ request }: ActionArgs) {
     return json(submission)
   }
 
-  if (intent === "update-user-bio") {
+  if (intent === "update-user-profile-bio") {
     const submission = parseZod(formData, { schema: schemaUserProfileBio })
     if (!submission.value) return badRequest(submission)
     const result = await model.userProfile.mutation.updateBio(submission.value)

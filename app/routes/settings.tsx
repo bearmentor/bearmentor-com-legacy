@@ -2,7 +2,7 @@ import type { ActionArgs, LoaderArgs, V2_MetaFunction } from "@remix-run/node"
 import { Link, NavLink, Outlet } from "@remix-run/react"
 
 import { authenticator } from "~/services"
-import { cn, formatTitle } from "~/utils"
+import { cn, delay, formatTitle } from "~/utils"
 import { buttonVariants, Layout } from "~/components"
 
 export const meta: V2_MetaFunction = () => {
@@ -18,6 +18,7 @@ export const meta: V2_MetaFunction = () => {
 export const settingsNavItems = [
   { title: "General", to: "/settings/general" },
   { title: "Profile", to: "/settings/profile" },
+  { title: "Tags", to: "/settings/tags" },
   { title: "Email", to: "/settings/email" },
   { title: "Password", to: "/settings/password" },
   { title: "Danger", to: "/settings/danger" },
@@ -90,6 +91,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  await delay()
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
   return null
 }

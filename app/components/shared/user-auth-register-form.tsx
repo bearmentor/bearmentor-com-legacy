@@ -1,11 +1,14 @@
 import { useId } from "react"
-import { Form, useActionData, useNavigation } from "@remix-run/react"
+import { Form, Link, useActionData, useNavigation } from "@remix-run/react"
 import { conform, useForm } from "@conform-to/react"
 import { getFieldsetConstraint, parse } from "@conform-to/zod"
-import { GitHubLogoIcon, ValueIcon } from "@radix-ui/react-icons"
+import { GitHubLogoIcon as IconBrandGithub } from "@radix-ui/react-icons"
+import { IconBrandGoogle } from "@tabler/icons-react"
 import type { z } from "zod"
 
 import type { action as registerAction } from "~/routes/_auth.register"
+import type { checkAuthInvite } from "~/helpers"
+import { cn } from "~/utils"
 import { useRedirectTo } from "~/hooks"
 import {
   Alert,
@@ -14,23 +17,28 @@ import {
   FormLabel,
   Input,
   InputPassword,
-  Label,
   UserAuthSocialButton,
 } from "~/components"
 import { schemaUserRegister } from "~/schemas"
 
-export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
+export function UserAuthRegisterForm({
+  invite,
+  ...props
+}: React.HTMLAttributes<HTMLElement> & {
+  invite: ReturnType<typeof checkAuthInvite>
+}) {
   const { redirectTo } = useRedirectTo()
-  const actionData = useActionData<typeof registerAction>()
+  const lastSubmission = useActionData<typeof registerAction>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
+  const disabled = !invite.isAvailable
 
   const id = useId()
   const [form, { email, name, username, password, inviteBy, inviteCode }] =
     useForm<z.infer<typeof schemaUserRegister>>({
       id,
       shouldValidate: "onSubmit",
-      lastSubmission: actionData,
+      lastSubmission,
       constraint: getFieldsetConstraint(schemaUserRegister),
       onValidate({ formData }) {
         return parse(formData, { schema: schemaUserRegister })
@@ -40,9 +48,11 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
   return (
     <section className="space-y-6" {...props}>
       <Form id="user-auth-register-form" method="POST" {...form.props}>
-        <fieldset className="flex flex-col gap-4">
+        <fieldset className="flex flex-col gap-4" disabled={disabled}>
           <FormField className="space-y-2">
-            <Label htmlFor={email.id}>Email</Label>
+            <FormLabel htmlFor={email.id} disabled={disabled}>
+              Email
+            </FormLabel>
             <Input
               {...conform.input(email, { type: "email", description: true })}
               id={email.id}
@@ -66,7 +76,9 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
           </FormField>
 
           <FormField className="space-y-2">
-            <Label htmlFor={name.id}>Full Name</Label>
+            <FormLabel htmlFor={name.id} disabled={disabled}>
+              Full Name
+            </FormLabel>
             <Input
               {...conform.input(name)}
               id={name.id}
@@ -88,7 +100,9 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
           </FormField>
 
           <FormField className="space-y-2">
-            <Label htmlFor={username.id}>Username</Label>
+            <FormLabel htmlFor={username.id} disabled={disabled}>
+              Username
+            </FormLabel>
             <Input
               {...conform.input(username)}
               id={username.id}
@@ -110,7 +124,9 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
           </FormField>
 
           <FormField className="space-y-2">
-            <FormLabel htmlFor={password.id}>Password</FormLabel>
+            <FormLabel htmlFor={password.id} disabled={disabled}>
+              Password
+            </FormLabel>
             <InputPassword
               {...conform.input(email, { type: "password", description: true })}
               id={password.id}
@@ -121,7 +137,13 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
               autoFocus={password.error ? true : undefined}
               required
             />
-            <p id={password.descriptionId} className="text-surface-500 text-xs">
+            <p
+              id={password.descriptionId}
+              className={cn(
+                "text-surface-500 text-xs",
+                disabled && "opacity-50",
+              )}
+            >
               At least 10 characters
             </p>
             {password.errors && password.errors?.length > 0 && (
@@ -147,11 +169,6 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
           />
           <input hidden name="redirectTo" defaultValue={redirectTo} />
 
-          <p className="hidden text-xs text-muted-foreground">
-            By registering, you agree to the processing of your personal data by
-            Bearmentor
-          </p>
-
           <ButtonLoading
             type="submit"
             loadingText="Creating Account..."
@@ -173,15 +190,28 @@ export function UserAuthRegisterForm(props: React.HTMLAttributes<HTMLElement>) {
         <UserAuthSocialButton
           provider="github"
           label="GitHub"
-          icon={<GitHubLogoIcon className="mr-2 h-4 w-4" />}
+          icon={<IconBrandGithub className="h-4 w-4" />}
           disabled
         />
         <UserAuthSocialButton
           provider="google"
           label="Google"
-          icon={<ValueIcon className="mr-2 h-4 w-4" />}
+          icon={<IconBrandGoogle className="h-4 w-4" />}
           disabled
         />
+      </section>
+
+      <section className="flex justify-center text-center">
+        <p className="text-xs text-muted-foreground">
+          By signing up, you agree to the{" "}
+          <Link to="/terms" className="link">
+            Terms of Service
+          </Link>{" "}
+          and{" "}
+          <Link to="/privacy" className="link">
+            Privacy Policy
+          </Link>
+        </p>
       </section>
     </section>
   )

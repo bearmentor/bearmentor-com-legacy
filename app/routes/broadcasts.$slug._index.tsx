@@ -21,6 +21,7 @@ import {
   ButtonLoading,
   Layout,
   NotFound,
+  Time,
 } from "~/components"
 import { model } from "~/models"
 import { schemaBroadcastDelete } from "~/schemas"
@@ -115,19 +116,23 @@ export default function BroadcastsRoute() {
           )}
         </header>
 
-        <section className="flex">
-          <Link
-            to={`/${broadcast.user.username}`}
-            className="hover-opacity flex items-center gap-2"
-          >
-            <AvatarAuto className="h-10 w-10" user={broadcast.user} />
-            <div className="space-y-0">
-              <h6>{broadcast.user.name}</h6>
-              <p className="text-sm text-muted-foreground">
-                @{broadcast.user.username}
-              </p>
-            </div>
-          </Link>
+        <section className="space-y-2">
+          <div>
+            <Link
+              to={`/${broadcast.user.username}`}
+              className="hover-opacity flex items-center gap-2"
+            >
+              <AvatarAuto className="h-10 w-10" user={broadcast.user} />
+              <div className="space-y-0">
+                <h6>{broadcast.user.name}</h6>
+                <p className="text-sm text-muted-foreground">
+                  @{broadcast.user.username}
+                </p>
+              </div>
+            </Link>
+          </div>
+
+          <Time>{broadcast.updatedAt}</Time>
         </section>
 
         {broadcast.body && (

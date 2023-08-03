@@ -14,9 +14,10 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
+import { delay } from "~/utils"
 import {
   Alert,
-  Button,
+  ButtonLoading,
   FormDescription,
   FormField,
   FormFieldSet,
@@ -77,14 +78,15 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
 
         <FormField>
           <FormLabel htmlFor={password.id}>New Password</FormLabel>
+          <FormDescription>
+            Make sure to save your new password safely in a password manager or
+            other secure method you prefer.
+          </FormDescription>
           <InputPassword
             {...conform.input(password)}
             placeholder="Your new password"
             defaultValue=""
           />
-          <FormDescription>
-            Make sure to save your new password safely in a password manager
-          </FormDescription>
           {password.error && (
             <Alert variant="destructive" id={password.errorId}>
               {password.error}
@@ -108,22 +110,23 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
           )}
         </FormField>
 
-        <Button
-          type="submit"
+        <ButtonLoading
           name="intent"
-          variant="secondary"
           value="update-user-password"
-          disabled={isSubmitting}
           size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving New Password..."
         >
           Save New Password
-        </Button>
+        </ButtonLoading>
       </FormFieldSet>
     </Form>
   )
 }
 
 export async function action({ request }: ActionArgs) {
+  await delay()
   await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
 
   const formData = await request.formData()

@@ -3,8 +3,17 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-import { formatDateTime } from "~/utils/datetime"
-import { Button, Card, Debug, Layout, UserCard } from "~/components"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { formatTimeDate, getGreetingByTime } from "~/utils"
+import {
+  Alert,
+  Button,
+  Card,
+  Debug,
+  Layout,
+  Time,
+  UserCard,
+} from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
@@ -31,17 +40,19 @@ export default function Route() {
   const { user } = useLoaderData<typeof loader>()
 
   if (!user) {
-    return <p>Sorry something went wrong</p>
+    return (
+      <Layout withPadding>
+        <p>Sorry something went wrong</p>
+      </Layout>
+    )
   }
 
   return (
-    <Layout className="space-y-8 px-4 py-4 sm:px-8">
+    <Layout withPadding className="space-y-8">
       <header className="flex flex-wrap justify-between">
         <div>
-          <span>Welcome,</span>
-          <Link to="/dashboard">
-            <h1 className="hover-opacity text-brand">{user.name}</h1>
-          </Link>
+          <span>{getGreetingByTime()},</span>
+          <h1 className="text-brand">{user.name}</h1>
           <p className="text-muted-foreground">This is your dashboard.</p>
           <Debug>{{ user }}</Debug>
         </div>
@@ -70,12 +81,13 @@ export default function Route() {
         <h4>Your broadcasts:</h4>
 
         {user.broadcasts.length <= 0 && (
-          <div>
-            <p>You have no broadcasts.</p>
-            <Button asChild variant="secondary">
-              <Link to="/broadcasts">Create Broadcast</Link>
-            </Button>
-          </div>
+          <Alert>
+            You have no broadcasts.{" "}
+            <Link to="/broadcasts" className="link">
+              Go to Broadcasts page and create one
+            </Link>
+            .
+          </Alert>
         )}
 
         {user.broadcasts.length > 0 && (
@@ -86,9 +98,7 @@ export default function Route() {
                   <Link to={`/broadcasts/${broadcast.slug}`}>
                     <Card className="hover-opacity space-y-2 p-2">
                       <h5>{broadcast.title}</h5>
-                      <time className="text-xs">
-                        {formatDateTime(broadcast.updatedAt)}
-                      </time>
+                      <Time>{broadcast.updatedAt}</Time>
                     </Card>
                   </Link>
                 </li>

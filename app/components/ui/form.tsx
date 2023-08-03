@@ -14,10 +14,19 @@ FormField.displayName = "FormField"
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & {
+    disabled?: boolean
+  }
+>(({ className, disabled, ...props }, ref) => {
   return (
-    <Label ref={ref} className={cn(labelVariants(), className)} {...props} />
+    <Label
+      ref={ref}
+      className={cn(
+        labelVariants({ variant: disabled ? "disabled" : "default" }),
+        className,
+      )}
+      {...props}
+    />
   )
 })
 FormLabel.displayName = "FormLabel"
