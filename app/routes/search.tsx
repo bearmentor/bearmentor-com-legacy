@@ -91,9 +91,7 @@ export default function Route() {
           <img src="/images/bear-monocle.png" alt="Bear" className="h-10" />
           <span>Search</span>
         </h1>
-        <p className="text-muted-foreground">
-          Find anyone in here by name or username.
-        </p>
+        <p className="text-muted-foreground">Find anyone and anything.</p>
         <SearchForm />
       </header>
 

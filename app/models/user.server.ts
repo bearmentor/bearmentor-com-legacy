@@ -174,7 +174,7 @@ export const mutation = {
             bio: `The bio of ${name} for longer description.`,
           },
         },
-        // TODO: Link invitedBy other user
+        // TODO: Connect Invite by and code
       },
     })
 

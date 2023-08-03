@@ -126,6 +126,6 @@ export async function action({ request }: ActionArgs) {
   }
 
   return authenticator.authenticate("form", request, {
-    successRedirect: "/dashboard",
+    successRedirect: "/welcome",
   })
 }
