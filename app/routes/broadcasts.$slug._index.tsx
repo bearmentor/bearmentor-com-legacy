@@ -12,7 +12,7 @@ import { badRequest, notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
 import { prisma } from "~/libs"
-import { createCacheHeaders, delay } from "~/utils"
+import { createCacheHeaders, delay, formatTimeDate } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   AvatarAuto,
@@ -115,19 +115,23 @@ export default function BroadcastsRoute() {
           )}
         </header>
 
-        <section className="flex">
-          <Link
-            to={`/${broadcast.user.username}`}
-            className="hover-opacity flex items-center gap-2"
-          >
-            <AvatarAuto className="h-10 w-10" user={broadcast.user} />
-            <div className="space-y-0">
-              <h6>{broadcast.user.name}</h6>
-              <p className="text-sm text-muted-foreground">
-                @{broadcast.user.username}
-              </p>
-            </div>
-          </Link>
+        <section className="space-y-2">
+          <div>
+            <Link
+              to={`/${broadcast.user.username}`}
+              className="hover-opacity flex items-center gap-2"
+            >
+              <AvatarAuto className="h-10 w-10" user={broadcast.user} />
+              <div className="space-y-0">
+                <h6>{broadcast.user.name}</h6>
+                <p className="text-sm text-muted-foreground">
+                  @{broadcast.user.username}
+                </p>
+              </div>
+            </Link>
+          </div>
+
+          <time className="text-xs">{formatTimeDate(broadcast.updatedAt)}</time>
         </section>
 
         {broadcast.body && (

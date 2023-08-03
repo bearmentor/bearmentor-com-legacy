@@ -5,7 +5,7 @@ import { parse } from "@conform-to/zod"
 import { badRequest } from "remix-utils"
 
 import { prisma } from "~/libs"
-import { delay, formatPluralItems } from "~/utils"
+import { delay, formatPluralItems, formatTimeDate } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   AvatarAuto,
@@ -158,6 +158,10 @@ export default function Route() {
                               </p>
                             </div>
                           </div>
+
+                          <time className="text-xs">
+                            {formatTimeDate(broadcast.updatedAt)}
+                          </time>
                         </CardHeader>
 
                         {broadcast.body && (

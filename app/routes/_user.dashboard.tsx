@@ -3,7 +3,7 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-import { formatDateTime, getGreetingByTime } from "~/utils"
+import { formatTimeDate, getGreetingByTime } from "~/utils"
 import { Button, Card, Debug, Layout, UserCard } from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -85,7 +85,7 @@ export default function Route() {
                     <Card className="hover-opacity space-y-2 p-2">
                       <h5>{broadcast.title}</h5>
                       <time className="text-xs">
-                        {formatDateTime(broadcast.updatedAt)}
+                        {formatTimeDate(broadcast.updatedAt)}
                       </time>
                     </Card>
                   </Link>
