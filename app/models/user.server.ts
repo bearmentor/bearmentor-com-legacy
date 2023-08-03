@@ -89,6 +89,7 @@ export const query = {
         tags: { select: { id: true, symbol: true, name: true } },
         avatars: { select: { id: true, url: true } },
         profiles: true,
+        broadcasts: true,
       },
     })
   },

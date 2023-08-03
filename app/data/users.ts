@@ -322,12 +322,12 @@ Technical: UI, UX, Figma, Git, GitHub, GitLab, Markdown, HTML, CSS, Tailwind CSS
   },
   {
     name: "Ego Maragustaf",
-    username: "ego",
+    username: "egomaragustaf",
     tags: ["MENTEE", "DEVELOPER"],
   },
   {
     name: "Eric Pradana",
-    username: "eric",
+    username: "ericprd",
     tags: ["MENTEE", "DEVELOPER"],
   },
   {

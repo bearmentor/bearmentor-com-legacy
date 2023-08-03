@@ -135,8 +135,10 @@ export default function Route() {
               {broadcasts.map(broadcast => {
                 return (
                   <li key={broadcast.id} className="w-full">
-                    <Link to={`/broadcasts/${broadcast.slug}`}>
-                      <Card className="hover-opacity space-y-2">
+                    <Link
+                      to={`/${broadcast.user.username}/broadcasts/${broadcast.id}`}
+                    >
+                      <Card className="hover-opacity space-y-1">
                         <CardHeader className="space-y-2 p-4">
                           <div>
                             <CardTitle className="text-2xl">
@@ -209,5 +211,5 @@ export async function action({ request }: ActionArgs) {
     return badRequest(submission)
   }
   const broadcast = await model.broadcast.mutation.createQuick(submission.value)
-  return redirect(`/broadcasts/${broadcast.slug}`)
+  return redirect(`/${broadcast.user.username}/broadcasts/${broadcast.id}`)
 }

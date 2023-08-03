@@ -37,13 +37,14 @@ export const mutation = {
   createQuick({ ...value }: z.infer<typeof schemaBroadcastQuick>) {
     return prisma.broadcast.create({
       data: { ...value, slug: createBroadcastSlug(value.title) },
+      include: { user: { select: { username: true } } },
     })
   },
 
   async deleteById({ id }: z.infer<typeof schemaBroadcastDelete>) {
     return await prisma.broadcast.delete({
       where: { id },
-      select: { id: true, slug: true },
+      include: { user: { select: { username: true } } },
     })
   },
 
