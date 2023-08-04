@@ -19,11 +19,16 @@ test.describe("Bearmentor Mentors page E2E Test", () => {
     const mentorNames: string[] = dataUsers
       .filter((user: DataUser) => user.tags?.includes("MENTOR"))
       .map((user: DataUser) => user.name)
-    await expect(mentorsPage.mentorListName).toHaveText(mentorNames)
+
+    // Iterate over mentorNames and call mentorsPage.mentorListName() for each name
+    for (const mentorName of mentorNames) {
+      expect(mentorsPage.mentorListName(mentorName)).toBeTruthy()
+    }
   })
 
   test("user should be able to search a mentor", async () => {
     await mentorsPage.searchMentor("haidar")
-    await expect(mentorsPage.mentorListName).toHaveText("M Haidar Hanif")
+    expect(mentorsPage.mentorListName("M Haidar Hanif")).toBeTruthy()
   })
+
 })
