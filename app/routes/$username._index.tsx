@@ -7,12 +7,15 @@ import invariant from "tiny-invariant"
 import { createCacheHeaders, formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
+  Alert,
   AvatarAuto,
   Badge,
   Button,
+  Card,
   Debug,
   Layout,
   NotFound,
+  Time,
 } from "~/components"
 import { model } from "~/models"
 
@@ -87,7 +90,7 @@ export default function Route() {
         />
       </section>
 
-      <section className="w-full max-w-3xl space-y-8 px-4 sm:px-8">
+      <section className="w-full max-w-2xl space-y-8 px-4 sm:px-8">
         <header className="-mt-16 flex flex-wrap items-end justify-between">
           <div>
             <AvatarAuto
@@ -126,6 +129,37 @@ export default function Route() {
           <p className="prose dark:prose-invert whitespace-pre-wrap">
             {user.profiles[0]?.bio}
           </p>
+        </section>
+
+        <section className="space-y-2">
+          <h4>Broadcasts</h4>
+
+          {user.broadcasts.length <= 0 && (
+            <Alert>
+              No broadcasts.{" "}
+              <Link to="/broadcasts" className="link">
+                Go to Broadcasts page and create one
+              </Link>
+              .
+            </Alert>
+          )}
+
+          {user.broadcasts.length > 0 && (
+            <ul className="space-y-2">
+              {user.broadcasts.map(broadcast => {
+                return (
+                  <li key={broadcast.id}>
+                    <Link to={`/${user.username}/broadcasts/${broadcast.id}`}>
+                      <Card className="hover-opacity space-y-1 p-2">
+                        <h5 className="font-sans">{broadcast.title}</h5>
+                        <Time>{broadcast.updatedAt}</Time>
+                      </Card>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
         </section>
 
         <Debug>{{ params, userSession, user }}</Debug>

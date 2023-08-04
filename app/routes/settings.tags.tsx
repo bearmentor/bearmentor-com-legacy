@@ -1,10 +1,11 @@
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
+import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
 import { delay } from "~/utils"
-import { UserTagsForm } from "~/components"
+import { Button, UserTagsForm } from "~/components"
 import { model } from "~/models"
 
 export const loader = async ({ request }: LoaderArgs) => {
@@ -14,11 +15,12 @@ export const loader = async ({ request }: LoaderArgs) => {
   let [user, userTags] = await prisma.$transaction([
     prisma.user.findFirst({
       where: { id: userSession.id },
-      select: { id: true, tags: true },
+      select: { id: true, username: true, tags: true },
     }),
 
     model.userTag.query.getAll(),
   ])
+
   if (!user) return redirect("/logout")
   if (!userTags) {
     userTags = []
@@ -28,11 +30,16 @@ export const loader = async ({ request }: LoaderArgs) => {
 }
 
 export default function Route() {
+  const { user } = useLoaderData<typeof loader>()
+
   return (
     <div className="w-full space-y-10">
       <header>
         <h2>Tags</h2>
         <p className="text-muted-foreground">To communicate with you.</p>
+        <Button asChild size="xs" variant="secondary">
+          <Link to="/profile">Go to your profile @{user?.username}</Link>
+        </Button>
       </header>
 
       <div className="space-y-6">

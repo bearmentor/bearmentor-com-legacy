@@ -44,9 +44,9 @@ export function BroadcastQuickForm() {
 
       <Form method="POST" {...form.props} className="space-y-6">
         <FormFieldSet>
-          <Input
+          <input
+            hidden
             {...conform.input(userId)}
-            type="hidden"
             defaultValue={userSession?.id}
           />
 

@@ -27,21 +27,14 @@ import { model } from "~/models"
 import { schemaBroadcastDelete } from "~/schemas"
 
 export async function loader({ request, params }: LoaderArgs) {
-  invariant(params.slug, "Broadcast slug not found")
+  invariant(params.id, "Broadcast ID not found")
 
   const broadcast = await prisma.broadcast.findFirst({
-    where: { slug: params.slug },
+    where: { id: params.id },
     include: {
+      images: true,
       tags: true,
-      user: {
-        select: {
-          id: true,
-          name: true,
-          username: true,
-          nick: true,
-          avatars: { select: { url: true } },
-        },
-      },
+      user: { include: { avatars: { select: { url: true } } } },
     },
   })
   if (!broadcast) return notFound({ broadcast: null })
@@ -78,12 +71,12 @@ export default function BroadcastsRoute() {
 
   return (
     <Layout className="flex justify-center p-4 sm:p-8">
-      <div className="mb-40 w-full max-w-xl space-y-6">
+      <div className="mb-40 w-full max-w-2xl space-y-6">
         <header className="gap-2 space-y-4">
           <section className="space-y-2">
             <h1 className="flex">
               <Link
-                to={`/broadcasts/${broadcast.slug}`}
+                to={`/${broadcast.user.username}/broadcasts/${broadcast.id}`}
                 className="hover-opacity"
               >
                 {broadcast.title}
@@ -162,7 +155,7 @@ export default function BroadcastsRoute() {
         <section>
           {!userSession?.id && (
             <Button asChild>
-              <Link to={`/login?redirectTo=/broadcasts/${broadcast.slug}`}>
+              <Link to={`/login?redirectTo=/broadcasts/${broadcast.id}`}>
                 Login to Contact
               </Link>
             </Button>
@@ -186,7 +179,6 @@ export const action = async ({ request }: ActionArgs) => {
   if (!submission.value || submission.intent !== "submit") {
     return badRequest(submission)
   }
-  const isDeleted = await model.broadcast.mutation.deleteById(submission.value)
-  if (!isDeleted) return null
-  return redirect(`/broadcasts`)
+  const broadcast = await model.broadcast.mutation.deleteById(submission.value)
+  return redirect(`/${broadcast.user.username}`)
 }

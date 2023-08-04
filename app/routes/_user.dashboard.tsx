@@ -71,14 +71,14 @@ export default function Route() {
       </header>
 
       <section className="max-w-xl space-y-2">
-        <h4>Your profile card:</h4>
+        <h4>Your profile card</h4>
         <Link to={`/${user.username}`} className="block">
           <UserCard user={user as any} />
         </Link>
       </section>
 
       <section className="max-w-xl space-y-2">
-        <h4>Your broadcasts:</h4>
+        <h4>Your broadcasts</h4>
 
         {user.broadcasts.length <= 0 && (
           <Alert>
@@ -95,9 +95,9 @@ export default function Route() {
             {user.broadcasts.map(broadcast => {
               return (
                 <li key={broadcast.id}>
-                  <Link to={`/broadcasts/${broadcast.slug}`}>
-                    <Card className="hover-opacity space-y-2 p-2">
-                      <h5>{broadcast.title}</h5>
+                  <Link to={`/${user.username}/broadcasts/${broadcast.id}`}>
+                    <Card className="hover-opacity space-y-1 p-2">
+                      <h5 className="font-sans">{broadcast.title}</h5>
                       <Time>{broadcast.updatedAt}</Time>
                     </Card>
                   </Link>
