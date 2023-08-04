@@ -2672,7 +2672,7 @@ packages:
     engines: {node: '>=16'}
     hasBin: true
     dependencies:
-      '@types/node': 20.4.5
+      '@types/node': 20.4.6
       playwright-core: 1.36.2
     optionalDependencies:
       fsevents: 2.3.2
