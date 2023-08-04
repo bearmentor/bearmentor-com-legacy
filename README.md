@@ -2,6 +2,8 @@
 
 > Brilliant mentoring
 
+> 🚧 This app is still in early and active development
+
 The open mentoring platform for people and organization. Open source, free to
 use, with premium options. 🐻 Bearmentor is a place for tech and creating
 professionals to mentor each others.
@@ -11,8 +13,6 @@ Check out:
 - Web: <https://bearmentor.com>
 - Repo: <https://github.com/bearmentor>
 - Progress: <https://github.com/orgs/bearmentor/projects/2>
-
-> 🚧 Still in early and active development
 
 ![Bearmentor](public/images/bearmentor.png)
 
