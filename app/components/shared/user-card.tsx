@@ -26,9 +26,7 @@ export function UserCard({ user }: Props) {
 
         <div className="flex flex-col justify-between">
           <div>
-            <CardTitle className="text-2xl">
-              {user.name}
-            </CardTitle>
+            <CardTitle className="text-2xl">{user.name}</CardTitle>
             <p className="text-muted-foreground">@{user.username}</p>
           </div>
           {user?.profiles?.length > 0 && (

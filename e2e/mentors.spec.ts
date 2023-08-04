@@ -30,5 +30,4 @@ test.describe("Bearmentor Mentors page E2E Test", () => {
     await mentorsPage.searchMentor("haidar")
     expect(mentorsPage.mentorListName("M Haidar Hanif")).toBeTruthy()
   })
-
 })
