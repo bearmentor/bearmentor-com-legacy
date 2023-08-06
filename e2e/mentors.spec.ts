@@ -22,12 +22,14 @@ test.describe("Bearmentor Mentors page E2E Test", () => {
 
     // Iterate over mentorNames and call mentorsPage.mentorListName() for each name
     for (const mentorName of mentorNames) {
-      expect(mentorsPage.mentorListName(mentorName)).toBeTruthy()
+      const mentorElement = await mentorsPage.mentorListName(mentorName)
+      await expect(mentorElement).toBeVisible()
     }
   })
 
   test("user should be able to search a mentor", async () => {
     await mentorsPage.searchMentor("haidar")
-    expect(mentorsPage.mentorListName("M Haidar Hanif")).toBeTruthy()
+    const mentorNameElement = await mentorsPage.mentorListName("M Haidar Hanif")
+    await expect(mentorNameElement).toBeVisible()
   })
 })
