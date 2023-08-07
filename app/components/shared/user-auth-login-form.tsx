@@ -67,9 +67,6 @@ export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
               autoFocus={password.error ? true : undefined}
               required
             />
-            <p id={password.descriptionId} className="text-surface-500 text-xs">
-              At least 10 characters
-            </p>
             {password.errors && password.errors?.length > 0 && (
               <ul>
                 {password.errors?.map((error, index) => (
@@ -83,11 +80,7 @@ export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
 
           <input hidden name="redirectTo" defaultValue={redirectTo} />
 
-          <ButtonLoading
-            type="submit"
-            loadingText="Logging in..."
-            isLoading={isSubmitting}
-          >
+          <ButtonLoading type="submit" loadingText="Logging in..." isLoading={isSubmitting}>
             Login
           </ButtonLoading>
         </div>
