@@ -80,7 +80,11 @@ export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
 
           <input hidden name="redirectTo" defaultValue={redirectTo} />
 
-          <ButtonLoading type="submit" loadingText="Logging in..." isLoading={isSubmitting}>
+          <ButtonLoading
+            type="submit"
+            loadingText="Logging in..."
+            isLoading={isSubmitting}
+          >
             Login
           </ButtonLoading>
         </div>

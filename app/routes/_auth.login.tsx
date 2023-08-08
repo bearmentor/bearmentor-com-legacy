@@ -6,7 +6,7 @@ import { badRequest } from "remix-utils"
 
 // eslint-disable-next-line @typescript-eslint/consistent-type-imports
 import { authenticator } from "~/services"
-import { formatTitle, getRedirectTo } from "~/utils"
+import { createTimer, formatTitle, getRedirectTo } from "~/utils"
 import { useRedirectTo } from "~/hooks"
 import { Layout, UserAuthLoginForm } from "~/components"
 import { model } from "~/models"
@@ -78,6 +78,7 @@ export default function Route() {
 }
 
 export const action = async ({ request }: ActionArgs) => {
+  const timer = createTimer()
   const clonedRequest = request.clone()
   const formData = await clonedRequest.formData()
 
@@ -87,6 +88,7 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   const result = await model.user.mutation.login(submission.value)
+  await timer.delay()
   if (result.error) {
     return json({ ...submission, error: result.error })
   }

@@ -1,8 +1,9 @@
 import * as React from "react"
+import type { FieldConfig } from "@conform-to/react"
 import type * as LabelPrimitive from "@radix-ui/react-label"
 
 import { cn } from "~/utils"
-import { Label, labelVariants } from "~/components"
+import { Alert, Label, labelVariants } from "~/components"
 
 const FormField = React.forwardRef<
   HTMLDivElement,
@@ -77,4 +78,29 @@ const FormFieldSet = React.forwardRef<
 })
 FormFieldSet.displayName = "FormFieldSet"
 
-export { FormField, FormLabel, FormDescription, FormMessage, FormFieldSet }
+const FormAlert = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    field: FieldConfig<string>
+  }
+>(({ className, children, field, ...props }, ref) => {
+  return (
+    <>
+      {field.error && (
+        <Alert variant="destructive" id={field.errorId} ref={ref} {...props}>
+          {field.error}
+        </Alert>
+      )}
+    </>
+  )
+})
+FormAlert.displayName = "FormAlert"
+
+export {
+  FormField,
+  FormLabel,
+  FormDescription,
+  FormMessage,
+  FormFieldSet,
+  FormAlert,
+}

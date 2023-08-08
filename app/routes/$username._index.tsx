@@ -7,12 +7,10 @@ import invariant from "tiny-invariant"
 import { createCacheHeaders, formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
-  Alert,
   AvatarAuto,
   Badge,
   Button,
   Card,
-  Debug,
   Layout,
   NotFound,
   Time,
@@ -131,17 +129,15 @@ export default function Route() {
           </p>
         </section>
 
-        <section className="space-y-2">
+        <section className="space-y-4">
           <h4>Broadcasts</h4>
 
-          {user.broadcasts.length <= 0 && (
-            <Alert>
-              No broadcasts.{" "}
-              <Link to="/broadcasts" className="link">
-                Go to Broadcasts page and create one
-              </Link>
-              .
-            </Alert>
+          {user.broadcasts.length <= 0 && <p>No broadcasts.</p>}
+
+          {isOwner && user.broadcasts.length <= 0 && (
+            <Button asChild size="sm" variant="secondary">
+              <Link to="/broadcasts">Go to Broadcasts and create</Link>
+            </Button>
           )}
 
           {user.broadcasts.length > 0 && (
@@ -161,8 +157,6 @@ export default function Route() {
             </ul>
           )}
         </section>
-
-        <Debug>{{ params, userSession, user }}</Debug>
       </section>
     </Layout>
   )
