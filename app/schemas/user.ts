@@ -17,10 +17,7 @@ const name = z
 
 const nick = z.string().max(50, "Nick name limited to 50 characters")
 
-const email = z
-  .string()
-  .min(1, "Email is required")
-  .email("This is not an email")
+const email = z.string().min(1, "Email is required").email("This is not an email")
 
 /**
  * Can improve password check
@@ -29,7 +26,7 @@ const email = z
  */
 const password = z
   .string({ required_error: "Password is required" })
-  .min(10, "Password at least 10 characters")
+  .min(8, "Password at least 8 characters")
   .max(100, "Password max of 100 characters")
 const confirmPassword = z.string()
 

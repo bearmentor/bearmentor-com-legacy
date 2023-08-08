@@ -34,16 +34,17 @@ export function UserAuthRegisterForm({
   const disabled = !invite.isAvailable
 
   const id = useId()
-  const [form, { email, name, username, password, inviteBy, inviteCode }] =
-    useForm<z.infer<typeof schemaUserRegister>>({
-      id,
-      shouldValidate: "onSubmit",
-      lastSubmission,
-      constraint: getFieldsetConstraint(schemaUserRegister),
-      onValidate({ formData }) {
-        return parse(formData, { schema: schemaUserRegister })
-      },
-    })
+  const [form, { email, name, username, password, inviteBy, inviteCode }] = useForm<
+    z.infer<typeof schemaUserRegister>
+  >({
+    id,
+    shouldValidate: "onSubmit",
+    lastSubmission,
+    constraint: getFieldsetConstraint(schemaUserRegister),
+    onValidate({ formData }) {
+      return parse(formData, { schema: schemaUserRegister })
+    },
+  })
 
   return (
     <section className="space-y-6" {...props}>
@@ -139,12 +140,9 @@ export function UserAuthRegisterForm({
             />
             <p
               id={password.descriptionId}
-              className={cn(
-                "text-surface-500 text-xs",
-                disabled && "opacity-50",
-              )}
+              className={cn("text-surface-500 text-xs", disabled && "opacity-50")}
             >
-              At least 10 characters
+              At least 8 characters
             </p>
             {password.errors && password.errors?.length > 0 && (
               <ul>
@@ -157,23 +155,11 @@ export function UserAuthRegisterForm({
             )}
           </FormField>
 
-          <input
-            hidden
-            {...conform.input(inviteBy)}
-            defaultValue={redirectTo}
-          />
-          <input
-            hidden
-            {...conform.input(inviteCode)}
-            defaultValue={redirectTo}
-          />
+          <input hidden {...conform.input(inviteBy)} defaultValue={redirectTo} />
+          <input hidden {...conform.input(inviteCode)} defaultValue={redirectTo} />
           <input hidden name="redirectTo" defaultValue={redirectTo} />
 
-          <ButtonLoading
-            type="submit"
-            loadingText="Creating Account..."
-            isLoading={isSubmitting}
-          >
+          <ButtonLoading type="submit" loadingText="Creating Account..." isLoading={isSubmitting}>
             Sign Up
           </ButtonLoading>
         </fieldset>
