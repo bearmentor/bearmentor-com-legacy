@@ -6,7 +6,7 @@ import { badRequest } from "remix-utils"
 
 import { authenticator } from "~/services"
 import { checkAuthInvite } from "~/helpers"
-import { formatTitle } from "~/utils"
+import { createTimer, formatTitle } from "~/utils"
 import { useRedirectTo } from "~/hooks"
 import { Alert, Layout, UserAuthRegisterForm } from "~/components"
 import { model } from "~/models"
@@ -104,6 +104,7 @@ export default function Route() {
 }
 
 export async function action({ request }: ActionArgs) {
+  const timer = createTimer()
   const clonedRequest = request.clone()
   const formData = await clonedRequest.formData()
 
@@ -121,6 +122,7 @@ export async function action({ request }: ActionArgs) {
   }
 
   const result = await model.user.mutation.register(submission.value)
+  await timer.delay()
   if (result.error) {
     return json({ ...submission, error: result.error })
   }

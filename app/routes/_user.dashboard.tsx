@@ -3,17 +3,8 @@ import { Link, useLoaderData } from "@remix-run/react"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { formatTimeDate, getGreetingByTime } from "~/utils"
-import {
-  Alert,
-  Button,
-  Card,
-  Debug,
-  Layout,
-  Time,
-  UserCard,
-} from "~/components"
+import { getGreetingByTime } from "~/utils"
+import { Button, Card, Debug, Layout, Time, UserCard } from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
@@ -80,14 +71,11 @@ export default function Route() {
       <section className="max-w-xl space-y-2">
         <h4>Your broadcasts</h4>
 
+        {user.broadcasts.length <= 0 && <p>No broadcasts.</p>}
         {user.broadcasts.length <= 0 && (
-          <Alert>
-            You have no broadcasts.{" "}
-            <Link to="/broadcasts" className="link">
-              Go to Broadcasts page and create one
-            </Link>
-            .
-          </Alert>
+          <Button asChild size="sm" variant="secondary">
+            <Link to="/broadcasts">Go to Broadcasts and create</Link>
+          </Button>
         )}
 
         {user.broadcasts.length > 0 && (

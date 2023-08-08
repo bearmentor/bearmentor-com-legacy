@@ -5,7 +5,7 @@ import { parse } from "@conform-to/zod"
 import { badRequest } from "remix-utils"
 
 import { prisma } from "~/libs"
-import { delay, formatPluralItems, truncateText } from "~/utils"
+import { createTimer, formatPluralItems, truncateText } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   AvatarAuto,
@@ -202,12 +202,16 @@ export default function Route() {
 }
 
 export async function action({ request }: ActionArgs) {
-  await delay()
+  const timer = createTimer()
   const formData = await request.formData()
+
   const submission = parse(formData, { schema: schemaBroadcastQuick })
   if (!submission.value || submission.intent !== "submit") {
     return badRequest(submission)
   }
+
   const broadcast = await model.broadcast.mutation.createQuick(submission.value)
+  await timer.delay()
+
   return redirect(`/${broadcast.user.username}/broadcasts/${broadcast.id}`)
 }
