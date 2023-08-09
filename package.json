@@ -25,7 +25,8 @@
     "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
     "prebuild": "prisma db push --accept-data-loss",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@ariakit/react": "0.2.15",
@@ -86,6 +87,7 @@
   },
   "devDependencies": {
     "@ianvs/prettier-plugin-sort-imports": "4.1.0",
+    "@playwright/test": "^1.36.2",
     "@remix-run/dev": "^1.19.2",
     "@remix-run/eslint-config": "^1.19.2",
     "@remix-run/serve": "^1.19.2",

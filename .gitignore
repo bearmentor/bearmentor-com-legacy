@@ -16,3 +16,7 @@ node_modules
 /api/index.js.map
 /prisma/migrations
 /app/data/*.json
+/test-results/
+/playwright-report/
+/playwright/.cache/
+/tests-examples/
