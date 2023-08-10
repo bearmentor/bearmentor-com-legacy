@@ -22,12 +22,12 @@
     "db:studio": "prisma studio --browser none",
     "db:check": "tsx prisma/check.ts",
     "db:connect": "tsx prisma/connect.ts",
+    "test:e2e": "playwright test",
     "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
-    "prebuild": "prisma db push --accept-data-loss",
-    "postinstall": "prisma generate",
-    "test:e2e": "playwright test"
-  },
+    "prestart": "prisma db push --accept-data-loss",
+    "postinstall": "prisma generate"
+},
   "dependencies": {
     "@ariakit/react": "0.2.15",
     "@conform-to/react": "0.7.4",
