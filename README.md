@@ -254,25 +254,17 @@ pnpm dlx taze
 
 ## Deployment
 
-This repo has been setup to autodeploy to Vercel automatically on Git push.
-
-> The `@remix-run/vercel` runtime adapter has been deprecated in favor of out of the box Vercel
-> functionality and will be removed in Remix v2. No more using the Vercel template & can just use
-> the Remix template instead. Will be changed after the upgrade to v2.
+This repo has been setup to autodeploy to Vercel automatically on Git push. Can also be deployed to other new projects on Vercel.
 
 After having run the `create-remix` command and selected "Vercel" as a deployment target,
-[import the Git repository](https://vercel.com/new) into Vercel, and it will be deployed.
+[import the Git repository](https://vercel.com/new) into Vercel.
 
-If want to avoid using a Git repository, deploy the directory by running
-[Vercel CLI](https://vercel.com/cli):
+Cnfigure the required environment variables in project settings for:
 
-```sh
-pnpm i -g vercel
-vercel
-```
+- `DATABASE_URL`
+- `SESSION_SECRET`
 
-It is generally recommended to use a Git repository, because future commits will then automatically
-be deployed by Vercel, through its [Git Integration](https://vercel.com/docs/concepts/git).
+Then deploy it. There should be the deployed URL like <https://bearmentor.vercel.app>.
 
 ## References
 
