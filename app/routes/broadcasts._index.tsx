@@ -87,7 +87,7 @@ export default function Route() {
   const { query, count, broadcasts } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap sm:px-8">
+    <Layout withPadding className="flex flex-wrap gap-8 sm:flex-nowrap">
       <section className="w-full space-y-8 sm:max-w-sm">
         <header className="space-y-4">
           <h1 className="text-4xl text-brand">

@@ -30,7 +30,7 @@ export default function Route() {
   const { items: users, ...loaderData } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="max-w-7xl space-y-12 px-4 py-4 sm:px-8">
+    <Layout withPadding className="max-w-7xl space-y-12">
       <h1>
         <Link to="/pagination">Example: Pagination</Link>
       </h1>

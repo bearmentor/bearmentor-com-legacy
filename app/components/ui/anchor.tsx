@@ -5,17 +5,19 @@ import { cn } from "~/utils"
 export interface AnchorProps
   extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   href: string
+  withColor?: boolean
 }
 
 const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
-  ({ href, className, children, ...props }, ref) => {
+  ({ href, withColor = false, className, children, ...props }, ref) => {
     return (
       <a
         href={href}
         target="_blank"
         rel="noreferrer"
         className={cn(
-          "hover-opacity text-emerald-700 dark:text-emerald-300",
+          "hover-opacity",
+          withColor && "text-emerald-700 dark:text-emerald-300",
           className,
         )}
         ref={ref}

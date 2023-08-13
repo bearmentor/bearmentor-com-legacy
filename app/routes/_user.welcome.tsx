@@ -25,7 +25,7 @@ export default function Route() {
   const { user } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="space-y-8 px-4 py-4 sm:px-8">
+    <Layout withPadding className="space-y-8">
       <header>
         <div>
           <span>Welcome,</span>

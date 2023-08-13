@@ -85,7 +85,7 @@ export default function Route() {
   const { query, count, users, broadcasts } = useLoaderData<typeof loader>()
 
   return (
-    <Layout className="max-w-7xl space-y-8 px-4 py-4 sm:px-8">
+    <Layout withPadding className="max-w-7xl space-y-8">
       <header className="space-y-4">
         <h1 className="flex items-center gap-2 text-4xl text-brand">
           <img src="/images/bear-monocle.png" alt="Bear" className="h-10" />
