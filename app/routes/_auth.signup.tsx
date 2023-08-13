@@ -76,7 +76,7 @@ export default function Route() {
           />
         </section>
 
-        <section className="relative hidden h-full flex-col gap-10 bg-stone-900 p-10 text-white lg:flex lg:items-end">
+        <aside className="relative hidden h-full flex-col gap-10 bg-black p-10 text-white lg:flex lg:items-end">
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/bear-rounded.png" alt="Bear" className="h-10" />
@@ -97,7 +97,7 @@ export default function Route() {
               , Founder of Bearmentor
             </footer>
           </blockquote>
-        </section>
+        </aside>
       </div>
     </Layout>
   )

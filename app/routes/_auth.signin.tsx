@@ -54,7 +54,7 @@ export default function Route() {
           <UserAuthSignInForm />
         </section>
 
-        <section className="relative hidden h-full flex-col bg-stone-900 p-10 text-white lg:flex lg:items-end">
+        <aside className="relative hidden h-full flex-col bg-black p-10 text-white lg:flex lg:items-end">
           <Link to="/" className="hidden lg:block">
             <h1 className="flex items-center gap-2 text-2xl">
               <img src="/images/bear-rounded.png" alt="Bear" className="h-10" />
@@ -68,10 +68,10 @@ export default function Route() {
                 &ldquo;The mentors from 🐻 Bearmentor are helpful
                 professionals.&rdquo;
               </p>
-              <footer>— Somebody</footer>
+              <footer>— a mentee</footer>
             </blockquote>
           </div>
-        </section>
+        </aside>
       </div>
     </Layout>
   )
