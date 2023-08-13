@@ -8,7 +8,7 @@ import { Button, Card, Debug, Layout, Time, UserCard } from "~/components"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
+    failureRedirect: "/signin",
   })
   if (!userSession?.id) return redirect("/logout")
 

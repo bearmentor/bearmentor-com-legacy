@@ -111,7 +111,7 @@ export const query = {
 }
 
 export const mutation = {
-  async register({
+  async signup({
     email,
     name,
     username,
@@ -134,7 +134,7 @@ export const mutation = {
       text => name.toLowerCase() === text,
     )
     if (nameIsUnallowed) {
-      return { error: { name: `Name ${name} is not allowed to register` } }
+      return { error: { name: `Name ${name} is not allowed to be used` } }
     }
 
     const usernameIsUnallowed = dataUsersUnallowed.find(
@@ -142,7 +142,7 @@ export const mutation = {
     )
     if (usernameIsUnallowed) {
       return {
-        error: { username: `Username ${username} is not allowed to register` },
+        error: { username: `Username ${username} is not allowed to be used` },
       }
     }
 
@@ -182,7 +182,7 @@ export const mutation = {
     return { user, error: null }
   },
 
-  async login({
+  async signin({
     email,
     password,
   }: {
@@ -205,7 +205,7 @@ export const mutation = {
     if (!user) {
       return {
         error: {
-          email: `Email ${email} is not found or registered yet, check again or create an account`,
+          email: `Email ${email} is not found, check again or create a new account`,
           password: "",
         },
       }

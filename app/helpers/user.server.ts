@@ -13,14 +13,14 @@ export async function requireUserSession(
 ) {
   // Get user session from app cookie
   const userSession = await authenticator.isAuthenticated(request, {
-    failureRedirect: "/login",
+    failureRedirect: "/signin",
   })
   invariant(userSession.id, "User Session ID is not available")
 
   // Get user data from database
   const userData = await model.user.query.getForSession({ id: userSession.id })
   if (!userData) {
-    return authenticator.logout(request, { redirectTo: "/login" })
+    return authenticator.logout(request, { redirectTo: "/signin" })
   }
   invariant(userData, "User is not available")
 

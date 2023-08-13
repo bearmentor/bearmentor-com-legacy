@@ -6,7 +6,7 @@ import { GitHubLogoIcon as IconBrandGithub } from "@radix-ui/react-icons"
 import { IconBrandGoogle } from "@tabler/icons-react"
 import type { z } from "zod"
 
-import type { action as registerAction } from "~/routes/_auth.register"
+import type { action as actionSignUp } from "~/routes/_auth.signup"
 import type { checkAuthInvite } from "~/helpers"
 import { cn } from "~/utils"
 import { useRedirectTo } from "~/hooks"
@@ -19,35 +19,35 @@ import {
   InputPassword,
   UserAuthSocialButton,
 } from "~/components"
-import { schemaUserRegister } from "~/schemas"
+import { schemaUserSignUp } from "~/schemas"
 
-export function UserAuthRegisterForm({
+export function UserAuthSignUpForm({
   invite,
   ...props
 }: React.HTMLAttributes<HTMLElement> & {
   invite: ReturnType<typeof checkAuthInvite>
 }) {
   const { redirectTo } = useRedirectTo()
-  const lastSubmission = useActionData<typeof registerAction>()
+  const lastSubmission = useActionData<typeof actionSignUp>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
   const disabled = !invite.isAvailable
 
   const id = useId()
   const [form, { email, name, username, password, inviteBy, inviteCode }] =
-    useForm<z.infer<typeof schemaUserRegister>>({
+    useForm<z.infer<typeof schemaUserSignUp>>({
       id,
       shouldValidate: "onSubmit",
       lastSubmission,
-      constraint: getFieldsetConstraint(schemaUserRegister),
+      constraint: getFieldsetConstraint(schemaUserSignUp),
       onValidate({ formData }) {
-        return parse(formData, { schema: schemaUserRegister })
+        return parse(formData, { schema: schemaUserSignUp })
       },
     })
 
   return (
     <section className="space-y-6" {...props}>
-      <Form id="user-auth-register-form" method="POST" {...form.props}>
+      <Form method="POST" {...form.props}>
         <fieldset className="flex flex-col gap-4" disabled={disabled}>
           <FormField className="space-y-2">
             <FormLabel htmlFor={email.id} disabled={disabled}>

@@ -155,8 +155,8 @@ export default function BroadcastsRoute() {
         <section>
           {!userSession?.id && (
             <Button asChild>
-              <Link to={`/login?redirectTo=/broadcasts/${broadcast.id}`}>
-                Login to Contact
+              <Link to={`/signin?redirectTo=/broadcasts/${broadcast.id}`}>
+                Sign In to Contact
               </Link>
             </Button>
           )}

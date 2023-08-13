@@ -5,7 +5,7 @@ import { Anchor } from "~/components"
 
 const footerNavItems = [
   { to: "search", text: "Search" },
-  { to: "login", text: "Login" },
+  { to: "signin", text: "Sign In" },
 ]
 
 interface Props {

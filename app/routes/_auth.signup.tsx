@@ -8,16 +8,16 @@ import { authenticator } from "~/services"
 import { checkAuthInvite } from "~/helpers"
 import { createTimer, formatTitle } from "~/utils"
 import { useRedirectTo } from "~/hooks"
-import { Alert, Layout, UserAuthRegisterForm } from "~/components"
+import { Alert, Layout, UserAuthSignUpForm } from "~/components"
 import { model } from "~/models"
-import { schemaUserRegister } from "~/schemas"
+import { schemaUserSignUp } from "~/schemas"
 
 export const meta: V2_MetaFunction = () => {
   return [
-    { title: formatTitle("Register") },
+    { title: formatTitle("Sign Up") },
     {
       name: "description",
-      content: "Create your new 🐻 Bearmentor user account.",
+      content: "Create a new 🐻 Bearmentor user account.",
     },
   ]
 }
@@ -45,10 +45,10 @@ export default function Route() {
             <p className="inline-flex flex-wrap gap-1 text-muted-foreground">
               <span>Already a Bearmentor user? </span>
               <Link
-                to={{ pathname: "/login", search: searchParams.toString() }}
+                to={{ pathname: "/signin", search: searchParams.toString() }}
                 className="hover-opacity font-bold text-brand"
               >
-                Login
+                Sign In
               </Link>
             </p>
 
@@ -71,7 +71,7 @@ export default function Route() {
             )}
           </section>
 
-          <UserAuthRegisterForm
+          <UserAuthSignUpForm
             invite={invite as ReturnType<typeof checkAuthInvite>}
           />
         </section>
@@ -108,7 +108,7 @@ export async function action({ request }: ActionArgs) {
   const clonedRequest = request.clone()
   const formData = await clonedRequest.formData()
 
-  const submission = parse(formData, { schema: schemaUserRegister })
+  const submission = parse(formData, { schema: schemaUserSignUp })
   if (!submission.value || submission.intent !== "submit") {
     return badRequest(submission)
   }
@@ -121,7 +121,7 @@ export async function action({ request }: ActionArgs) {
     })
   }
 
-  const result = await model.user.mutation.register(submission.value)
+  const result = await model.user.mutation.signup(submission.value)
   await timer.delay()
   if (result.error) {
     return json({ ...submission, error: result.error })

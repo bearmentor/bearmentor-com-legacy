@@ -40,8 +40,8 @@ const navPublicItems: NavItem[] = [
 
 const navUnauthenticatedItems: NavItem[] = [
   {
-    to: "/login",
-    text: "Login",
+    to: "/signin",
+    text: "Sign In",
     icon: <IconLogin className="icon" />,
   },
 ]

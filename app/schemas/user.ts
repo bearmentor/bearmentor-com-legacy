@@ -56,7 +56,7 @@ const link = z.object({
 })
 const links = z.array(link).optional()
 
-export const schemaUserRegister = z.object({
+export const schemaUserSignUp = z.object({
   name,
   username,
   email,
@@ -66,7 +66,7 @@ export const schemaUserRegister = z.object({
   inviteCode,
 })
 
-export const schemaUserLogin = z.object({
+export const schemaUserSignIn = z.object({
   email,
   password,
   remember,

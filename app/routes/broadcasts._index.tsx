@@ -88,7 +88,7 @@ export default function Route() {
 
   return (
     <Layout className="flex flex-wrap gap-8 px-4 py-4 sm:flex-nowrap sm:px-8">
-      <section id="broadcasts-action" className="w-full space-y-8 sm:max-w-sm">
+      <section className="w-full space-y-8 sm:max-w-sm">
         <header className="space-y-4">
           <h1 className="text-4xl text-brand">
             <Link to="/broadcasts" className="hover-opacity">
@@ -104,7 +104,9 @@ export default function Route() {
         {!userSession?.id && (
           <section>
             <Button asChild>
-              <Link to="/login?redirectTo=/broadcasts">Login to Broadcast</Link>
+              <Link to="/signin?redirectTo=/broadcasts">
+                Sign In to Broadcast
+              </Link>
             </Button>
           </section>
         )}
@@ -112,7 +114,7 @@ export default function Route() {
         {userSession?.id && <BroadcastQuickForm />}
       </section>
 
-      <section id="broadcasts-list" className="w-full max-w-3xl space-y-4">
+      <section className="w-full max-w-3xl space-y-4">
         <SearchForm action="/broadcasts" placeholder="Search broadcasts..." />
 
         {!query && count > 0 && (

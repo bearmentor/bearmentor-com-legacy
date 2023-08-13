@@ -4,31 +4,33 @@ import { conform, useForm } from "@conform-to/react"
 import { getFieldsetConstraint, parse } from "@conform-to/zod"
 import type { z } from "zod"
 
-import type { action as loginAction } from "~/routes/_auth.login"
+import type { action as actionSignIn } from "~/routes/_auth.signin"
 import { useRedirectTo } from "~/hooks"
 import { Alert, ButtonLoading, Input, InputPassword, Label } from "~/components"
-import { schemaUserLogin } from "~/schemas"
+import { schemaUserSignIn } from "~/schemas"
 
-export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
+export function UserAuthSignInForm(props: React.HTMLAttributes<HTMLElement>) {
   const { redirectTo } = useRedirectTo()
-  const actionData = useActionData<typeof loginAction>()
+  const actionData = useActionData<typeof actionSignIn>()
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
   const id = useId()
-  const [form, { email, password }] = useForm<z.infer<typeof schemaUserLogin>>({
-    id,
-    shouldValidate: "onSubmit",
-    lastSubmission: actionData,
-    constraint: getFieldsetConstraint(schemaUserLogin),
-    onValidate({ formData }) {
-      return parse(formData, { schema: schemaUserLogin })
+  const [form, { email, password }] = useForm<z.infer<typeof schemaUserSignIn>>(
+    {
+      id,
+      shouldValidate: "onSubmit",
+      lastSubmission: actionData,
+      constraint: getFieldsetConstraint(schemaUserSignIn),
+      onValidate({ formData }) {
+        return parse(formData, { schema: schemaUserSignIn })
+      },
     },
-  })
+  )
 
   return (
     <section className="space-y-6" {...props}>
-      <Form id="user-auth-form" method="POST" {...form.props}>
+      <Form method="POST" {...form.props}>
         <div className="flex flex-col gap-4">
           <div className="space-y-2">
             <Label htmlFor={email.id}>Email</Label>
@@ -82,10 +84,10 @@ export function UserAuthLoginForm(props: React.HTMLAttributes<HTMLElement>) {
 
           <ButtonLoading
             type="submit"
-            loadingText="Logging in..."
+            loadingText="Signing in..."
             isLoading={isSubmitting}
           >
-            Login
+            Sign In
           </ButtonLoading>
         </div>
       </Form>

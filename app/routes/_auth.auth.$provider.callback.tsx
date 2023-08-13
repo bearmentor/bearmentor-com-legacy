@@ -5,13 +5,13 @@ import { authenticator } from "~/services"
 import type { AuthStrategy } from "~/services"
 
 export const loader = ({ request, params }: LoaderArgs) => {
-  // If the provider is not specified, redirect to the login page
-  if (!params.provider) return redirect("/login")
+  // If the provider is unspecified, redirect to the sign in page
+  if (!params.provider) return redirect("/signin")
 
   const provider = params.provider as AuthStrategy
 
   return authenticator.authenticate(provider, request, {
     successRedirect: "/dashboard",
-    failureRedirect: "/login",
+    failureRedirect: "/signin",
   })
 }

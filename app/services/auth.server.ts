@@ -21,5 +21,5 @@ export type AuthStrategy = (typeof AuthStrategies)[keyof typeof AuthStrategies]
 // strategies will return and will store in the session
 export const authenticator = new Authenticator<UserSession>(sessionStorage)
 
-// Register your strategies below
+// Use the auth strategies
 authenticator.use(formStrategy, AuthStrategies.FORM)

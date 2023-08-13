@@ -4,7 +4,7 @@ function convertDaysToSeconds(days: number) {
   return 60 * 60 * 24 * days // seconds * minutes * hours * days
 }
 
-const remember = true // TODO: Integrate on register and login flow
+const remember = true // TODO: Integrate on auth flow
 const maxAgeDays = 7
 
 // export the whole sessionStorage object

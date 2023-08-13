@@ -28,7 +28,7 @@ export const settingsNavItems = [
 ]
 
 export const loader = async ({ request }: LoaderArgs) => {
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  await authenticator.isAuthenticated(request, { failureRedirect: "/signin" })
   return null
 }
 
@@ -92,6 +92,6 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
 
 export const action = async ({ request }: ActionArgs) => {
   await delay()
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  await authenticator.isAuthenticated(request, { failureRedirect: "/signin" })
   return null
 }

@@ -5,10 +5,10 @@ import { getRedirectTo } from "~/utils"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const redirectTo = getRedirectTo(request)
-  await authenticator.logout(request, { redirectTo: redirectTo || "/login" })
+  await authenticator.logout(request, { redirectTo: redirectTo || "/signin" })
 }
 
 export const action = async ({ request }: ActionArgs) => {
   const redirectTo = getRedirectTo(request)
-  await authenticator.logout(request, { redirectTo: redirectTo || "/login" })
+  await authenticator.logout(request, { redirectTo: redirectTo || "/signin" })
 }

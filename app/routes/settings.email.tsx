@@ -112,7 +112,7 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
 
 export async function action({ request }: ActionArgs) {
   await delay()
-  await authenticator.isAuthenticated(request, { failureRedirect: "/login" })
+  await authenticator.isAuthenticated(request, { failureRedirect: "/signin" })
 
   const formData = await request.formData()
   const parsed = parse(formData)
