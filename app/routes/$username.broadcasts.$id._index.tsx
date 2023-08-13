@@ -152,7 +152,7 @@ export default function BroadcastsRoute() {
           </div>
         )}
 
-        <section>
+        <section className="hidden">
           {!userSession?.id && (
             <Button asChild>
               <Link to={`/signin?redirectTo=/broadcasts/${broadcast.id}`}>
