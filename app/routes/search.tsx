@@ -149,7 +149,7 @@ export default function Route() {
               return (
                 <li key={broadcast.id} className="">
                   <Link
-                    to={`/${broadcast.user.username}/broadcasts/${broadcast.slug}`}
+                    to={`/${broadcast.user.username}/broadcasts/${broadcast.id}`}
                     className="hover-opacity flex gap-2 py-1"
                   >
                     <Card className="hover-opacity flex w-full flex-col gap-2 p-2">
