@@ -201,7 +201,7 @@ export function LandingDevelopment() {
           </p>
           <p>
             This is still in very early development. Check out{" "}
-            <Anchor href="https://github.com/bearmentor">
+            <Anchor withColor href="https://github.com/bearmentor">
               github.com/bearmentor
             </Anchor>
           </p>
@@ -210,7 +210,9 @@ export function LandingDevelopment() {
             {dataReferences.map(reference => {
               return (
                 <li key={reference.text}>
-                  <Anchor href={reference.href}>{reference.text}</Anchor>
+                  <Anchor withColor href={reference.href}>
+                    {reference.text}
+                  </Anchor>
                 </li>
               )
             })}
