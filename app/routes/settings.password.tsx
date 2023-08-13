@@ -61,7 +61,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
-  const [form, { id, password, confirmPassword }] = useForm<
+  const [form, { id, password, confirmPassword, currentPassword }] = useForm<
     z.infer<typeof schemaUserUpdatePassword>
   >({
     shouldValidate: "onSubmit",
@@ -75,6 +75,20 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
     <Form {...form.props} replace method="PUT" className="space-y-6">
       <FormFieldSet disabled={isSubmitting}>
         <input hidden {...conform.input(id)} defaultValue={user.id} />
+
+        <FormField>
+          <FormLabel htmlFor={currentPassword.id}>Current Password</FormLabel>
+          <InputPassword
+            {...conform.input(currentPassword)}
+            placeholder="Input your current password"
+            defaultValue=""
+          />
+          {currentPassword.error && (
+            <Alert variant="destructive" id={currentPassword.errorId}>
+              {currentPassword.error}
+            </Alert>
+          )}
+        </FormField>
 
         <FormField>
           <FormLabel htmlFor={password.id}>New Password</FormLabel>
