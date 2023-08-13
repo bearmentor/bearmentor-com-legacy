@@ -34,7 +34,7 @@ import {
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) return redirect("/logout")
+  if (!userSession?.id) return redirect("/signout")
   const user = await prisma.user.findUnique({ where: { id: userSession.id } })
   return json({ user })
 }

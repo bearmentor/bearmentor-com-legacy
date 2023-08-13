@@ -25,7 +25,7 @@
     "test:e2e": "playwright test",
     "reveal": "remix reveal",
     "clean": "rm -rf build public/build",
-    "prestart": "prisma db push --accept-data-loss",
+    "prebuild": "prisma db push",
     "postinstall": "prisma generate"
   },
   "dependencies": {

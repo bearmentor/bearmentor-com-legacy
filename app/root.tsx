@@ -81,7 +81,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   // If there is an authenticated user, but the user doesn't exist anymore
   if (userSession && !userData) {
-    return redirect(`/logout`)
+    return redirect(`/signout`)
   }
 
   return json(

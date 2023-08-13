@@ -76,5 +76,5 @@ export default function Route() {
 export const action = async ({ request }: ActionArgs) => {
   const submission = parse(await request.formData())
   await model.user.mutation.deleteById({ id: submission.payload.id })
-  return redirect("/logout?redirectTo=/deleted")
+  return redirect("/signout?redirectTo=/deleted")
 }

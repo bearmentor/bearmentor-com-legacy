@@ -10,7 +10,7 @@ import { model } from "~/models"
 
 export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request)
-  if (!userSession?.id) return redirect("/logout")
+  if (!userSession?.id) return redirect("/signout")
 
   let [user, userTags] = await prisma.$transaction([
     prisma.user.findFirst({
@@ -21,7 +21,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     model.userTag.query.getAll(),
   ])
 
-  if (!user) return redirect("/logout")
+  if (!user) return redirect("/signout")
   if (!userTags) {
     userTags = []
   }

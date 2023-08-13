@@ -11,10 +11,10 @@ export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
     failureRedirect: "/signin",
   })
-  if (!userSession?.id) return redirect("/logout")
+  if (!userSession?.id) return redirect("/signout")
 
   const user = await model.user.query.getById({ id: userSession.id })
-  if (!user) return redirect("/logout")
+  if (!user) return redirect("/signout")
 
   const userTags = await model.userTag.query.getAll()
 

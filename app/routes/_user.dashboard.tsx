@@ -10,7 +10,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const userSession = await authenticator.isAuthenticated(request, {
     failureRedirect: "/signin",
   })
-  if (!userSession?.id) return redirect("/logout")
+  if (!userSession?.id) return redirect("/signout")
 
   const user = await prisma.user.findUnique({
     where: { id: userSession.id },
@@ -22,7 +22,7 @@ export const loader = async ({ request }: LoaderArgs) => {
       broadcasts: true,
     },
   })
-  if (!user) return redirect("/logout")
+  if (!user) return redirect("/signout")
 
   return json({ user })
 }
@@ -56,7 +56,7 @@ export default function Route() {
             <Link to="/settings/profile">Edit Profile</Link>
           </Button>
           <Button asChild size="xs" type="submit" variant="destructive">
-            <Link to="/logout">Logout</Link>
+            <Link to="/signout">Sign Out</Link>
           </Button>
         </div>
       </header>
