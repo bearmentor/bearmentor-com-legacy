@@ -8,6 +8,5 @@
 # This should make it easy to add new rules without breaking existing ones.
 # Global rule:
 
-* @mhaidarhanif
-* @zainfathoni
-* @naufaldi
+* @bearmentor/collaborator @mhaidarhanif @zainfathoni @naufaldi
+
