@@ -18,8 +18,6 @@ export const mutation = {
     password,
     currentPassword,
   }: z.infer<typeof schemaUserUpdatePassword>) {
-    const hashedPassword = await bcrypt.hash(password, 10)
-
     const userPassword = await prisma.userPassword.findUnique({
       where: { userId: id },
     })
@@ -36,6 +34,7 @@ export const mutation = {
       }
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10)
     const user = await prisma.user.update({
       where: { id },
       data: { password: { update: { hash: hashedPassword } } },
