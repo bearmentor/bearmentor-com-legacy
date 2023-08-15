@@ -8,6 +8,7 @@
     "prisma.prisma",
     "yzhang.markdown-all-in-one",
     "stylelint.vscode-stylelint",
-    "steoates.autoimport"
+    "steoates.autoimport",
+    "sonarsource.sonarlint-vscode"
   ]
 }
