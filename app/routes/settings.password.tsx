@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
@@ -70,6 +71,12 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
       return parseZod(formData, { schema: schemaUserUpdatePassword })
     },
   })
+
+  useEffect(() => {
+    if (!isSubmitting && actionData?.success) {
+      form.ref.current?.reset()
+    }
+  }, [isSubmitting, form.ref, actionData?.success])
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
@@ -149,11 +156,16 @@ export async function action({ request }: ActionArgs) {
 
   if (intent === "update-user-password") {
     const submission = parseZod(formData, { schema: schemaUserUpdatePassword })
-    if (!submission.value) return badRequest(submission)
+    if (!submission.value) return badRequest({ ...submission, success: "" })
     const result = await model.userPassword.mutation.update(submission.value)
-    if (result.error) return forbidden({ ...submission, error: result.error })
-    return json(submission)
+    if (result.error)
+      return forbidden({
+        ...submission,
+        error: result.error,
+        success: "",
+      })
+    return json({ ...submission, success: "Password Changed!" })
   }
 
-  return json(parsed)
+  return json({ ...parsed, success: "" })
 }
