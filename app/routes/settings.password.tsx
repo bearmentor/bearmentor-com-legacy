@@ -24,6 +24,7 @@ import {
   FormFieldSet,
   FormLabel,
   InputPassword,
+  useToast,
 } from "~/components"
 import { model } from "~/models"
 import { schemaUserUpdatePassword } from "~/schemas"
@@ -62,6 +63,8 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
+  const { toast } = useToast()
+
   const [form, { id, password, confirmPassword, currentPassword }] = useForm<
     z.infer<typeof schemaUserUpdatePassword>
   >({
@@ -75,8 +78,9 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
   useEffect(() => {
     if (!isSubmitting && actionData?.success) {
       form.ref.current?.reset()
+      toast({ title: actionData.success, variant: "success" })
     }
-  }, [isSubmitting, form.ref, actionData?.success])
+  }, [isSubmitting, form.ref, actionData?.success, toast])
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">

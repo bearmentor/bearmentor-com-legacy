@@ -27,7 +27,7 @@ import { authenticator } from "~/services"
 import { createCacheHeaders } from "~/utils"
 import { model } from "~/models"
 
-import { Layout } from "./components"
+import { Layout, Toaster } from "./components"
 import styles from "./globals.css"
 
 export const links: LinksFunction = () => [
@@ -109,6 +109,7 @@ export default function App() {
       </head>
       <body className="bg-stone-50 text-stone-950 dark:bg-stone-950 dark:text-stone-50">
         <Outlet />
+        <Toaster />
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
