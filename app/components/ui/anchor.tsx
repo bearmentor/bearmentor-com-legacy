@@ -16,7 +16,7 @@ const Anchor = React.forwardRef<HTMLAnchorElement, AnchorProps>(
         target="_blank"
         rel="noreferrer"
         className={cn(
-          "hover-opacity",
+          "focus hover-opacity",
           withColor && "text-emerald-700 dark:text-emerald-300",
           className,
         )}

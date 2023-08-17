@@ -125,6 +125,9 @@
   .link {
     @apply hover-opacity text-emerald-500;
   }
+  .focus {
+    @apply block rounded focus:rounded focus:outline-none focus:ring-2 focus:ring-emerald-500;
+  }
 }
 
 /* NProgress styles need to be outside of layers because using #id */

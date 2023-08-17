@@ -189,7 +189,10 @@ export default function Route() {
               {user.broadcasts.map(broadcast => {
                 return (
                   <li key={broadcast.id}>
-                    <Link to={`/${user.username}/broadcasts/${broadcast.id}`}>
+                    <Link
+                      to={`/${user.username}/broadcasts/${broadcast.id}`}
+                      className="focus"
+                    >
                       <Card className="hover-opacity space-y-1 p-2">
                         <h5 className="font-sans">{broadcast.title}</h5>
                         <Time>{broadcast.updatedAt}</Time>

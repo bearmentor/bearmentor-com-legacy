@@ -27,11 +27,9 @@ export function capitalizeText(text: string) {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
-export function trimURL(text: string) {
-  if (!text || typeof text !== "string") return text
-
-  const matches = text.match(/^(https?:\/\/)?([^/?#]+)/)
-
-  if (matches && matches[2]) return matches[2]
-  return text
+export function trimURL(url: string): string {
+  if (url.startsWith("mailto:")) {
+    return url
+  }
+  return url.replace(/^(https?:\/\/)?(www\d?\.)?/, "")
 }
