@@ -1,3 +1,4 @@
+import { useEffect } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
@@ -17,12 +18,14 @@ import { prisma } from "~/libs"
 import { delay } from "~/utils"
 import {
   Alert,
+  Anchor,
   ButtonLoading,
   FormDescription,
   FormField,
   FormFieldSet,
   FormLabel,
   InputPassword,
+  useToast,
 } from "~/components"
 import { model } from "~/models"
 import { schemaUserUpdatePassword } from "~/schemas"
@@ -61,7 +64,9 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
   const navigation = useNavigation()
   const isSubmitting = navigation.state === "submitting"
 
-  const [form, { id, password, confirmPassword }] = useForm<
+  const { toast } = useToast()
+
+  const [form, { id, password, confirmPassword, currentPassword }] = useForm<
     z.infer<typeof schemaUserUpdatePassword>
   >({
     shouldValidate: "onSubmit",
@@ -71,16 +76,41 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
     },
   })
 
+  useEffect(() => {
+    if (!isSubmitting && actionData?.success) {
+      form.ref.current?.reset()
+      toast({ title: actionData.success, variant: "success" })
+    }
+  }, [actionData?.success, form.ref, isSubmitting, toast])
+
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
       <FormFieldSet disabled={isSubmitting}>
         <input hidden {...conform.input(id)} defaultValue={user.id} />
 
         <FormField>
+          <FormLabel htmlFor={currentPassword.id}>Current Password</FormLabel>
+          <InputPassword
+            {...conform.input(currentPassword)}
+            placeholder="Your current password"
+            defaultValue=""
+          />
+          {currentPassword.error && (
+            <Alert variant="destructive" id={currentPassword.errorId}>
+              {currentPassword.error}
+            </Alert>
+          )}
+        </FormField>
+
+        <FormField>
           <FormLabel htmlFor={password.id}>New Password</FormLabel>
           <FormDescription>
-            Make sure to save your new password safely in a password manager or
-            other secure method you prefer.
+            Make sure to save your new password safely in a password manager
+            like{" "}
+            <Anchor withColor href="https://bitwarden.com">
+              Bitwarden
+            </Anchor>{" "}
+            or other secure method you prefer.
           </FormDescription>
           <InputPassword
             {...conform.input(password)}
@@ -135,11 +165,16 @@ export async function action({ request }: ActionArgs) {
 
   if (intent === "update-user-password") {
     const submission = parseZod(formData, { schema: schemaUserUpdatePassword })
-    if (!submission.value) return badRequest(submission)
+    if (!submission.value) return badRequest({ ...submission, success: "" })
     const result = await model.userPassword.mutation.update(submission.value)
-    if (result.error) return forbidden({ ...submission, error: result.error })
-    return json(submission)
+    if (result.error)
+      return forbidden({
+        ...submission,
+        error: result.error,
+        success: "",
+      })
+    return json({ ...submission, success: "Password has been changed." })
   }
 
-  return json(parsed)
+  return json({ ...parsed, success: "" })
 }

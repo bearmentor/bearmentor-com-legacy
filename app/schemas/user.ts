@@ -32,6 +32,11 @@ const password = z
   .min(8, "Password at least 8 characters")
   .max(100, "Password max of 100 characters")
 const confirmPassword = z.string()
+const currentPassword = z
+  .string({
+    required_error: "Current password is required",
+  })
+  .min(1, "Current password is required")
 
 const remember = z.boolean().optional()
 
@@ -85,6 +90,7 @@ export const schemaUserProfileBio = z.object({ id, bio })
 export const schemaUserUpdatePassword = z
   .object({
     id,
+    currentPassword,
     password,
     confirmPassword,
   })
