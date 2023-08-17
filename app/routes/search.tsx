@@ -41,6 +41,7 @@ export const loader = async ({ request }: LoaderArgs) => {
   const [users, broadcasts] = await prisma.$transaction([
     prisma.user.findMany({
       where: {
+        isPublic: true,
         OR: [
           { name: { contains: query } },
           { username: { contains: query } },
@@ -60,6 +61,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
     prisma.broadcast.findMany({
       where: {
+        // isPublished: true,
         OR: [
           { title: { contains: query } },
           { description: { contains: query } },

@@ -10,9 +10,12 @@ import { Anchor, AvatarAuto, Button, Layout, UserCard } from "~/components"
 
 export async function loader({ request }: LoaderArgs) {
   const mentors = await prisma.user.findMany({
-    where: { tags: { some: { symbol: "MENTOR" } } },
-    orderBy: { createdAt: "asc" },
     take: 12,
+    orderBy: { createdAt: "asc" },
+    where: {
+      isPublic: true,
+      tags: { some: { symbol: "MENTOR" } },
+    },
     select: {
       id: true,
       name: true,
@@ -24,9 +27,12 @@ export async function loader({ request }: LoaderArgs) {
   })
 
   const mentees = await prisma.user.findMany({
-    where: { tags: { some: { symbol: "MENTEE" } } },
-    orderBy: { createdAt: "asc" },
     take: 24,
+    orderBy: { createdAt: "asc" },
+    where: {
+      isPublic: true,
+      tags: { some: { symbol: "MENTEE" } },
+    },
     select: {
       id: true,
       name: true,

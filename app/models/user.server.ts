@@ -103,7 +103,10 @@ export const query = {
 
   search({ q }: { q: string | undefined }) {
     return prisma.user.findMany({
-      where: { OR: [{ name: { contains: q } }, { username: { contains: q } }] },
+      where: {
+        OR: [{ name: { contains: q } }, { username: { contains: q } }],
+        isPublic: true,
+      },
       select: fields.public,
       orderBy: [{ role: { sequence: "asc" } }, { createdAt: "asc" }],
     })

@@ -8,6 +8,7 @@ async function main() {
 async function getUsers() {
   console.info("🟢 Get users...")
   const users = await prisma.user.findMany({
+    where: { isPublic: true },
     select: {
       name: true,
       username: true,

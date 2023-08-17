@@ -31,7 +31,10 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   if (!query) {
     const mentees = await prisma.user.findMany({
-      where: { tags: { some: { symbol: "MENTEE" } } },
+      where: {
+        isPublic: true,
+        tags: { some: { symbol: "MENTEE" } },
+      },
       orderBy: { updatedAt: "asc" },
       include: {
         avatars: { select: { url: true } },
@@ -48,6 +51,7 @@ export const loader = async ({ request }: LoaderArgs) => {
 
   const mentees = await prisma.user.findMany({
     where: {
+      isPublic: true,
       tags: { some: { symbol: "MENTEE" } },
       OR: [
         { name: { contains: query } },

@@ -44,6 +44,8 @@ model User {
   contents      Content[]
   contentImages ContentImage[]
 
+  isPublic Boolean? @default(true)
+
   emailIsVerified Boolean?  @default(false)
   emailVerifiedAt DateTime?
   phoneIsVerified Boolean?  @default(false)
@@ -111,6 +113,8 @@ model UserProfile {
   modeName  String?  @default("Default")
   isPrimary Boolean? @default(true)
   sequence  Int?     @default(1)
+
+  isPublic Boolean? @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
