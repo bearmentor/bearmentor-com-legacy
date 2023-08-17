@@ -90,8 +90,12 @@ export const query = {
         avatars: { select: { id: true, url: true } },
         profiles: true,
         broadcasts: true,
-        mentees: true,
-        mentors: true,
+        mentees: {
+          include: { avatars: { select: { id: true, url: true } } },
+        },
+        mentors: {
+          include: { avatars: { select: { id: true, url: true } } },
+        },
       },
     })
   },

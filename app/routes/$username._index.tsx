@@ -4,7 +4,7 @@ import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
-import { formatTitle, trimURL } from "~/utils"
+import { formatPluralItems, formatTitle, trimURL } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Anchor,
@@ -159,7 +159,7 @@ export default function Route() {
                 return (
                   <li key={profileLink.url}>
                     <Anchor href={profileLink.url} className="block">
-                      <Card className="hover-opacity flex items-center gap-2 space-y-1 px-2 py-1">
+                      <Card className="hover-opacity flex items-center gap-2 space-y-0 px-2 py-1">
                         {profileLink.text && (
                           <span className="font-bold">{profileLink.text}</span>
                         )}
@@ -195,7 +195,7 @@ export default function Route() {
                       to={`/${user.username}/broadcasts/${broadcast.id}`}
                       className="focus block"
                     >
-                      <Card className="hover-opacity space-y-1 p-2">
+                      <Card className="hover-opacity space-y-0 p-2">
                         <h5 className="font-sans">{broadcast.title}</h5>
                         <Time>{broadcast.updatedAt}</Time>
                       </Card>
@@ -209,19 +209,34 @@ export default function Route() {
 
         {isMentor && (
           <section className="space-y-2">
-            <h4>Mentees</h4>
-
-            {user.mentees.length <= 0 && <p>No mentees.</p>}
+            <div>
+              <h4>Mentees</h4>
+              {user.mentees.length <= 0 && (
+                <p className="text-muted-foreground">No mentees.</p>
+              )}
+              {user.mentees.length > 0 && (
+                <p className="text-muted-foreground">
+                  {formatPluralItems("mentee", user.mentees.length)}
+                </p>
+              )}
+            </div>
 
             {user.mentees.length > 0 && (
-              <ul className="space-y-2">
+              <ul className="grid grid-cols-2 gap-2">
                 {user.mentees.map(mentee => {
                   return (
                     <li key={mentee.id}>
-                      <Link to={`/${mentee.username}`} className="focus block">
-                        <Card className="hover-opacity space-y-1 p-2">
-                          <h5 className="font-sans">{mentee.name}</h5>
-                        </Card>
+                      <Link
+                        to={`/${mentee.username}`}
+                        className="hover-opacity flex gap-2 py-1"
+                      >
+                        <AvatarAuto className="h-10 w-10" user={mentee} />
+                        <div>
+                          <h3 className="text-base">{mentee.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            @{mentee.username}
+                          </p>
+                        </div>
                       </Link>
                     </li>
                   )
@@ -233,19 +248,34 @@ export default function Route() {
 
         {isMentee && (
           <section className="space-y-2">
-            <h4>Mentors</h4>
-
-            {user.mentors.length <= 0 && <p>No mentors.</p>}
+            <div>
+              <h4>Mentors</h4>
+              {user.mentors.length <= 0 && (
+                <p className="text-muted-foreground">No mentors.</p>
+              )}
+              {user.mentors.length > 0 && (
+                <p className="text-muted-foreground">
+                  {formatPluralItems("mentor", user.mentors.length)}
+                </p>
+              )}
+            </div>
 
             {user.mentors.length > 0 && (
-              <ul className="space-y-2">
+              <ul className="grid grid-cols-2 gap-2">
                 {user.mentors.map(mentor => {
                   return (
                     <li key={mentor.id}>
-                      <Link to={`/${mentor.username}`} className="focus block">
-                        <Card className="hover-opacity space-y-1 p-2">
-                          <h5 className="font-sans">{mentor.name}</h5>
-                        </Card>
+                      <Link
+                        to={`/${mentor.username}`}
+                        className="hover-opacity flex gap-2 py-1"
+                      >
+                        <AvatarAuto className="h-10 w-10" user={mentor} />
+                        <div>
+                          <h3 className="text-base">{mentor.name}</h3>
+                          <p className="text-sm text-muted-foreground">
+                            @{mentor.username}
+                          </p>
+                        </div>
                       </Link>
                     </li>
                   )
