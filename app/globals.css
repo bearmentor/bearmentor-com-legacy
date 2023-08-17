@@ -126,7 +126,7 @@
     @apply hover-opacity text-emerald-500;
   }
   .focus {
-    @apply block rounded focus:rounded focus:outline-none focus:ring-2 focus:ring-emerald-500;
+    @apply rounded focus:rounded focus:outline-none focus:ring-2 focus:ring-emerald-500;
   }
 }
 

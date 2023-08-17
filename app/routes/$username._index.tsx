@@ -156,7 +156,7 @@ export default function Route() {
               {profileLinks.map(profileLink => {
                 return (
                   <li key={profileLink.url}>
-                    <Anchor href={profileLink.url}>
+                    <Anchor href={profileLink.url} className="block">
                       <Card className="hover-opacity flex items-center gap-2 space-y-1 px-2 py-1">
                         {profileLink.text && (
                           <span className="font-bold">{profileLink.text}</span>
@@ -191,7 +191,7 @@ export default function Route() {
                   <li key={broadcast.id}>
                     <Link
                       to={`/${user.username}/broadcasts/${broadcast.id}`}
-                      className="focus"
+                      className="focus block"
                     >
                       <Card className="hover-opacity space-y-1 p-2">
                         <h5 className="font-sans">{broadcast.title}</h5>
