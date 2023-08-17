@@ -18,6 +18,7 @@ import { prisma } from "~/libs"
 import { delay } from "~/utils"
 import {
   Alert,
+  Anchor,
   ButtonLoading,
   FormDescription,
   FormField,
@@ -80,7 +81,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
       form.ref.current?.reset()
       toast({ title: actionData.success, variant: "success" })
     }
-  }, [isSubmitting, form.ref, actionData?.success, toast])
+  }, [actionData?.success, form.ref, isSubmitting, toast])
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
@@ -91,7 +92,7 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
           <FormLabel htmlFor={currentPassword.id}>Current Password</FormLabel>
           <InputPassword
             {...conform.input(currentPassword)}
-            placeholder="Input your current password"
+            placeholder="Your current password"
             defaultValue=""
           />
           {currentPassword.error && (
@@ -104,8 +105,12 @@ export function UserPasswordForm({ user }: { user: Pick<User, "id"> }) {
         <FormField>
           <FormLabel htmlFor={password.id}>New Password</FormLabel>
           <FormDescription>
-            Make sure to save your new password safely in a password manager or
-            other secure method you prefer.
+            Make sure to save your new password safely in a password manager
+            like{" "}
+            <Anchor withColor href="https://bitwarden.com">
+              Bitwarden
+            </Anchor>{" "}
+            or other secure method you prefer.
           </FormDescription>
           <InputPassword
             {...conform.input(password)}
@@ -168,7 +173,7 @@ export async function action({ request }: ActionArgs) {
         error: result.error,
         success: "",
       })
-    return json({ ...submission, success: "Password Changed!" })
+    return json({ ...submission, success: "Password has been changed." })
   }
 
   return json({ ...parsed, success: "" })
