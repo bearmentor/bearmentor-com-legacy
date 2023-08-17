@@ -120,8 +120,8 @@ export const mutation = {
     inviteCode,
   }: Pick<User, "name" | "username" | "email"> & {
     password: string // unencrypted password at first
-    inviteBy?: string | undefined
-    inviteCode?: string | undefined
+    inviteBy?: string
+    inviteCode?: string
   }) {
     if (!email) return { error: { email: `Email is required` } }
     const userEmail = await prisma.user.findUnique({

@@ -4,9 +4,10 @@ import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
-import { createCacheHeaders, formatTitle } from "~/utils"
+import { formatTitle } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
+  Anchor,
   AvatarAuto,
   Badge,
   Button,
@@ -16,6 +17,12 @@ import {
   Time,
 } from "~/components"
 import { model } from "~/models"
+
+type ProfileLink = {
+  id: string
+  url: string
+  text: string
+}
 
 export const meta: V2_MetaFunction<typeof loader> = ({ params, data }) => {
   if (!data?.user) {
@@ -44,15 +51,25 @@ export async function loader({ request, params }: LoaderArgs) {
   const user = await model.user.query.getByUsername({
     username: params.username,
   })
-  if (!user) return notFound({ user: null })
+  if (!user) {
+    return notFound({ user: null, profileLinks: null })
+  }
 
-  return json({ user }, { headers: createCacheHeaders(request, 3) })
+  // https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#reading-a-json-field
+  const profileLinks =
+    user?.profiles[0].links &&
+    typeof user?.profiles[0].links === "object" &&
+    Array.isArray(user?.profiles[0].links)
+      ? (user?.profiles[0].links as ProfileLink[])
+      : ([] as ProfileLink[])
+
+  return json({ user, profileLinks })
 }
 
 export default function Route() {
   const params = useParams()
   const { userSession } = useRootLoaderData()
-  const { user } = useLoaderData<typeof loader>()
+  const { user, profileLinks } = useLoaderData<typeof loader>()
 
   const defaultCoverImageURL = `https://images.unsplash.com/photo-1571745544682-143ea663cf2c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80`
 
@@ -127,6 +144,24 @@ export default function Route() {
           <p className="prose dark:prose-invert whitespace-pre-wrap">
             {user.profiles[0]?.bio}
           </p>
+        </section>
+
+        <section className="space-y-4">
+          <h4>Links</h4>
+
+          {profileLinks.length <= 0 && <p>No profile links.</p>}
+
+          {profileLinks.length > 0 && (
+            <ul className="space-y-2">
+              {profileLinks.map(profileLink => {
+                return (
+                  <li key={profileLink.id}>
+                    <Anchor href={profileLink.url}>{profileLink.text}</Anchor>
+                  </li>
+                )
+              })}
+            </ul>
+          )}
         </section>
 
         <section className="space-y-4">
