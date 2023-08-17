@@ -58,7 +58,7 @@ export function getPaginationConfigs({
 }: PaginationConfigs) {
   const url = new URL(request.url)
 
-  const queryParam = url.searchParams.get("q") || ""
+  const queryParam = url.searchParams.get("q") ?? ""
   const limitParam = Number(url.searchParams.get("limit")) || defaultLimit
   const pageParam = Number(url.searchParams.get("page")) || defaultPage
   const skip = (pageParam - 1) * limitParam
@@ -92,8 +92,8 @@ export function getPaginationOptions({
       const pageNumber = startPage + index
       const queryParams = new URLSearchParams({
         q: queryParam,
-        limit: limitParam.toString() || "",
-        page: pageNumber.toString() || "",
+        limit: limitParam.toString() ?? "",
+        page: pageNumber.toString() ?? "",
       }).toString()
       return { pageNumber, to: `${url.pathname}?${queryParams}` }
     },

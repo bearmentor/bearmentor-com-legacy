@@ -6,7 +6,7 @@ import { formatPluralItems, formatTitle } from "~/utils"
 import { AvatarAuto, Card, Layout, SearchForm, Time } from "~/components"
 
 export const meta: V2_MetaFunction<typeof loader> = ({ data }) => {
-  const query = data?.query || ""
+  const query = data?.query ?? ""
   const count = data?.count || 0
 
   if (!query && !count) {

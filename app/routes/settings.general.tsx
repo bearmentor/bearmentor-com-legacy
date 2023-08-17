@@ -207,7 +207,7 @@ export function UserNickForm({ user }: { user: Pick<User, "id" | "nick"> }) {
           <Input
             {...conform.input(nick)}
             type="text"
-            defaultValue={user.nick || ""}
+            defaultValue={user.nick ?? ""}
             placeholder="Your Nick"
           />
           {nick.error && (

@@ -24,7 +24,7 @@ export const mutation = {
 
     const isCurrentPasswordCorrect = await bcrypt.compare(
       currentPassword,
-      userPassword?.hash || "",
+      userPassword?.hash ?? "",
     )
     if (!isCurrentPasswordCorrect) {
       return {

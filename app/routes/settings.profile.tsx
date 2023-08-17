@@ -169,7 +169,7 @@ export function UserProfileHeadlineForm({
           <Input
             {...conform.input(headline)}
             type="text"
-            defaultValue={userProfile.headline || ""}
+            defaultValue={userProfile.headline ?? ""}
             placeholder="Your Headline"
           />
           {headline.error && (
@@ -227,7 +227,7 @@ export function UserProfileBioForm({
           </FormDescription>
           <Textarea
             {...conform.input(bio)}
-            defaultValue={userProfile.bio || ""}
+            defaultValue={userProfile.bio ?? ""}
             placeholder="Tell us a bit about yourself..."
             className="min-h-[200px]"
           />

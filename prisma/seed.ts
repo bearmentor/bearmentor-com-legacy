@@ -138,7 +138,7 @@ async function seedUsers() {
       return cred.username === user.username
     })
 
-    const hash = bcrypt.hashSync(newCred?.password || "", 10)
+    const hash = bcrypt.hashSync(newCred?.password ?? "", 10)
 
     const newUser = {
       ...user,

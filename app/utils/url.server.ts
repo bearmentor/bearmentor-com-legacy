@@ -10,7 +10,7 @@ export function getRedirectTo(request: Request) {
 // Use in action
 export function getAllSearchQuery({ request }: Pick<LoaderArgs, "request">) {
   const url = new URL(request.url)
-  const q = url.searchParams.get("q") || ""
+  const q = url.searchParams.get("q") ?? ""
   return { q }
 }
 

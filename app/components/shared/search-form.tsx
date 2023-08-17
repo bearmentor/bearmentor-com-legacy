@@ -13,7 +13,7 @@ export function SearchForm({
   placeholder = "Search",
 }: Props) {
   const [searchParams] = useSearchParams()
-  const query = searchParams.get("q") || ""
+  const query = searchParams.get("q") ?? ""
 
   return (
     <Form method="GET" action={action} className="w-full">

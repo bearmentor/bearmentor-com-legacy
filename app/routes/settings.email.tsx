@@ -85,7 +85,7 @@ export function UserEmailForm({ user }: { user: Pick<User, "id" | "email"> }) {
           <Input
             {...conform.input(email)}
             type="email"
-            defaultValue={user.email || ""}
+            defaultValue={user.email ?? ""}
             placeholder="you@yourname.com"
           />
           {email.error && (
