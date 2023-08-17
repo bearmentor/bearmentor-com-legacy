@@ -4,7 +4,7 @@ import { Link, useLoaderData, useParams } from "@remix-run/react"
 import { notFound } from "remix-utils"
 import invariant from "tiny-invariant"
 
-import { formatTitle } from "~/utils"
+import { formatTitle, trimURL } from "~/utils"
 import { useRootLoaderData } from "~/hooks"
 import {
   Anchor,
@@ -105,7 +105,7 @@ export default function Route() {
         />
       </section>
 
-      <section className="w-full max-w-2xl space-y-8 px-4 sm:px-8">
+      <section className="w-full max-w-2xl space-y-6 px-4 sm:px-8">
         <header className="-mt-16 flex flex-wrap items-end justify-between">
           <div>
             <AvatarAuto
@@ -139,14 +139,14 @@ export default function Route() {
           )}
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-2">
           <h3>{user.profiles[0]?.headline}</h3>
           <p className="prose dark:prose-invert whitespace-pre-wrap">
             {user.profiles[0]?.bio}
           </p>
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-2">
           <h4>Links</h4>
 
           {profileLinks.length <= 0 && <p>No profile links.</p>}
@@ -155,8 +155,17 @@ export default function Route() {
             <ul className="space-y-2">
               {profileLinks.map(profileLink => {
                 return (
-                  <li key={profileLink.id}>
-                    <Anchor href={profileLink.url}>{profileLink.text}</Anchor>
+                  <li key={profileLink.url}>
+                    <Anchor href={profileLink.url}>
+                      <Card className="hover-opacity flex items-center gap-2 space-y-1 px-2 py-1">
+                        {profileLink.text && (
+                          <span className="font-bold">{profileLink.text}</span>
+                        )}
+                        <span className="font-mono text-sm">
+                          {trimURL(profileLink.url)}
+                        </span>
+                      </Card>
+                    </Anchor>
                   </li>
                 )
               })}
@@ -164,7 +173,7 @@ export default function Route() {
           )}
         </section>
 
-        <section className="space-y-4">
+        <section className="space-y-2">
           <h4>Broadcasts</h4>
 
           {user.broadcasts.length <= 0 && <p>No broadcasts.</p>}

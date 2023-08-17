@@ -38,7 +38,6 @@ import {
   ButtonLoading,
   FormDescription,
   FormField,
-  FormLabel,
   Input,
   Textarea,
 } from "~/components"
@@ -121,7 +120,7 @@ export function UserProfileModeNameForm({
         <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={modeName.id}>Profile Mode Name</FormLabel>
+          <h6 id="mode">Profile Mode Name</h6>
           <FormDescription>
             To identify from your multiple profiles
           </FormDescription>
@@ -181,7 +180,7 @@ export function UserProfileHeadlineForm({
         <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={headline.id}>Your Headline</FormLabel>
+          <h6 id="headline">Headline</h6>
           <FormDescription>
             To recognize your profile, tagline, or job position.
           </FormDescription>
@@ -239,10 +238,13 @@ export function UserProfileBioForm({
         <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={bio.id}>Your Bio</FormLabel>
+          <h6 id="bio">Bio</h6>
           <FormDescription>
-            To inform or explain about yourself. Can also <span>@mention</span>{" "}
-            other users and organizations to link to them.
+            To inform or explain about yourself.
+            <span className="hidden">
+              Can also <b>@mention</b> other users and organizations to link to
+              them.
+            </span>
           </FormDescription>
           <Textarea
             {...conform.input(bio)}
@@ -306,60 +308,68 @@ export function UserProfileLinksForm({
         <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
 
         <FormField>
-          <FormLabel htmlFor={links.id}>Your Links</FormLabel>
+          <h6 id="links">Links</h6>
           <FormDescription>
             To link your websites, social media, and projects/products. Limited
             to 10 items.
           </FormDescription>
 
-          {linksItems.map((linkItem, index) => (
-            <section key={linkItem.key} className="flex gap-2">
-              <LinkItemFieldset {...linkItem} />
-              <div className="flex gap-1">
-                <Button
-                  size="xs"
-                  variant="secondary"
-                  disabled={index === 0}
-                  {...list.reorder(links.name, {
-                    from: index,
-                    to: index > 0 ? index - 1 : index,
-                  })}
-                >
-                  <IconArrowMoveUp className="icon-xs" />
-                </Button>
-                <Button
-                  size="xs"
-                  variant="secondary"
-                  disabled={index === 9}
-                  {...list.reorder(links.name, {
-                    from: index,
-                    to: linksItems.length > 2 && index < 9 ? index + 1 : index,
-                  })}
-                >
-                  <IconArrowMoveDown className="icon-xs" />
-                </Button>
-                <Button
-                  size="xs"
-                  variant="secondary"
-                  {...list.replace(links.name, {
-                    index,
-                    defaultValue: { url: "", text: "" },
-                  })}
-                >
-                  <IconBackspaceFilled className="icon-xs" />
-                </Button>
-                <Button
-                  size="xs"
-                  variant="destructive"
-                  {...list.remove(links.name, { index })}
-                >
-                  <IconTrashXFilled className="icon-xs" />
-                </Button>
-              </div>
-            </section>
-          ))}
+          <ol className="space-y-2">
+            {linksItems.map((linkItem, index) => (
+              <li key={linkItem.key}>
+                <section className="flex items-center gap-2">
+                  <span className="hidden w-4 text-sm sm:block">
+                    {index + 1}
+                  </span>
+                  <LinkItemFieldset {...linkItem} />
+                  <div className="flex gap-1">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      disabled={index === 0}
+                      {...list.reorder(links.name, {
+                        from: index,
+                        to: index > 0 ? index - 1 : index,
+                      })}
+                    >
+                      <IconArrowMoveUp className="icon-xs" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      disabled={index === linksItems.length - 1}
+                      {...list.reorder(links.name, {
+                        from: index,
+                        to: index < 9 ? index + 1 : index,
+                      })}
+                    >
+                      <IconArrowMoveDown className="icon-xs" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      {...list.replace(links.name, {
+                        index,
+                        defaultValue: { url: "", text: "" },
+                      })}
+                    >
+                      <IconBackspaceFilled className="icon-xs" />
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      {...list.remove(links.name, { index })}
+                    >
+                      <IconTrashXFilled className="icon-xs" />
+                    </Button>
+                  </div>
+                </section>
+              </li>
+            ))}
+          </ol>
+
           <Button
-            size="xs"
+            size="sm"
             variant="secondary"
             disabled={!isAllowAddLink}
             {...list.append(links.name)}
@@ -381,9 +391,9 @@ export function UserProfileLinksForm({
           size="sm"
           disabled={isSubmitting}
           isSubmitting={isSubmitting}
-          submittingText="Saving Links..."
+          submittingText="Saving All Links..."
         >
-          Save Links
+          Save All Links
         </ButtonLoading>
       </fieldset>
     </Form>
@@ -402,7 +412,7 @@ function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
       <div className="w-full">
         <Input
           placeholder="https://example.com"
-          className={cn("h-6 px-1 text-xs", url.error && "error")}
+          className={cn(url.error && "error")}
           {...conform.input(url)}
         />
         {/* <Alert>{url.error}</Alert> */}
@@ -410,7 +420,7 @@ function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
       <div>
         <Input
           placeholder="Example Name"
-          className={cn("h-6 px-1 text-xs", text.error && "error")}
+          className={cn(text.error && "error")}
           {...conform.input(text)}
         />
         {/* <Alert>{text.error}</Alert> */}
