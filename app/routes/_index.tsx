@@ -27,7 +27,7 @@ export async function loader({ request }: LoaderArgs) {
   })
 
   const mentees = await prisma.user.findMany({
-    take: 24,
+    take: 20,
     orderBy: { createdAt: "asc" },
     where: {
       isPublic: true,

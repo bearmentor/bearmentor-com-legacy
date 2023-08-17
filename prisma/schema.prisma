@@ -44,6 +44,9 @@ model User {
   contents      Content[]
   contentImages ContentImage[]
 
+  mentees User[] @relation(name: "user_mentees")
+  mentors User[] @relation(name: "user_mentors")
+
   isPublic Boolean? @default(true)
 
   emailIsVerified Boolean?  @default(false)
@@ -54,10 +57,18 @@ model User {
   password      UserPassword?
   notifications UserNotification[]
 
+  mentee   User?   @relation("user_mentees", fields: [menteeId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  menteeId String?
+
+  mentor   User?   @relation("user_mentors", fields: [mentorId], references: [id], onUpdate: NoAction, onDelete: NoAction)
+  mentorId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([roleId])
+  @@index([menteeId])
+  @@index([mentorId])
 }
 
 model UserRole {

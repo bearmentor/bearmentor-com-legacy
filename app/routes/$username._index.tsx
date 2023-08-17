@@ -92,6 +92,8 @@ export default function Route() {
   }
 
   const isOwner = userSession?.id === user.id
+  const isMentor = user.tags.findIndex(tag => tag.symbol === "MENTOR") >= 0
+  const isMentee = user.tags.findIndex(tag => tag.symbol === "MENTEE") >= 0
 
   return (
     <Layout className="flex flex-col items-center">
@@ -204,6 +206,54 @@ export default function Route() {
             </ul>
           )}
         </section>
+
+        {isMentor && (
+          <section className="space-y-2">
+            <h4>Mentees</h4>
+
+            {user.mentees.length <= 0 && <p>No mentees.</p>}
+
+            {user.mentees.length > 0 && (
+              <ul className="space-y-2">
+                {user.mentees.map(mentee => {
+                  return (
+                    <li key={mentee.id}>
+                      <Link to={`/${mentee.username}`} className="focus block">
+                        <Card className="hover-opacity space-y-1 p-2">
+                          <h5 className="font-sans">{mentee.name}</h5>
+                        </Card>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </section>
+        )}
+
+        {isMentee && (
+          <section className="space-y-2">
+            <h4>Mentors</h4>
+
+            {user.mentors.length <= 0 && <p>No mentors.</p>}
+
+            {user.mentors.length > 0 && (
+              <ul className="space-y-2">
+                {user.mentors.map(mentor => {
+                  return (
+                    <li key={mentor.id}>
+                      <Link to={`/${mentor.username}`} className="focus block">
+                        <Card className="hover-opacity space-y-1 p-2">
+                          <h5 className="font-sans">{mentor.name}</h5>
+                        </Card>
+                      </Link>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </section>
+        )}
       </section>
     </Layout>
   )
