@@ -13,9 +13,28 @@ export const query = {
 }
 
 export const mutation = {
-  async update({ id, password }: z.infer<typeof schemaUserUpdatePassword>) {
-    const hashedPassword = await bcrypt.hash(password, 10)
+  async update({
+    id,
+    password,
+    currentPassword,
+  }: z.infer<typeof schemaUserUpdatePassword>) {
+    const userPassword = await prisma.userPassword.findUnique({
+      where: { userId: id },
+    })
 
+    const isCurrentPasswordCorrect = await bcrypt.compare(
+      currentPassword,
+      userPassword?.hash || "",
+    )
+    if (!isCurrentPasswordCorrect) {
+      return {
+        error: {
+          currentPassword: "Current password is incorrect, check again",
+        },
+      }
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10)
     const user = await prisma.user.update({
       where: { id },
       data: { password: { update: { hash: hashedPassword } } },
