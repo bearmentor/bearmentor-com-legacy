@@ -4,6 +4,7 @@ import { prisma } from "~/libs"
 import type {
   schemaUserProfileBio,
   schemaUserProfileHeadline,
+  schemaUserProfileLinks,
   schemaUserProfileModeName,
 } from "~/schemas"
 
@@ -54,6 +55,15 @@ export const mutation = {
       data: { bio },
     })
     if (!userProfile) return { error: { bio: `Bio is failed to change` } }
+    return { userProfile, error: null }
+  },
+
+  async updateLinks({ id, links }: z.infer<typeof schemaUserProfileLinks>) {
+    const userProfile = await prisma.userProfile.update({
+      where: { id },
+      data: { links },
+    })
+    if (!userProfile) return { error: { links: `Links are failed to change` } }
     return { userProfile, error: null }
   },
 }

@@ -15,7 +15,7 @@ import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-import { delay } from "~/utils"
+import { createTimer } from "~/utils"
 import {
   Alert,
   Button,
@@ -30,6 +30,7 @@ import { model } from "~/models"
 import {
   schemaUserProfileBio,
   schemaUserProfileHeadline,
+  schemaUserProfileLinks,
   schemaUserProfileModeName,
 } from "~/schemas"
 
@@ -66,6 +67,7 @@ export default function Route() {
               <UserProfileModeNameForm userProfile={userProfile as any} />
               <UserProfileHeadlineForm userProfile={userProfile as any} />
               <UserProfileBioForm userProfile={userProfile as any} />
+              <UserProfileLinksForm userProfile={userProfile as any} />
             </li>
           )
         })}
@@ -253,8 +255,65 @@ export function UserProfileBioForm({
   )
 }
 
+export function UserProfileLinksForm({
+  userProfile,
+}: {
+  userProfile: Pick<UserProfile, "id" | "links">
+}) {
+  const actionData = useActionData<typeof action>()
+  const navigation = useNavigation()
+  const isSubmitting = navigation.state === "submitting"
+
+  const [form, { id, links }] = useForm<z.infer<typeof schemaUserProfileLinks>>(
+    {
+      shouldValidate: "onSubmit",
+      lastSubmission: actionData,
+      onValidate({ formData }) {
+        return parseZod(formData, { schema: schemaUserProfileLinks })
+      },
+    },
+  )
+
+  return (
+    <Form {...form.props} replace method="PUT" className="space-y-6">
+      <fieldset
+        disabled={isSubmitting}
+        className="space-y-2 disabled:opacity-80"
+      >
+        <input hidden {...conform.input(id)} defaultValue={userProfile.id} />
+
+        <FormField>
+          <FormLabel htmlFor={links.id}>Your Links</FormLabel>
+          <FormDescription>
+            To link your websites, social media, and projects/products.
+          </FormDescription>
+
+          {/*  */}
+
+          {links.error && (
+            <Alert variant="destructive" id={links.errorId}>
+              {links.error}
+            </Alert>
+          )}
+        </FormField>
+
+        <ButtonLoading
+          name="intent"
+          value="update-user-profile-links"
+          size="sm"
+          disabled={isSubmitting}
+          isSubmitting={isSubmitting}
+          submittingText="Saving Links..."
+        >
+          Save Links
+        </ButtonLoading>
+      </fieldset>
+    </Form>
+  )
+}
+
 export async function action({ request }: ActionArgs) {
-  await delay()
+  const timer = createTimer()
 
   const formData = await request.formData()
   const parsed = parse(formData)
@@ -266,6 +325,7 @@ export async function action({ request }: ActionArgs) {
     const result = await model.userProfile.mutation.updateModeName(
       submission.value,
     )
+    await timer.delay()
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }
@@ -276,6 +336,7 @@ export async function action({ request }: ActionArgs) {
     const result = await model.userProfile.mutation.updateHeadline(
       submission.value,
     )
+    await timer.delay()
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }
@@ -284,6 +345,18 @@ export async function action({ request }: ActionArgs) {
     const submission = parseZod(formData, { schema: schemaUserProfileBio })
     if (!submission.value) return badRequest(submission)
     const result = await model.userProfile.mutation.updateBio(submission.value)
+    await timer.delay()
+    if (result.error) return forbidden({ ...submission, error: result.error })
+    return json(submission)
+  }
+
+  if (intent === "update-user-profile-links") {
+    const submission = parseZod(formData, { schema: schemaUserProfileLinks })
+    if (!submission.value) return badRequest(submission)
+    const result = await model.userProfile.mutation.updateLinks(
+      submission.value,
+    )
+    await timer.delay()
     if (result.error) return forbidden({ ...submission, error: result.error })
     return json(submission)
   }

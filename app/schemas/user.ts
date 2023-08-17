@@ -57,7 +57,6 @@ const bio = z.string().max(1000, "Bio limited to 1000 characters").optional()
 const link = z.object({
   url: z.string().url({ message: "Please enter a valid URL." }),
   text: z.string().optional(),
-  sequence: z.number().int().optional(),
 })
 const links = z.array(link).optional()
 
@@ -86,6 +85,7 @@ export const schemaUserUpdateEmail = z.object({ id, email })
 export const schemaUserProfileModeName = z.object({ id, modeName })
 export const schemaUserProfileHeadline = z.object({ id, headline })
 export const schemaUserProfileBio = z.object({ id, bio })
+export const schemaUserProfileLinks = z.object({ id, links })
 
 export const schemaUserUpdatePassword = z
   .object({
