@@ -60,6 +60,9 @@ const link = z.object({
 })
 const links = z.array(link).optional()
 
+export const schemaLink = link
+export const schemaLinks = links
+
 export const schemaUserSignUp = z.object({
   name,
   username,

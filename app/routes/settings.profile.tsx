@@ -1,3 +1,4 @@
+import { useRef } from "react"
 import type { ActionArgs, LoaderArgs } from "@remix-run/node"
 import { json, redirect } from "@remix-run/node"
 import {
@@ -7,15 +8,30 @@ import {
   useLoaderData,
   useNavigation,
 } from "@remix-run/react"
-import { conform, parse, useForm } from "@conform-to/react"
+import type { FieldsetConfig } from "@conform-to/react"
+import {
+  conform,
+  list,
+  parse,
+  useFieldList,
+  useFieldset,
+  useForm,
+} from "@conform-to/react"
 import { parse as parseZod } from "@conform-to/zod"
 import type { UserProfile } from "@prisma/client"
+import {
+  IconArrowMoveDown,
+  IconArrowMoveUp,
+  IconBackspaceFilled,
+  IconPlus,
+  IconTrashXFilled,
+} from "@tabler/icons-react"
 import { badRequest, forbidden } from "remix-utils"
 import type * as z from "zod"
 
 import { authenticator } from "~/services"
 import { prisma } from "~/libs"
-import { createTimer } from "~/utils"
+import { cn, createTimer } from "~/utils"
 import {
   Alert,
   Button,
@@ -27,6 +43,7 @@ import {
   Textarea,
 } from "~/components"
 import { model } from "~/models"
+import type { schemaLink } from "~/schemas"
 import {
   schemaUserProfileBio,
   schemaUserProfileHeadline,
@@ -271,8 +288,14 @@ export function UserProfileLinksForm({
       onValidate({ formData }) {
         return parseZod(formData, { schema: schemaUserProfileLinks })
       },
+      defaultValue: {
+        links: userProfile.links,
+      },
     },
   )
+
+  const linksItems = useFieldList(form.ref, links)
+  const isAllowAddLink = linksItems.length < 10
 
   return (
     <Form {...form.props} replace method="PUT" className="space-y-6">
@@ -285,10 +308,65 @@ export function UserProfileLinksForm({
         <FormField>
           <FormLabel htmlFor={links.id}>Your Links</FormLabel>
           <FormDescription>
-            To link your websites, social media, and projects/products.
+            To link your websites, social media, and projects/products. Limited
+            to 10 items.
           </FormDescription>
 
-          {/*  */}
+          {linksItems.map((linkItem, index) => (
+            <section key={linkItem.key} className="flex gap-2">
+              <LinkItemFieldset {...linkItem} />
+              <div className="flex gap-1">
+                <Button
+                  size="xs"
+                  variant="secondary"
+                  disabled={index === 0}
+                  {...list.reorder(links.name, {
+                    from: index,
+                    to: index > 0 ? index - 1 : index,
+                  })}
+                >
+                  <IconArrowMoveUp className="icon-xs" />
+                </Button>
+                <Button
+                  size="xs"
+                  variant="secondary"
+                  disabled={index === 9}
+                  {...list.reorder(links.name, {
+                    from: index,
+                    to: linksItems.length > 2 && index < 9 ? index + 1 : index,
+                  })}
+                >
+                  <IconArrowMoveDown className="icon-xs" />
+                </Button>
+                <Button
+                  size="xs"
+                  variant="secondary"
+                  {...list.replace(links.name, {
+                    index,
+                    defaultValue: { url: "", text: "" },
+                  })}
+                >
+                  <IconBackspaceFilled className="icon-xs" />
+                </Button>
+                <Button
+                  size="xs"
+                  variant="destructive"
+                  {...list.remove(links.name, { index })}
+                >
+                  <IconTrashXFilled className="icon-xs" />
+                </Button>
+              </div>
+            </section>
+          ))}
+          <Button
+            size="xs"
+            variant="secondary"
+            disabled={!isAllowAddLink}
+            {...list.append(links.name)}
+          >
+            <IconPlus className="icon-xs" />
+            <span>Add link</span>
+          </Button>
 
           {links.error && (
             <Alert variant="destructive" id={links.errorId}>
@@ -309,6 +387,35 @@ export function UserProfileLinksForm({
         </ButtonLoading>
       </fieldset>
     </Form>
+  )
+}
+
+interface LinkItemFieldsetProps
+  extends FieldsetConfig<z.input<typeof schemaLink>> {}
+
+function LinkItemFieldset({ ...config }: LinkItemFieldsetProps) {
+  const ref = useRef<HTMLFieldSetElement>(null)
+  const { url, text } = useFieldset(ref, config)
+
+  return (
+    <fieldset ref={ref} className="flex w-full gap-2">
+      <div className="w-full">
+        <Input
+          placeholder="https://example.com"
+          className={cn("h-6 px-1 text-xs", url.error && "error")}
+          {...conform.input(url)}
+        />
+        {/* <Alert>{url.error}</Alert> */}
+      </div>
+      <div>
+        <Input
+          placeholder="Example Name"
+          className={cn("h-6 px-1 text-xs", text.error && "error")}
+          {...conform.input(text)}
+        />
+        {/* <Alert>{text.error}</Alert> */}
+      </div>
+    </fieldset>
   )
 }
 
