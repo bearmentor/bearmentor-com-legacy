@@ -4,9 +4,8 @@
 // Visualize with https://prismaliser.app
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // https://www.prisma.io/docs/concepts/components/preview-features/client-preview-features
@@ -222,7 +221,7 @@ model Broadcast {
   slug        String  @unique
   title       String  @db.Text
   description String? @db.Text
-  body        String? @db.LongText
+  body        String? @db.Text
 
   types  BroadcastType[]
   tags   BroadcastTag[]
